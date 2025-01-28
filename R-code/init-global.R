@@ -1,0 +1,26 @@
+# install.packages("fuseMLR")
+# install.packages("data.table")
+# install.packages("ggplot2")
+# install.packages("batchtools")
+# install.packages("InterSIM")
+# install.packages(this.path)
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#   install.packages("BiocManager")
+# BiocManager::install("curatedTCGAData")
+
+library(fuseMLR)
+library(data.table)
+library(ggplot2)
+library(batchtools)
+library(InterSIM)
+library(this.path)
+library(curatedTCGAData)
+library(MultiAssayExperiment)
+library(TCGAutils)
+# The project directory is the absolute path to meta-lrnr-comp-study directory.
+proc_dir <- "~/projects/interconnect-publications/meta-lrnr-comp-study"
+working_dir <- "should-be-set"
+code_dir <- file.path(proc_dir, "R-code")
+data_dir <- file.path(working_dir, "data")
+result_dir <- file.path(working_dir, "results")
+image_dir <- file.path(proc_dir, "images")
