@@ -4,9 +4,22 @@
 # install.packages("batchtools")
 # install.packages("InterSIM")
 # install.packages(this.path)
+
+# Install required package to estimate the empirical correlation matrices.
+# install.packages(corpcor)
 # if (!requireNamespace("BiocManager", quietly = TRUE))
 #   install.packages("BiocManager")
 # BiocManager::install("curatedTCGAData")
+# BiocManager::install("rtracklayer", force = TRUE)
+# BiocManager::install("GenomicFeatures", force = TRUE)
+# BiocManager::install("TCGAbiolinks")
+# BiocManager::install("GenomicRanges")
+# BiocManager::install("TxDb.Hsapiens.UCSC.hg38.knownGene")
+# install.packages("ggnewscale")
+# BiocManager::install("enrichplot")
+# BiocManager::install("ChIPseeker")
+# BiocManager::install("org.Hs.eg.db")
+# BiocManager::install("IlluminaHumanMethylation450kanno.ilmn12.hg19")
 
 library(fuseMLR)
 library(data.table)
@@ -14,13 +27,29 @@ library(ggplot2)
 library(batchtools)
 library(InterSIM)
 library(this.path)
+
+# Load required package to estimate the empirical correlation matrices.
+library(corpcor)
 library(curatedTCGAData)
 library(MultiAssayExperiment)
 library(TCGAutils)
+library(TCGAbiolinks)
+library(GenomicRanges)
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+library(ChIPseeker)
+library(AnnotationDbi)
+library(org.Hs.eg.db)
+library(IlluminaHumanMethylation450kanno.ilmn12.hg19)
+
 # The project directory is the absolute path to meta-lrnr-comp-study directory.
 proc_dir <- "~/projects/interconnect-publications/meta-lrnr-comp-study"
 working_dir <- "should-be-set"
 code_dir <- file.path(proc_dir, "R-code")
 data_dir <- file.path(working_dir, "data")
+dir.create(data_dir, showWarnings = FALSE, recursive = TRUE)
+data_tcga <- file.path(data_dir, "tcga")
+dir.create(data_tcga, showWarnings = FALSE, recursive = TRUE)
 result_dir <- file.path(working_dir, "results")
-image_dir <- file.path(proc_dir, "images")
+dir.create(result_dir, showWarnings = FALSE, recursive = TRUE)
+image_dir <- file.path(working_dir, "images")
+

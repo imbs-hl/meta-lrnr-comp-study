@@ -1,0 +1,57 @@
+---
+title: "Evaluation of different integration approaches"
+author: "Césaire Joris Kueté Fouodo"
+date: "2025-01-15"
+output: 
+  pdf_document:
+    number_sections: true
+header-includes:
+  - \usepackage{marginnote}  # Include the marginnote package
+  - \usepackage[colorinlistoftodos]{todonotes}  # Include the todonotes package
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Study design
+
+\paragraph*{Goal} The goal of this study is to provide optimal guidelines to perform late-integration prediction modeling in classification and regression settings. We hypothesize that the performance of a meta-learner depend different factors including the effect within and between data modalities, the proportion of signal compared to noise variables and correlation structures (correlated: \texttt{yes} \texttt{no} as in \texttt{InterSIM}) of data modalities. \todo{We investigate complete and incomplete cases oder complete cases only? Should we restrict it to classification settings?} This exploratory study compares common super learners \todo{Do we need to tune hyperparameters?} under the variation of the structure of modality-specific datasets. 
+
+\paragraph*{Simulation scenarios} Each scenario is designed to reflect one of the commonly encountered challenges in real-word application. Investigated scenarios are categorizes into two main groups.
+
+- **Group 1: Independent effects across modalities**  
+
+We investigate four experimental factors:
+
+  - **Scenario 1.0**: No effects in any modality  
+  - **Scenario 1.1**: Weak independent effects within each modality  
+  - **Scenario 1.2**: Moderate independent effects within each modality
+  - **Scenario 1.3**: Strong independent effects within each modality
+  - **Scenario 1.4**: Combined weak, moderate and strong effects across modalities
+
+- **Group 2: Dependent effects across modalities**  
+
+We investigate three experimental factors:
+
+  - **Scenario 2.1**: Weak dependent effects across modalities  
+  - **Scenario 2.2**: Moderate dependent effects across modalities  
+  - **Scenario 2.3**: Strong dependent effects across modalities
+  - **Scenario 1.4**: Combined weak, moderate and strong effects across modalities
+
+Each scenario (1.1–1.3 and 2.1–2.3) is further nested with two levels of correlations (correlated or not) among independent variables: weak, moderate, and strong. In total, this results in $15$ distinct scenarios. Data simulation is based on the `R` package `InterSIM`. Seeds are initialized with the `R` package `rlecuyer` for having independent simulated data. Although the simulated effects are categorized, they are nor fixed, but drawn from a specific distribution (e.g. normal distribution with fixed parameters for each experimental factor) to approximate the reality. For example weak effects are drawn from $\mathcal{N}(0.5, 0.16)$, whereas moderate effects follow $\mathcal{N}(1.5, 0.16)$ or $\mathcal{N}(2, 0.16)$ for strong effects.
+
+\paragraph*{Data generating} Empirical mean and covariance matrices are estimate a TCGA multi-omics cancer data and passed as impute to `InterSIM` for data simulation. One important challenge here is the estimation of empirical covariance/correlation matrix to be passed to `InterSIM` as the empirical data modalities are high-dimensional. In high-dimenional settings it can easily happen that the empirical covariance matrix are singular, numerically unstable, or both, simplifying estimation error.
+
+\paragraph*{Estimands} For classification problems, the probability of belonging to the case and predicted groups is estimated. For regression problems, the value of the dependent variable is predicted.
+
+\paragraph*{Iteration} The number of $niter$ iterations is run for each scenario, totaling $2 \times 13 \times niter$ (i.e. $2,600$ for $niter = 100$). In each iteration, variable selection is performed on modality-specific data to identify relevant variables for prediction, and predictions are made using both modality-specific and meta-learners. Two ensure the number of iterations is sufficient, the first and the second half of results are compared. Ideally, results from first half are expected to be similar to those of second half if $niter$ is sufficient. A sufficient number of iteration allow better generation of simulation results (Strol and Henninger, 2024).
+
+\paragraph*{Performance measures} Brier score, AUC for classification settings, and MRSE and $R^2$ for regression settings. \todo{To be discussed in detail with others which performance measure to use.}
+
+\paragraph*{Modality and method references} We utilize the best modality-specific learner as the reference learner. As reference method, we use random forests as modality-specific and as meta-learner.  
+
+\paragraph*{Sample and effect sizes} The reference method determines the required sample size and defines categories of variable effects (weak, moderate, and strong). This is made using a first simulation step with the reference method only and some predefined performance values (Strol and Henninger, 2024). 
+
+\paragraph{results} Result presentation depends on the research question in each scenario.
+
