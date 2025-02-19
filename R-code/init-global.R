@@ -20,6 +20,7 @@
 # BiocManager::install("ChIPseeker")
 # BiocManager::install("org.Hs.eg.db")
 # BiocManager::install("IlluminaHumanMethylation450kanno.ilmn12.hg19")
+# BiocManager::install("biomaRt")
 
 library(fuseMLR)
 library(data.table)
@@ -40,10 +41,11 @@ library(ChIPseeker)
 library(AnnotationDbi)
 library(org.Hs.eg.db)
 library(IlluminaHumanMethylation450kanno.ilmn12.hg19)
+library(biomaRt)
 
 # The project directory is the absolute path to meta-lrnr-comp-study directory.
 proc_dir <- "~/projects/interconnect-publications/meta-lrnr-comp-study"
-working_dir <- "should-be-set"
+working_dir <- "/imbs/projects/p23048/meta-lrnr-comp-study"
 code_dir <- file.path(proc_dir, "R-code")
 data_dir <- file.path(working_dir, "data")
 dir.create(data_dir, showWarnings = FALSE, recursive = TRUE)
