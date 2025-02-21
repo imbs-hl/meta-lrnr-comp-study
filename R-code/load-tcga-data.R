@@ -187,8 +187,8 @@ saveRDS(object = mean_expr_with_mapped_protein,
 # Preprocessing of methylation data                                           */
 # =========================================================================== */
 #
-# We retain CpG site located on known genes and with higher variability 
-# (0.95 quantile) or located on a gene that maps existing protein.
+# We retain CpG site located on known genes, low correlated and with higher 
+# (0.95 quantile) variability or located on a gene that maps existing protein.
 # Get CpG site annotations.
 anno <- getAnnotation(IlluminaHumanMethylation450kanno.ilmn12.hg19)
 # Merge CpG coordinates with methylation data
@@ -244,9 +244,89 @@ tmp_symbol <- gene_to_pro[gene_to_pro$cpg_gr %in% rownames(methyldata),
                           "SYMBOL"]
 print(length(unique(tmp_symbol)))
 #TODO: Remove end
-high_methyl_var <- methyldata[((methylmoment$var >= threshold) & 
-                                 (rownames(methyldata) %in% cpg_in_genes$cpg_gr)) | 
-                                (rownames(methyldata) %in% gene_to_pro$cpg_gr), ]
+# Extract CpG low correlated CpG pro gene.
+combined_cpg_known_gene_and_pro <- data.frame(
+  cpg_gr = c(cpg_in_genes$cpg_gr, gene_to_pro$cpg_gr),
+  gene = c(cpg_in_genes$SYMBOL, gene_to_pro$SYMBOL)
+)
+split_cpg_gene <- split(combined_cpg_known_gene_and_pro$cpg_gr,
+                        combined_cpg_known_gene_and_pro$gene)
+
+# We choose low correlated CpG site with high variability.
+cpg_filter <- lapply(1:length(split_cpg_gene), function(i, 
+                                                        methyl,
+                                                        split_cpg_gene,
+                                                        cor_thres,
+                                                        var_thres) {
+  print(sprintf("i = %s...", i))
+  # print(unlist(split_cpg_gene[i]))
+  cpg_names <- unlist(split_cpg_gene[i])
+  print(sprintf("I started with: %s", length(cpg_names)))
+  if (length(cpg_names) == 1) {
+    return(cpg_names)
+  } else {
+    tmp_methyl <- methyl[cpg_names, ]
+  }
+  tmp_methyl <- InterSIM::logit(tmp_methyl)
+  # Empirical variance pro gene
+  tmp_methylmoment <- wt.moments(t(tmp_methyl))
+  # print(tmp_methylmoment$var)
+  # Choose methylation with larger variability in each gene.
+  large_var <- rownames(tmp_methyl)[tmp_methylmoment$var >= 
+                                      quantile(tmp_methylmoment$var, 
+                                               var_thres, na.rm = TRUE)]
+  # Continue only if more than one variable remains.
+  if (length(large_var) > 1) {
+    tmp_methyl_reduced <- tmp_methyl[large_var, ]
+  } else {
+    return(large_var)
+  }
+  # Choose lower correlated CpG within each gene.
+  cor_matrix <- cor.shrink(t(tmp_methyl_reduced))
+  diag(cor_matrix) <- NA
+  high_cor_pairs <- which(abs(cor_matrix) > cor_thres &
+                            lower.tri(cor_matrix),
+                          arr.ind = TRUE)
+  vars_to_remove <- unique(colnames(tmp_methyl_reduced)[high_cor_pairs[ , 2]])
+  print(sprintf("L = %s", length(vars_to_remove)))
+  if(!length(vars_to_remove)) {
+    to_keep <- setdiff(rownames(tmp_methyl_reduced), vars_to_remove)
+    print(sprintf("I end with: %s", length(to_keep)))
+    return(to_keep)
+  } else {
+    print(sprintf("I end with: %s", length(rownames(tmp_methyl_reduced))))
+    return(rownames(tmp_methyl_reduced))
+  }
+}, 
+methyl = methyldata,
+split_cpg_gene = split_cpg_gene,
+cor_thres = 0.75,
+var_thres = 0.95)
+
+final_methyl_names <- do.call("c", cpg_filter)
+# Number of retained CpG sites
+# length(final_methyl_names)
+# [1] 33179
+# Number of mapping gene
+print(
+  length(
+    unique(
+      combined_cpg_known_gene_and_pro[
+        combined_cpg_known_gene_and_pro$cpg_gr %in% 
+          final_methyl_names, "gene"])))
+# [1] 23254
+
+# combined_cpg_known_gene_and_pro <- combined_cpg_known_gene_and_pro[
+#   !duplicated(combined_cpg_known_gene_and_pro$cpg_gr), ]
+# 
+# cpg_gene_pro_bool <- (rownames(methyldata) %in% cpg_in_genes$cpg_gr) |
+#   (rownames(methyldata) %in% gene_to_pro$cpg_gr)
+# methyldata_correlated <- methyldata[cpg_gene_pro_bool, ]
+
+# high_methyl_var <- methyldata[((methylmoment$var >= threshold) & 
+#                                  (rownames(methyldata) %in% cpg_in_genes$cpg_gr)) | 
+#                                 (rownames(methyldata) %in% gene_to_pro$cpg_gr), ]
+high_methyl_var <- methyldata[final_methyl_names, ]
 print(dim(high_methyl_var))
 # [1] 18688   580
 # CpG_gene_map_for_DEG: Prepare data having CpG probe names and mapped gene 
