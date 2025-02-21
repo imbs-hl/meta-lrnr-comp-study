@@ -16,7 +16,7 @@ assay_sample_complete <- sapply(X = dis_codes,
                                     assays = c("RNASeqGene", 
                                                "RPPAArray", 
                                                "Methylation*" 
-                                               ),
+                                    ),
                                     version = "1.1.38",
                                     dry.run = FALSE
                                   )
@@ -38,10 +38,10 @@ assay_sample_complete <- sapply(X = dis_codes,
                                       x = my_data
                                     )
                                     # Calculate number of overlapping
-                                   my_sum_res <- c(
-                                     c_case = sum(complete.cases(my_data)),
-                                     i_case = nrow(colData(my_data))
-                                     )
+                                    my_sum_res <- c(
+                                      c_case = sum(complete.cases(my_data)),
+                                      i_case = nrow(colData(my_data))
+                                    )
                                     return(my_sum_res)
                                   }
                                 })
@@ -67,7 +67,7 @@ prop.table(table(colData(hnsc)$gender))
 rm_zero_scale <- function(x) {
   my_wm <- wt.moments(x)
   my_sc <- sqrt(my_wm$var)
-  # my_zeros <- (my_sc == 0.0)
+  my_zeros <- (my_sc == 0.0)
   return(x[ , !my_zeros])
 }
 
@@ -96,100 +96,10 @@ methyldata <- as.matrix(assay(hnsc_assays$`HNSC_Methylation-20160128`))
 methyldata <- methyldata[complete.cases(methyldata), ]
 
 # =========================================================================== */
-# Preprocessing of methylation data                                           */
-# =========================================================================== */
-#
-# We retain CpG site located on known genes.
-# Get CpG site annotations.
-anno <- getAnnotation(IlluminaHumanMethylation450kanno.ilmn12.hg19)
-# Merge CpG coordinates with methylation data
-methylation_anno <- merge(as.data.frame(methyldata), anno, by = "row.names")
-# Convert to GRanges
-cpg_gr <- GRanges(
-  seqnames = methylation_anno$chr,
-  ranges = IRanges(start = methylation_anno$pos, width = 1),
-  strand = "*"
-)
-# Load gene annotation database
-txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
-# Annotate CpG sites with gene information
-annotated_peaks <- annotatePeak(cpg_gr, TxDb = txdb, annoDb = "org.Hs.eg.db")
-# Filter CpG sites located within known genes
-cpg_in_genes <- as.data.frame(annotated_peaks)
-# cpg_in_genes <- subset(cpg_in_genes, annotation %in% c("Exon",
-#                                                        "Intron",
-#                                                        "TSS",
-#                                                        "5' UTR",
-#                                                        "3' UTR"))
-# Display relevant columns
-cpg_in_genes[, c("seqnames",
-                 "start",
-                 "end",
-                 "geneId",
-                 "SYMBOL",
-                 "annotation")]
-cpg_in_genes$cpg_gr <- methylation_anno$Name
-cpg_to_retrieve <- cpg_in_genes[ , c("seqnames", "start", "SYMBOL", "cpg_gr")]
-colnames(cpg_to_retrieve) <- c("chr", "pos", "SYMBOL", "cpg_gr")
-cpg_in_known_genes <- merge(x = methylation_anno, 
-                            y = cpg_to_retrieve)[names(methylation_anno)]
-cpg_chr_pos_known <- paste(cpg_in_known_genes$chr,
-                     cpg_in_known_genes$pos,
-                     sep = ":")
-cpg_chr_pos <- paste(cpg_to_retrieve$chr,
-                           cpg_to_retrieve$pos,
-                           sep = ":")
-cpg_gene_symbol <- cpg_in_genes[cpg_chr_pos %in% cpg_chr_pos_known, "SYMBOL"]
-
-# Alternative 1: Intersection with gene expression.
-inter_methyl_gene <- intersect(colnames(genexprdata), cpg_gene_symbol)
-print(length(inter_methyl_gene))
-# [1] 13198
-# Alternative 2: Methylation with higher variability.
-methylmoment <- wt.moments(t(methyldata))
-threshold <- quantile(methylmoment$var, 0.95)
-high_methyl_var <- methyldata[(methylmoment$var >= threshold) & 
-                              rownames(methyldata) %in% cpg_in_genes$cpg_gr, ]
-print(dim(high_methyl_var))
-# [1] 18688   580
-# CpG_gene_map_for_DEG: Prepare data having CpG probe names and mapped gene 
-# names  
-cpg_in_genes_expr <- cpg_in_genes[cpg_in_genes$SYMBOL %in% colnames(genexprdata), ]
-cpg_in_genes_expr <- cpg_in_genes_expr[cpg_in_genes_expr$cpg_gr %in% 
-                                         rownames(high_methyl_var) , ]
-CpG_gene_map_for_DEG <- data.frame(tmp.cg = cpg_in_genes_expr$cpg_gr, 
-                                   tmp.gene = cpg_in_genes_expr$SYMBOL)
-rownames(CpG_gene_map_for_DEG) <- cpg_in_genes_expr$cpg_gr
-high_methyl_var <- high_methyl_var[cpg_in_genes_expr$cpg_gr, ]
-# Logit tranformed methylation data
-high_methyl_transf <- apply(X = t(high_methyl_var), 
-                            MARGIN = 2,
-                            FUN = function(x) {
-                              InterSIM::logit(x)
-                            })
-colnames(high_methyl_transf) <- rownames(high_methyl_var)
-rownames(high_methyl_transf) <- colnames(high_methyl_var)
-
-# mean_M: logit transform the methylation data and calculate the mean of the 
-# features
-mean_M <-  colMeans(x = high_methyl_transf)
-# cov_M:  covariance matrix of the logit transformed methylation data
-cov_M <- cov.shrink(x = high_methyl_transf)
-# Save methylation related data
-saveRDS(object = high_methyl_transf,
-        file = file.path(data_tcga, "methyldata.rds"))
-saveRDS(object = mean_M,
-        file = file.path(data_tcga, "mean_M.rds"))
-saveRDS(object = cov_M,
-        file = file.path(data_tcga, "cov_M.rds"))
-saveRDS(object = CpG_gene_map_for_DEG,
-        file = file.path(data_tcga, "CpG_gene_map_for_DEG.rds"))
-
-
-# =========================================================================== */
 # Preprocessing of protein data                                               */
 # =========================================================================== */
 #
+# We use the website https://string-db.org/ to map protein to gene.
 pro_names <- colnames(proexprdata)
 clean_protein_names <- function(protein_vector) {
   cleaned_names <- gsub("_p[A-Z0-9]+", "", protein_vector)  # Remove _pS473, _pY1068, etc.
@@ -254,6 +164,13 @@ print(all(protein_gene_map_for_DEP$gene %in% colnames(genexprdata)))
 proexprdata_mapped <- proexprdata[ , protein_gene_map_for_DEP$protein]
 mean_protein <-  colMeans(x = as.matrix(proexprdata_mapped))
 cov_protein <- cov.shrink(x = proexprdata_mapped)
+
+# mean_expr_with_mapped_protein: Compute the mean of the gene expression values.
+# Then prepare a data vector of mean of gene expressions in the same order that 
+# map to proteins expression values. Note that some genes can correspond to more
+# than one proteins. This data is used to generate protein expression data. 
+mean_expr_with_mapped_protein <- colMeans(genexprdata)[protein_gene_map_for_DEP$gene]
+
 # Save protein related data
 saveRDS(object = proexprdata_mapped,
         file = file.path(data_tcga, "protein.rds"))
@@ -263,17 +180,149 @@ saveRDS(object = cov_protein,
         file = file.path(data_tcga, "cov_protein.rds"))
 saveRDS(object = protein_gene_map_for_DEP,
         file = file.path(data_tcga, "protein_gene_map_for_DEP.rds"))
+saveRDS(object = mean_expr_with_mapped_protein,
+        file = file.path(data_tcga, "mean_expr_with_mapped_protein.rds"))
 
 # =========================================================================== */
-# Preprocessing of gene data.                                                 */
+# Preprocessing of methylation data                                           */
 # =========================================================================== */
 #
+# We retain CpG site located on known genes and with higher variability 
+# (0.95 quantile) or located on a gene that maps existing protein.
+# Get CpG site annotations.
+anno <- getAnnotation(IlluminaHumanMethylation450kanno.ilmn12.hg19)
+# Merge CpG coordinates with methylation data
+methylation_anno <- merge(as.data.frame(methyldata), anno, by = "row.names")
+# Convert to GRanges
+cpg_gr <- GRanges(
+  seqnames = methylation_anno$chr,
+  ranges = IRanges(start = methylation_anno$pos, width = 1),
+  strand = "*"
+)
+# Load gene annotation database
+txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
+# Annotate CpG sites with gene information
+annotated_peaks <- annotatePeak(cpg_gr, TxDb = txdb, annoDb = "org.Hs.eg.db")
+# Filter CpG sites located within known genes
+cpg_in_genes <- as.data.frame(annotated_peaks)
+# cpg_in_genes <- subset(cpg_in_genes, annotation %in% c("Exon",
+#                                                        "Intron",
+#                                                        "TSS",
+#                                                        "5' UTR",
+#                                                        "3' UTR"))
+# Display relevant columns
+cpg_in_genes[, c("seqnames",
+                 "start",
+                 "end",
+                 "geneId",
+                 "SYMBOL",
+                 "annotation")]
+cpg_in_genes$cpg_gr <- methylation_anno$Name
+cpg_to_retrieve <- cpg_in_genes[ , c("seqnames", "start", "SYMBOL", "cpg_gr")]
+colnames(cpg_to_retrieve) <- c("chr", "pos", "SYMBOL", "cpg_gr")
+cpg_in_known_genes <- merge(x = methylation_anno, 
+                            y = cpg_to_retrieve)[names(methylation_anno)]
+cpg_chr_pos_known <- paste(cpg_in_known_genes$chr,
+                           cpg_in_known_genes$pos,
+                           sep = ":")
+cpg_chr_pos <- paste(cpg_to_retrieve$chr,
+                     cpg_to_retrieve$pos,
+                     sep = ":")
+cpg_gene_symbol <- cpg_in_genes[cpg_chr_pos %in% cpg_chr_pos_known, "SYMBOL"]
+
+# Alternative 1: Intersection with gene expression.
+inter_methyl_gene <- intersect(colnames(genexprdata), cpg_gene_symbol)
+print(length(inter_methyl_gene))
+# [1] 13198
+# Alternative 2: Methylation with higher variability, known gene and gene mapping
+# a protein.
+methylmoment <- wt.moments(t(methyldata))
+threshold <- quantile(methylmoment$var, 0.95)
+gene_to_pro <- cpg_in_genes[cpg_in_genes$SYMBOL %in% protein_gene_map_for_DEP$gene, ]
+#TODO: Remove (begin) this code section
+tmp_symbol <- gene_to_pro[gene_to_pro$cpg_gr %in% rownames(methyldata),
+                          "SYMBOL"]
+print(length(unique(tmp_symbol)))
+#TODO: Remove end
+high_methyl_var <- methyldata[((methylmoment$var >= threshold) & 
+                                 (rownames(methyldata) %in% cpg_in_genes$cpg_gr)) | 
+                                (rownames(methyldata) %in% gene_to_pro$cpg_gr), ]
+print(dim(high_methyl_var))
+# [1] 18688   580
+# CpG_gene_map_for_DEG: Prepare data having CpG probe names and mapped gene 
+# names  
+cpg_in_genes_expr <- cpg_in_genes[cpg_in_genes$SYMBOL %in% colnames(genexprdata), ]
+cpg_in_genes_expr <- cpg_in_genes_expr[cpg_in_genes_expr$cpg_gr %in% 
+                                         rownames(high_methyl_var), ]
+CpG_gene_map_for_DEG <- data.frame(tmp.cg = cpg_in_genes_expr$cpg_gr, 
+                                   tmp.gene = cpg_in_genes_expr$SYMBOL)
+rownames(CpG_gene_map_for_DEG) <- cpg_in_genes_expr$cpg_gr
+high_methyl_var <- high_methyl_var[cpg_in_genes_expr$cpg_gr, ]
+# Logit tranformed methylation data
+high_methyl_transf <- apply(X = t(high_methyl_var), 
+                            MARGIN = 2,
+                            FUN = function(x) {
+                              InterSIM::logit(x)
+                            })
+colnames(high_methyl_transf) <- rownames(high_methyl_var)
+rownames(high_methyl_transf) <- colnames(high_methyl_var)
+
+# mean_M: logit transform the methylation data and calculate the mean of the 
+# features
+mean_M <-  colMeans(x = high_methyl_transf)
+# cov_M:  covariance matrix of the logit transformed methylation data
+cov_M <- cov.shrink(x = high_methyl_transf)
+
+# methyl_gene_level_mean: Compute the gene level summary of the methylation data
+# by the following way: For each tumor sample, group the CpG probes that map to
+# unique genes together and compute the median values of each group. Then logit
+# transform the data matrix and calculate mean for each gene level summary of
+# the methylation data. In this way the number of mean values thus calculated
+# matches the number of genes. This data is used to generate gene expression
+# data. 
+cpg_to_split <- cpg_in_genes[cpg_in_genes$cpg_gr %in% 
+                               rownames(high_methyl_var),
+                             c("cpg_gr", "SYMBOL")]
+split_dfs <- split(cpg_to_split, cpg_to_split$SYMBOL)
+
+methyl_gene_level <- lapply(1:length(split_dfs), function(i, 
+                                                          df = df,
+                                                          methyl = methyl){
+  cpg_group <- df[[i]]$cpg_gr
+  # Median for the cpg block.
+  tmp_methyl <- apply(methyl[cpg_group, , drop = FALSE], 2L, median)
+  # Logit transformation
+  tmp_methyl <- InterSIM::logit(tmp_methyl)
+  return(tmp_methyl)
+}, df = split_dfs, methyl = high_methyl_var)
+
+methyl_gene_level <- as.matrix(do.call(what = "rbind", methyl_gene_level))
+rownames(methyl_gene_level) <- unique(cpg_to_split$SYMBOL)
+methyl_gene_level_mean <- rowMeans(methyl_gene_level)
+
+# Save methylation related data
+saveRDS(object = high_methyl_transf,
+        file = file.path(data_tcga, "methyldata.rds"))
+saveRDS(object = mean_M,
+        file = file.path(data_tcga, "mean_M.rds"))
+saveRDS(object = cov_M,
+        file = file.path(data_tcga, "cov_M.rds"))
+saveRDS(object = CpG_gene_map_for_DEG,
+        file = file.path(data_tcga, "CpG_gene_map_for_DEG.rds"))
+saveRDS(object = methyl_gene_level_mean,
+        file = file.path(data_tcga, "methyl_gene_level_mean.rds"))
+
+# =========================================================================== */
+# Preproccessing of gene data.                                                */
+# =========================================================================== */
+# 
 # mean_expr: calculate the mean of the features in gene expression data
-mean_expr <-  colMeans(x = genexprdata)
+mean_expr <-  colMeans(x = genexprdata[, unique(CpG_gene_map_for_DEG$tmp.gene)])
+
 # cov_expr:  covariance matrix of the gene expression data
-cov_expr <- cov.shrink(x = genexprdata)
+cov_expr <- cov.shrink(x = genexprdata[, unique(CpG_gene_map_for_DEG$tmp.gene)])
 # Save gene expression related data
-saveRDS(object = genexprdata,
+saveRDS(object = genexprdata[, unique(CpG_gene_map_for_DEG$tmp.gene)],
         file = file.path(data_tcga, "genexprdata.rds"))
 saveRDS(object = mean_expr,
         file = file.path(data_tcga, "mean_expr.rds"))
@@ -282,9 +331,9 @@ saveRDS(object = cov_expr,
 
 
 
-pro_gene_symbols <- toupper(gsub("[._-]", "", pro_gene_symbols))
-# TODO: Use this information to prepare protein mapped gene data
-sum(toupper(gsub("[._-]", "", colnames(genexprdata))) %in% pro_gene_symbols)
+# pro_gene_symbols <- toupper(gsub("[._-]", "", pro_gene_symbols))
+# # TODO: Use this information to prepare protein mapped gene data
+# sum(toupper(gsub("[._-]", "", colnames(genexprdata))) %in% pro_gene_symbols)
 
 # mart <- useMart("ensembl", dataset = "hsapiens_gene_ensembl")
 # 
@@ -294,59 +343,59 @@ sum(toupper(gsub("[._-]", "", colnames(genexprdata))) %in% pro_gene_symbols)
 #                        keytype = "UNIPROT",
 #                        multiVals = "first")
 
-mart <- useMart(biomart = "ENSEMBL_MART_ENSEMBL",
-                dataset = "hsapiens_gene_ensembl",
-                host = 'www.ensembl.org')
-pdata <- getBM(mart = mart, 
-               # attributes = c("external_gene_name",
-               #                "protein_id"), 
-               attributes = c("hgnc_symbol",
-                              "uniprot_gn_symbol",
-                              "hgnc_trans_name"),
-               filters = c("biotype"), 
-               values = list("protein_coding"), 
-               useCache = FALSE)
-
-genes <- biomaRt::getBM(
-  attributes = c("external_gene_name",
-                 "chromosome_name", 
-                 "transcript_biotype"),
-  filters = c("transcript_biotype",
-              "chromosome_name"), 
-  values = list("protein_coding", c(1:22)),
-  mart = mart)
-
-mapping <- getBM(
-  attributes = c("hgnc_symbol", "uniprot_gn_symbol"),
-  filters = "hgnc_symbol",
-  values = "p70S6K",  # Gene symbol for p70S6K
-  mart = mart
-)
+# mart <- useMart(biomart = "ENSEMBL_MART_ENSEMBL",
+#                 dataset = "hsapiens_gene_ensembl",
+#                 host = 'www.ensembl.org')
+# pdata <- getBM(mart = mart, 
+#                # attributes = c("external_gene_name",
+#                #                "protein_id"), 
+#                attributes = c("hgnc_symbol",
+#                               "uniprot_gn_symbol",
+#                               "hgnc_trans_name"),
+#                filters = c("biotype"), 
+#                values = list("protein_coding"), 
+#                useCache = FALSE)
+# 
+# genes <- biomaRt::getBM(
+#   attributes = c("external_gene_name",
+#                  "chromosome_name", 
+#                  "transcript_biotype"),
+#   filters = c("transcript_biotype",
+#               "chromosome_name"), 
+#   values = list("protein_coding", c(1:22)),
+#   mart = mart)
+# 
+# mapping <- getBM(
+#   attributes = c("hgnc_symbol", "uniprot_gn_symbol"),
+#   filters = "hgnc_symbol",
+#   values = "p70S6K",  # Gene symbol for p70S6K
+#   mart = mart
+# )
 
 # Remove unimportant columns
 
-print(dim(cpg_in_known_genes))
-# [1] 7459  580
-# remove zero
-cpg_in_known_genes <- rm_zero_scale(x = t(cpg_in_known_genes))
-
-# Now map gene expression with methylation data
-inter_methyl_gene <- intersect(colnames(genexprdata), cpg_in_genes$SYMBOL)
-genexprdata_mapped <- genexprdata[ , methyl_expr_maping_gene]
-methyldata_mapped <- cpg_in_known_genes[ , inter_methyl_gene]
-
-# Estimation of correlation matrix
-genexprcor <- cor.shrink(x = genexprdata)
-proexprcor <- cor.shrink(x = proexprdata)
-methylcor <- cor.shrink(x = cpg_in_known_genes)
-
-# Save empirical data
-saveRDS(object = genexprdata, file = file.path(data_tcga, "genexprdata.rds"))
-saveRDS(object = proexprdata, file = file.path(data_tcga, "proexprdata.rds"))
-saveRDS(object = cpg_in_known_genes, file = file.path(data_tcga, "methyldata.rds"))
-
-# Save correlation matrix
-saveRDS(object = genexprcor, file = file.path(data_tcga, "genexprcor.rds"))
-saveRDS(object = proexprcor, file = file.path(data_tcga, "proexprcor.rds"))
-saveRDS(object = methylcor, file = file.path(data_tcga, "methylcor.rds"))
+# print(dim(cpg_in_known_genes))
+# # [1] 7459  580
+# # remove zero
+# cpg_in_known_genes <- rm_zero_scale(x = t(cpg_in_known_genes))
+# 
+# # Now map gene expression with methylation data
+# inter_methyl_gene <- intersect(colnames(genexprdata), cpg_in_genes$SYMBOL)
+# genexprdata_mapped <- genexprdata[ , methyl_expr_maping_gene]
+# methyldata_mapped <- cpg_in_known_genes[ , inter_methyl_gene]
+# 
+# # Estimation of correlation matrix
+# genexprcor <- cor.shrink(x = genexprdata)
+# proexprcor <- cor.shrink(x = proexprdata)
+# methylcor <- cor.shrink(x = cpg_in_known_genes)
+# 
+# # Save empirical data
+# saveRDS(object = genexprdata, file = file.path(data_tcga, "genexprdata.rds"))
+# saveRDS(object = proexprdata, file = file.path(data_tcga, "proexprdata.rds"))
+# saveRDS(object = cpg_in_known_genes, file = file.path(data_tcga, "methyldata.rds"))
+# 
+# # Save correlation matrix
+# saveRDS(object = genexprcor, file = file.path(data_tcga, "genexprcor.rds"))
+# saveRDS(object = proexprcor, file = file.path(data_tcga, "proexprcor.rds"))
+# saveRDS(object = methylcor, file = file.path(data_tcga, "methylcor.rds"))
 
