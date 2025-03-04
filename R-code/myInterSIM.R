@@ -154,11 +154,8 @@ myInterSIM <- function(n.sample = 500,
     as.numeric(names(mean.expr) %in% gene.name)})
   rownames(DEG) <- names(mean.expr)}
   if(delta.expr==0) rho.m.e <- 0
-  d <- lapply(1:1, function(i) {
+  d <- lapply(1:n.cluster, function(i) {
     effect <- (rho.m.e * methyl.gene.level.mean + sqrt(1 - rho.m.e^2) * mean.expr) + DEG[,i] * delta.expr
-    print(dim(cov.expr))
-    print(length(effect))
-    print(n.sample.in.cluster[i])
     return(list(n = n.sample.in.cluster[i], mu = effect, Sigma = cov.str))
     mvrnorm(n = n.sample.in.cluster[i], mu = effect, Sigma = cov.str)
     })
