@@ -103,7 +103,7 @@ myInterSIM <- function(n.sample=500,cluster.sample.prop=c(0.30,0.30,0.40),
   DMP <- sapply(1:n.cluster,function(x) rbinom(n.CpG, 1, prob = p.DMP))
   rownames(DMP) <- names(mean.M)
   if (delta.methyl == 0) {
-    effect <- mean.M + DMP[,i]*delta.methyl
+    effect <- mean.M 
     sim.methyl <- mvrnorm(n=n.sample, mu=effect, Sigma=cov.str)
   } else {
     d <- lapply(1:n.cluster,function(i) {
@@ -138,7 +138,7 @@ myInterSIM <- function(n.sample=500,cluster.sample.prop=c(0.30,0.30,0.40),
   rownames(DEG) <- names(mean.expr)}
   if(delta.expr==0){
     rho.m.e <- 0
-    effect <- (rho.m.e*methyl.gene.level.mean+sqrt(1-rho.m.e^2)*mean.expr) + DEG[,i]*delta.expr
+    effect <- mean.expr
     sim.expr <- mvrnorm(n=n.sample, mu=effect, Sigma=cov.str)
   } else {
     d <- lapply(1:n.cluster,function(i) {
@@ -172,7 +172,7 @@ myInterSIM <- function(n.sample=500,cluster.sample.prop=c(0.30,0.30,0.40),
   rownames(DEP) <- names(mean.protein)}
   if(delta.protein==0) {
     rho.e.p <- 0
-    effect <- (rho.e.p*mean.expr.with.mapped.protein+sqrt(1-rho.e.p^2)*mean.protein) + DEP[,i]*delta.protein
+    effect <- mean.protein
     mvrnorm(n=n.sample, mu=effect, Sigma=cov.str)
   } else {
     d <- lapply(1:n.cluster,function(i) {
