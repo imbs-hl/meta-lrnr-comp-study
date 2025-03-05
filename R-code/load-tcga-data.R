@@ -68,7 +68,8 @@ methyldata <- methyldata[complete.cases(methyldata), ]
 # protein_gene_map_for_DEP: Prepare data having protein names and mapped gene
 # names
 
-# Filter proteins with mapping genes
+# Filter proteins with mapping genes. If duplication then the first instance
+# is considered.
 mapped_pro_gen_index <- which(proexprdata$Gene %in% colnames(genexprdata))
 mapped_pro_gen <- data.frame(protein = proexprdata$Gene[mapped_pro_gen_index],
                              gene = proexprdata$Gene[mapped_pro_gen_index])
@@ -369,8 +370,30 @@ ids_in_pro_short <- sort(ids_in_pro_short[!duplicated(ids_in_pro_short)])
 proexprdata_mapped <- proexprdata_mapped[ , names(ids_in_pro_short)]
 # Estimate pearson correlation
 rho_expr_protein <- diag(cor(t(proexprdata_mapped),
-                         genexprdata_sorted2,
-                         method = "pearson"))
+                             genexprdata_sorted2,
+                             method = "pearson"))
 print(summary(abs(rho_expr_protein)))
 saveRDS(object = rho_expr_protein,
         file = file.path(data_tcga, "rho_expr_protein.rds"))
+
+# Update and save protein parameter according to mapped genes
+# Save protein related data
+saveRDS(
+  object = proexprdata_mapped[rownames(proexprdata_mapped) %in% 
+                                colnames(genexprdata), ],
+  file = file.path(data_tcga, "protein.rds"))
+saveRDS(object = mean_protein[
+  names(mean_protein) %in% colnames(genexprdata)
+],
+file = file.path(data_tcga, "mean_protein.rds"))
+saveRDS(object = cov_protein[
+  rownames(cov_protein) %in% colnames(genexprdata),
+  colnames(cov_protein) %in% colnames(genexprdata)],
+  file = file.path(data_tcga, "cov_protein.rds"))
+saveRDS(object = protein_gene_map_for_DEP[
+  protein_gene_map_for_DEP$gene %in% 
+    colnames(genexprdata), ],
+  file = file.path(data_tcga, "protein_gene_map_for_DEP.rds"))
+saveRDS(object = mean_expr_with_mapped_protein[
+  names(mean_expr_with_mapped_protein) %in% colnames(genexprdata)],
+        file = file.path(data_tcga, "mean_expr_with_mapped_protein.rds"))

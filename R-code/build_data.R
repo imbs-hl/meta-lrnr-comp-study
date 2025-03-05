@@ -29,6 +29,7 @@ rho.expr.protein <- readRDS(file = file.path(data_tcga, "rho_expr_protein.rds"))
 set.seed(3252)
 prop <- c(0.5, 0.5)
 effect <- 0.5
+start_time <- Sys.time()
 multi_omics <- simOmicsData(n.sample = 100,
                             cluster.sample.prop = prop,
                             delta.methyl = effect,
@@ -48,8 +49,11 @@ multi_omics <- simOmicsData(n.sample = 100,
                             training_prop = 0.8,
                             prop_missing_train = 0,
                             prop_missing_test = 0)
+end_time <- Sys.time()
+runtime <- end_time - start_time
+print(runtime)
 
-save(multi_omics, file = file.path(dirname(dirname(this.path::this.path())), "data/multi_omics.rda"))
-# Compress this large dataset.
-tools::resaveRdaFiles(paths = file.path(dirname(dirname(this.path::this.path())), "data/multi_omics.rda"))
-
+# Save this as test data
+saveRDS(object = multi_omics,
+        file = file.path(data_simulation, "multi_omics.rds"))
+multi_omics <- readRDS(file.path(data_simulation, "multi_omics.rds"))

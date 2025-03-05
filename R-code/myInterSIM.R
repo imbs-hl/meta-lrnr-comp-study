@@ -24,22 +24,12 @@
 #' @export
 #'
 #' @examples
-myInterSIM <- function(n.sample = 500,
-                       cluster.sample.prop = c(0.30, 0.30, 0.40),
-                       delta.methyl = 2.0,
-                       delta.expr = 2.0,
-                       delta.protein = 2.0,
-                       p.DMP = 0.2,
-                       p.DEG = NULL,
-                       p.DEP = NULL,
-                       sigma.methyl = NULL,
-                       sigma.expr = NULL,
-                       sigma.protein = NULL,
-                       cor.methyl.expr = NULL,
-                       cor.expr.protein = NULL,
-                       do.plot = FALSE, 
-                       sample.cluster = TRUE,
-                       feature.cluster = TRUE)
+myInterSIM <- function(n.sample=500,cluster.sample.prop=c(0.30,0.30,0.40),
+                       delta.methyl=2.0,delta.expr=2.0,delta.protein=2.0,
+                       p.DMP=0.2,p.DEG=NULL,p.DEP=NULL,
+                       sigma.methyl=NULL,sigma.expr=NULL,sigma.protein=NULL,
+                       cor.methyl.expr=NULL,cor.expr.protein=NULL,
+                       do.plot=FALSE, sample.cluster=TRUE, feature.cluster=TRUE)
 {
   #---------------------------------------------------------------------------------------------------------------
   # n.sample = Number of samples to simulate
@@ -88,15 +78,15 @@ myInterSIM <- function(n.sample = 500,
   # protein.gene.map.for.DEP = Protein - gene mapping information
   #---------------------------------------------------------------------------------------------------------------
   
-  if (sum(cluster.sample.prop) != 1) stop("The proportions must sum up to 1")
-  if (!length(cluster.sample.prop) > 1) stop("Number of proportions must be larger than 1")
+  if (sum(cluster.sample.prop)!=1) stop("The proportions must sum up to 1")
+  if (!length(cluster.sample.prop)>1) stop("Number of proportions must be larger than 1")
   if (p.DMP<0 | p.DMP>1) stop("p.DMP must be between 0 to 1")
-  if (!is.null(p.DEG) && (p.DEG < 0 | p.DEG > 1)) stop("p.DEG must be between 0 and 1")
-  if (!is.null(p.DEP) && (p.DEP < 0 | p.DEP > 1)) stop("p.DEP must be between 0 and 1")
+  if (!is.null(p.DEG) && (p.DEG<0 | p.DEG>1)) stop("p.DEG must be between 0 and 1")
+  if (!is.null(p.DEP) && (p.DEP<0 | p.DEP>1)) stop("p.DEP must be between 0 and 1")
   
   n.cluster <- length(cluster.sample.prop) 			# Number of clusters
-  n.sample.in.cluster <- c(round(cluster.sample.prop[-n.cluster] * n.sample),
-                           n.sample - sum(round(cluster.sample.prop[-n.cluster] * n.sample)))	# Number of samples in clusters
+  n.sample.in.cluster <- c(round(cluster.sample.prop[-n.cluster]*n.sample),
+                           n.sample - sum(round(cluster.sample.prop[-n.cluster]*n.sample)))	# Number of samples in clusters
   cluster.id <- do.call(c,lapply(1:n.cluster, function(x) rep(x,n.sample.in.cluster[x])))
   
   #-----------------
@@ -105,23 +95,17 @@ myInterSIM <- function(n.sample = 500,
   n.CpG <- ncol(cov.M) 								# Number of CpG probes  in the data
   # Covariance structure
   if (!is.null(sigma.methyl)){
-    if (is.matrix(sigma.methyl)) {
-      cov.str <- sigma.methyl  # User defined covariance structure
-    } else {
-      if (sigma.methyl == "indep") {
-        cov.str <- diag(diag(cov.M))  # Independent features
-      }
-    }
-    # if (sigma.methyl == "indep") cov.str <- diag(diag(cov.M))  # Independent features
-    # else cov.str <- sigma.methyl                             # User defined covariance structure
+    if (!is.matrix(sigma.methyl)){
+      if (sigma.methyl=="indep") cov.str <- diag(diag(cov.M))  # Independent features
+    } else cov.str <- sigma.methyl                             # User defined covariance structure
   } else cov.str <- cov.M   							    	 # Dependent features based on the original data
   # Differenatially methylated CpGs (DMP)
-  DMP <- sapply(1:n.cluster, function(x) rbinom(n.CpG, 1, prob = p.DMP))
+  DMP <- sapply(1:n.cluster,function(x) rbinom(n.CpG, 1, prob = p.DMP))
   rownames(DMP) <- names(mean.M)
-  d <- lapply(1:n.cluster, function(i) {
-    effect <- mean.M + DMP[ , i] * delta.methyl
+  d <- lapply(1:n.cluster,function(i) {
+    effect <- mean.M + DMP[,i]*delta.methyl
     mvrnorm(n=n.sample.in.cluster[i], mu=effect, Sigma=cov.str)})
-  sim.methyl <- do.call(rbind, d)
+  sim.methyl <- do.call(rbind,d)
   sim.methyl <- rev.logit(sim.methyl) 						 # Transform back to beta values between (0,1)
   
   #-------------------
@@ -130,15 +114,9 @@ myInterSIM <- function(n.sample = 500,
   n.gene <- ncol(cov.expr) 									 # Number of genes in the data
   # Covariance structure
   if (!is.null(sigma.expr)){
-    if (is.matrix(sigma.expr)) {
-      cov.str <- sigma.expr  # User defined covariance structure
-    } else {
-      if (sigma.expr == "indep") {
-        cov.str <- diag(diag(cov.expr))  # Independent features
-      }
-    }
-    # if (sigma.expr == "indep") cov.str <- diag(diag(cov.expr)) # Independent features
-    # else cov.str <- sigma.expr                               # User defined covariance structure
+    if (!(is.matrix(sigma.expr))) {
+      if (sigma.expr=="indep") cov.str <- diag(diag(cov.expr)) # Independent features
+    } else cov.str <- sigma.expr                               # User defined covariance structure
   } else cov.str <- cov.expr   							   	 # Dependent features based on the original data
   # Correlation between methylation and gene expression
   if (!is.null(cor.methyl.expr)){
@@ -149,17 +127,14 @@ myInterSIM <- function(n.sample = 500,
     DEG <- sapply(1:n.cluster,function(x) rbinom(n.gene, 1, prob = p.DEG))
     rownames(DEG) <- names(mean.expr)
   } else { DEG <- sapply(1:n.cluster,function(x){
-    cg.name <- rownames(subset(DMP, DMP[, x]==1))
-    gene.name <- as.character(CpG.gene.map.for.DEG[cg.name, ]$tmp.gene)
+    cg.name <- rownames(subset(DMP,DMP[,x]==1))
+    gene.name <- as.character(CpG.gene.map.for.DEG[cg.name,]$tmp.gene)
     as.numeric(names(mean.expr) %in% gene.name)})
   rownames(DEG) <- names(mean.expr)}
   if(delta.expr==0) rho.m.e <- 0
-  d <- lapply(1:n.cluster, function(i) {
-    effect <- (rho.m.e * methyl.gene.level.mean + sqrt(1 - rho.m.e^2) * mean.expr) + DEG[,i] * delta.expr
-    return(list(n = n.sample.in.cluster[i], mu = effect, Sigma = cov.str))
-    mvrnorm(n = n.sample.in.cluster[i], mu = effect, Sigma = cov.str)
-    })
-  return(d)
+  d <- lapply(1:n.cluster,function(i) {
+    effect <- (rho.m.e*methyl.gene.level.mean+sqrt(1-rho.m.e^2)*mean.expr) + DEG[,i]*delta.expr
+    mvrnorm(n=n.sample.in.cluster[i], mu=effect, Sigma=cov.str)})
   sim.expr <- do.call(rbind,d)
   
   #---------------------
@@ -168,31 +143,25 @@ myInterSIM <- function(n.sample = 500,
   n.protein <- ncol(cov.protein) 							       # Number of genes in the data
   # Covariance structure
   if (!is.null(sigma.protein)){
-    if (is.matrix(sigma.protein)) {
-      cov.str <- sigma.protein  # User defined covariance structure
-    } else {
-      if (sigma.protein == "indep") {
-        cov.str <- diag(diag(cov.protein))  # Independent features
-      }
-    }
-    # if (sigma.protein == "indep") cov.str <- diag(diag(cov.protein))# Independent features
-    # else cov.str <- sigma.protein                                 # User defined covariance structure
+    if (!(is.matrix(sigma.protein))) {
+      if ((sigma.protein=="indep")) cov.str <- diag(diag(cov.protein))# Independent features 
+    } else cov.str <- sigma.protein                                 # User defined covariance structure
   } else cov.str <- cov.protein   							      # Dependent features based on the original data
   # Correlation between gene expression and protein expression
   if (!is.null(cor.expr.protein)){
     rho.e.p <- cor.expr.protein 							   # User defined correlation, single value or vector
-  } else rho.e.p <- rho.expr.protein                             # Real corrrelation between mRNA and protein
+  } else rho.e.p <- rho.expr.protein                             # Real correlation between mRNA and protein
   # Differenatially expressed proteins (DEP)
   if (!is.null(p.DEP)){
-    DEP <- sapply(1:n.cluster, function(x) rbinom(n.protein, 1, prob = p.DEP))
+    DEP <- sapply(1:n.cluster,function(x) rbinom(n.protein, 1, prob = p.DEP))
     rownames(DEP) <- names(mean.protein)
-  } else { DEP <- sapply(1:n.cluster, function(x){
-    gene.name <- rownames(subset(DEG, DEG[ , x]==1))
+  } else { DEP <- sapply(1:n.cluster,function(x){
+    gene.name <- rownames(subset(DEG,DEG[,x]==1))
     protein.name <- rownames(protein.gene.map.for.DEP[protein.gene.map.for.DEP$gene %in% gene.name,])
     as.numeric(names(mean.protein) %in% protein.name)})
   rownames(DEP) <- names(mean.protein)}
-  if(delta.protein == 0) rho.e.p <- 0
-  d <- lapply(1:n.cluster, function(i) {
+  if(delta.protein==0) rho.e.p <- 0
+  d <- lapply(1:n.cluster,function(i) {
     effect <- (rho.e.p*mean.expr.with.mapped.protein+sqrt(1-rho.e.p^2)*mean.protein) + DEP[,i]*delta.protein
     mvrnorm(n=n.sample.in.cluster[i], mu=effect, Sigma=cov.str)})
   sim.protein <- do.call(rbind,d)
@@ -237,8 +206,12 @@ myInterSIM <- function(n.sample = 500,
       aheatmap(t(sim.expr),color=hmcol,Rowv=NA, Colv=NA, labRow=NA, labCol=NA,annLegend=T,main="Gene expression",fontsize=8,breaks=0.5)
       aheatmap(t(sim.protein),color=hmcol,Rowv=NA, Colv=NA, labRow=NA, labCol=NA,annLegend=T,main="Protein expression",fontsize=8,breaks=0.5)}
   }
-  return(list(dat.methyl=sim.methyl,dat.expr=sim.expr,dat.protein=sim.protein,clustering.assignment=d.cluster))
+  return(list(dat.methyl = sim.methyl, 
+              dat.expr = sim.expr, 
+              dat.protein = sim.protein, 
+              clustering.assignment = d.cluster))
 }
+
 #' simOmicsData uses `myInterSIM` simulate a two-class-problem with possible
 #' modality-specific missing values in training and testing data. 
 #'
@@ -253,7 +226,6 @@ simOmicsData <- function (training_prop = 0.8,
                           prop_missing_test = 0,
                           ...) {
   train_sim_data <- myInterSIM(...)
-  # return(train_sim_data)
   # Convert classes into binary.
   disease <- factor(
     as.integer(
