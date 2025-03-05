@@ -30,7 +30,7 @@ set.seed(3252)
 prop <- c(0.5, 0.5)
 effect <- 0.5
 start_time <- Sys.time()
-multi_omics <- simOmicsData(n.sample = 100,
+multi_omics <- simOmicsData(n.sample = 500,
                             cluster.sample.prop = prop,
                             delta.methyl = effect,
                             delta.expr = effect,

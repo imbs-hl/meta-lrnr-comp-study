@@ -102,11 +102,16 @@ myInterSIM <- function(n.sample=500,cluster.sample.prop=c(0.30,0.30,0.40),
   # Differenatially methylated CpGs (DMP)
   DMP <- sapply(1:n.cluster,function(x) rbinom(n.CpG, 1, prob = p.DMP))
   rownames(DMP) <- names(mean.M)
-  d <- lapply(1:n.cluster,function(i) {
+  if (delta.methyl == 0) {
     effect <- mean.M + DMP[,i]*delta.methyl
-    mvrnorm(n=n.sample.in.cluster[i], mu=effect, Sigma=cov.str)})
-  sim.methyl <- do.call(rbind,d)
-  sim.methyl <- rev.logit(sim.methyl) 						 # Transform back to beta values between (0,1)
+    sim.methyl <- mvrnorm(n=n.sample, mu=effect, Sigma=cov.str)
+  } else {
+    d <- lapply(1:n.cluster,function(i) {
+      effect <- mean.M + DMP[,i]*delta.methyl
+      mvrnorm(n=n.sample.in.cluster[i], mu=effect, Sigma=cov.str)})
+    sim.methyl <- do.call(rbind,d)
+    sim.methyl <- rev.logit(sim.methyl) 						 # Transform back to beta values between (0,1)
+  }
   
   #-------------------
   # Gene expression
@@ -131,11 +136,16 @@ myInterSIM <- function(n.sample=500,cluster.sample.prop=c(0.30,0.30,0.40),
     gene.name <- as.character(CpG.gene.map.for.DEG[cg.name,]$tmp.gene)
     as.numeric(names(mean.expr) %in% gene.name)})
   rownames(DEG) <- names(mean.expr)}
-  if(delta.expr==0) rho.m.e <- 0
-  d <- lapply(1:n.cluster,function(i) {
+  if(delta.expr==0){
+    rho.m.e <- 0
     effect <- (rho.m.e*methyl.gene.level.mean+sqrt(1-rho.m.e^2)*mean.expr) + DEG[,i]*delta.expr
-    mvrnorm(n=n.sample.in.cluster[i], mu=effect, Sigma=cov.str)})
-  sim.expr <- do.call(rbind,d)
+    sim.expr <- mvrnorm(n=n.sample, mu=effect, Sigma=cov.str)
+  } else {
+    d <- lapply(1:n.cluster,function(i) {
+      effect <- (rho.m.e*methyl.gene.level.mean+sqrt(1-rho.m.e^2)*mean.expr) + DEG[,i]*delta.expr
+      mvrnorm(n=n.sample.in.cluster[i], mu=effect, Sigma=cov.str)})
+    sim.expr <- do.call(rbind,d)
+  }
   
   #---------------------
   # Protein Expression
@@ -160,11 +170,16 @@ myInterSIM <- function(n.sample=500,cluster.sample.prop=c(0.30,0.30,0.40),
     protein.name <- rownames(protein.gene.map.for.DEP[protein.gene.map.for.DEP$gene %in% gene.name,])
     as.numeric(names(mean.protein) %in% protein.name)})
   rownames(DEP) <- names(mean.protein)}
-  if(delta.protein==0) rho.e.p <- 0
-  d <- lapply(1:n.cluster,function(i) {
+  if(delta.protein==0) {
+    rho.e.p <- 0
     effect <- (rho.e.p*mean.expr.with.mapped.protein+sqrt(1-rho.e.p^2)*mean.protein) + DEP[,i]*delta.protein
-    mvrnorm(n=n.sample.in.cluster[i], mu=effect, Sigma=cov.str)})
-  sim.protein <- do.call(rbind,d)
+    mvrnorm(n=n.sample, mu=effect, Sigma=cov.str)
+  } else {
+    d <- lapply(1:n.cluster,function(i) {
+      effect <- (rho.e.p*mean.expr.with.mapped.protein+sqrt(1-rho.e.p^2)*mean.protein) + DEP[,i]*delta.protein
+      mvrnorm(n=n.sample.in.cluster[i], mu=effect, Sigma=cov.str)})
+    sim.protein <- do.call(rbind,d)
+  }
   
   # Randomly order the samples in the data
   indices <- sample(1:n.sample)
