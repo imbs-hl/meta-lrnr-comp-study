@@ -49,9 +49,9 @@ simuldata <- function(seed,
   # Start simulation
   set.seed(seed)
   multi_omics <- simOmicsData(n.sample = n.sample,
-                              cluster.sample.prop = prop,
-                              delta.methyl = effect,
-                              delta.expr = effect,
+                              cluster.sample.prop = cluster.sample.prop,
+                              delta.methyl = delta.methyl,
+                              delta.expr = delta.expr,
                               delta.protein = delta.protein,
                               p.DMP = p.DMP,
                               p.DEG = p.DEG,
