@@ -114,6 +114,6 @@ data_effect_def <- file.path(data_dir, "effect_def")
 dir.create(data_effect_def, showWarnings = FALSE, recursive = TRUE)
 
 # Registry dir
-registry_dir <- file.path(working_dir, "data")
+registry_dir <- file.path(working_dir, "registry")
 dir.create(registry_dir, showWarnings = FALSE, recursive = TRUE)
 
