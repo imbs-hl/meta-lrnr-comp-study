@@ -76,6 +76,7 @@ library(ggplot2)
 library(batchtools)
 library(InterSIM)
 library(this.path)
+library(MASS)
 
 # Load required package to estimate the empirical correlation matrices.
 library(corpcor)
