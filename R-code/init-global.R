@@ -32,7 +32,7 @@ if(!interactive_session){
   config_file <- file.path(code_dir, "batchtools-config/batchtools.conf.R")
   template <- file.path(code_dir, "batchtools-config/.batchtools.slurm.tmpl")
   ##  (e.g. SLURM) Node, partition and account (See batchtools for details)
-  nodename <- "login01"
+  nodename <- "login001"
   partition <- "batch"
   account <- "p23048"
 } else {
