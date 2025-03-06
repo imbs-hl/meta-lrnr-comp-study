@@ -1,7 +1,7 @@
 simuldata <- function(seed,
                       intersim_path,
-                      empirical_param_prefix,
                       save_path,
+                      empirical_param_prefix,
                       n.sample = 500,
                       cluster.sample.prop = c(0.5, 0.5),
                       delta.methyl,
@@ -15,7 +15,9 @@ simuldata <- function(seed,
                       feature.cluster = FALSE,
                       training_prop = 0.8,
                       prop_missing_train = 0,
-                      prop_missing_test = 0) {
+                      prop_missing_test = 0,
+                      function_dir) {
+  source(file.path(function_dir, "myInterSIM.R"))
   # Load global InterSIM's global variables
   # Protein parameters
   mean.protein <- readRDS(file = file.path(empirical_param_prefix,

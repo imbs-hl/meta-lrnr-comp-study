@@ -1,4 +1,4 @@
-source(file.path(code_dir, "myInterSIM.R"))
+source(file.path(function_dir, "myInterSIM.R"))
 
 # Load global InterSIM's global variables
 
