@@ -29,7 +29,7 @@ code_dir <- file.path(proc_dir, "R-code")
 if(!interactive_session){
   ## Provide a configuration and a template file
   ## Example: template <- file.path(code_dir, "batchtools-config/.batchtools.slurm.tmpl")
-  config_file <- file.path(code_dir, "batchtools-config/.batchtools.conf.R")
+  config_file <- file.path(code_dir, "batchtools-config/batchtools.conf.R")
   template <- file.path(code_dir, "batchtools-config/.batchtools.slurm.tmpl")
   ##  (e.g. SLURM) Node, partition and account (See batchtools for details)
   nodename <- "login01"
