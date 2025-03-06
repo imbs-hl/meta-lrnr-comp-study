@@ -1,0 +1,72 @@
+simuldata <- function(seed,
+                      intersim_path,
+                      empirical_param_prefix,
+                      save_path,
+                      n.sample = 500,
+                      cluster.sample.prop = c(0.5, 0.5),
+                      delta.methyl = 0.5,
+                      delta.expr = 0.5,
+                      delta.protein = 0L,
+                      p.DMP = 0.2,
+                      p.DEG = NULL,
+                      p.DEP = NULL,
+                      do.plot = FALSE,
+                      sample.cluster = TRUE,
+                      feature.cluster = FALSE,
+                      training_prop = 0.8,
+                      prop_missing_train = 0,
+                      prop_missing_test = 0) {
+  # Load global InterSIM's global variables
+  # Protein parameters
+  mean.protein <- readRDS(file = file.path(empirical_param_prefix,
+                                           "mean_protein.rds"))
+  cov.protein <- readRDS(file = file.path(empirical_param_prefix,
+                                          "cov_protein.rds"))
+  protein.gene.map.for.DEP <- readRDS(
+    file = file.path(empirical_param_prefix, "protein_gene_map_for_DEP.rds"))
+  mean.expr.with.mapped.protein <- readRDS(
+    file = file.path(empirical_param_prefix,
+                     "mean_expr_with_mapped_protein.rds"))
+  # Methylation parameters
+  mean.M <- readRDS(file = file.path(empirical_param_prefix, "mean_M.rds"))
+  cov.M <- readRDS(file = file.path(empirical_param_prefix, "cov_M.rds"))
+  CpG.gene.map.for_DEG <- readRDS(
+    file = file.path(empirical_param_prefix, "CpG_gene_map_for_DEG.rds"))
+  methyl.gene.level.mean <- readRDS(
+    file = file.path(empirical_param_prefix, "methyl_gene_level_mean.rds"))
+  # Gene expression parameters
+  mean.expr <- readRDS(file = file.path(empirical_param_prefix,
+                                        "mean_expr.rds"))
+  cov.expr <- readRDS(file = file.path(empirical_param_prefix,
+                                       "cov_expr.rds"))
+  # Methylation-gene and protein-gene correlation estimates
+  rho.methyl.expr <- readRDS(file = file.path(empirical_param_prefix,
+                                              "rho_methyl_expr.rds"))
+  rho.expr.protein <- readRDS(file = file.path(empirical_param_prefix,
+                                               "rho_expr_protein.rds"))
+  # Start simulation
+  set.seed(seed)
+  multi_omics <- simOmicsData(n.sample = n.sample,
+                              cluster.sample.prop = prop,
+                              delta.methyl = effect,
+                              delta.expr = effect,
+                              delta.protein = delta.protein,
+                              p.DMP = p.DMP,
+                              p.DEG = p.DEG,
+                              p.DEP = p.DEP,
+                              sigma.methyl = cov.M,
+                              sigma.expr = cov.expr,
+                              sigma.protein = cov.protein,
+                              cor.methyl.expr = rho.methyl.expr,
+                              cor.expr.protein = rho.expr.protein,
+                              do.plot = do.plot,
+                              sample.cluster = sample.cluster,
+                              feature.cluster = feature.cluster,
+                              training_prop = training_prop,
+                              prop_missing_train = prop_missing_train,
+                              prop_missing_test = prop_missing_test)
+  # Save the data
+  dir.create(save_path, recursive = TRUE, showWarnings = FALSE)
+  saveRDS(object = multi_omics, file = save_path)
+  return(save_path)
+}

@@ -1,0 +1,46 @@
+#!/bin/bash
+<%
+# relative paths are not handled well by Slurm
+log.file = normalizePath(log.file, winslash = "/", mustWork = FALSE)
+-%>
+
+#SBATCH --job-name=<%= resources$name %>
+## direct streams to our logfile
+#SBATCH --output=<%= log.file %>
+#SBATCH --error=<%= log.file %>
+## set resources
+#SBATCH --time=<%= resources$walltime %>
+#SBATCH --ntasks=<%= resources$ntasks %>
+#SBATCH --cpus-per-task=<%= resources$ncpus %>
+#SBATCH --mem=<%= resources$memory %>
+<%=
+if(!is.null(resources$partition)) {
+  paste0("#SBATCH --partition=", resources$partition)
+}
+%>
+<%=
+if(!is.null(resources$nice)) {
+  paste0("#SBATCH --nice=", resources$nice)
+}
+%>
+<%=
+if(!is.null(resources$account)) {
+  paste0("#SBATCH --account=", resources$account)
+}
+%>
+## remove this line if your cluster does not support arrayjobs
+## #SBATCH --array=1-<%= n.array.jobs %>
+<%= if (array.jobs) sprintf("#SBATCH --array=1-%i", nrow(jobs)) else "" %>
+
+## Initialize work environment like
+## source /etc/profile
+## module add ...
+<%
+r_version <- paste0(R.Version()$major, ".", R.Version()$minor)
+-%>
+module load R/<%= r_version %>
+
+## Export value of DEBUGME environemnt var to slave
+export DEBUGME=<%= Sys.getenv("DEBUGME") %>
+
+Rscript -e 'batchtools::doJobCollection("<%= uri %>")'
