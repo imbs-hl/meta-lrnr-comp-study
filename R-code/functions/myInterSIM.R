@@ -92,9 +92,7 @@ myInterSIM <- function(n.sample=500,cluster.sample.prop=c(0.30,0.30,0.40),
   #-----------------
   # Methylation
   #-----------------
-  print("I am here....")
   n.CpG <- ncol(cov.M) 								# Number of CpG probes  in the data
-  print(dim(cov.M))
   # Covariance structure
   if (!is.null(sigma.methyl)){
     if (!is.matrix(sigma.methyl)){
