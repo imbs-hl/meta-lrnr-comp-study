@@ -57,3 +57,36 @@ print(runtime)
 saveRDS(object = multi_omics,
         file = file.path(data_simulation, "multi_omics.rds"))
 multi_omics <- readRDS(file.path(data_simulation, "multi_omics.rds"))
+
+# Test fuer NULL effect
+set.seed(3252)
+prop <- c(0.5, 0.5)
+effect <- 0.5
+start_time <- Sys.time()
+multi_omics_null <- simOmicsData(n.sample = 500,
+                            cluster.sample.prop = prop,
+                            delta.methyl = 0,
+                            delta.expr = 0,
+                            delta.protein = 0L,
+                            p.DMP = 0.2,
+                            p.DEG = NULL,
+                            p.DEP = NULL,
+                            sigma.methyl = cov.M,
+                            sigma.expr = cov.expr,
+                            sigma.protein = cov.protein,
+                            cor.methyl.expr = rho.methyl.expr,
+                            cor.expr.protein = rho.expr.protein,
+                            do.plot = FALSE,
+                            sample.cluster = TRUE,
+                            feature.cluster = FALSE,
+                            training_prop = 0.8,
+                            prop_missing_train = 0,
+                            prop_missing_test = 0)
+end_time <- Sys.time()
+runtime <- end_time - start_time
+print(runtime)
+
+# Save this as test data
+saveRDS(object = multi_omics_null,
+        file = file.path(data_simulation, "multi_omics_null.rds"))
+multi_omics_null <- readRDS(file.path(data_simulation, "multi_omics_null.rds"))
