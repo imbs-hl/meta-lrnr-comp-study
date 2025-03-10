@@ -51,7 +51,8 @@ source(file.path(file.path(code_dir, "functions"),
 # install.packages("ggplot2")
 # install.packages("batchtools")
 # install.packages("InterSIM")
-# install.packages(this.path)
+# install.packages("this.path")
+# install.packages("mgcv")
 
 # Install required package to estimate the empirical correlation matrices.
 # install.packages(corpcor)
@@ -77,6 +78,7 @@ library(batchtools)
 library(InterSIM)
 library(this.path)
 library(MASS)
+library(mgcv)
 
 # Load required package to estimate the empirical correlation matrices.
 library(corpcor)

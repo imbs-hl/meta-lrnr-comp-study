@@ -32,7 +32,7 @@ simuldata <- function(seed,
   # Methylation parameters
   mean.M <<- readRDS(file = file.path(empirical_param_prefix, "mean_M.rds"))
   cov.M <<- readRDS(file = file.path(empirical_param_prefix, "cov_M.rds"))
-  CpG.gene.map.for_DEG <<- readRDS(
+  CpG.gene.map.for.DEG <<- readRDS(
     file = file.path(empirical_param_prefix, "CpG_gene_map_for_DEG.rds"))
   methyl.gene.level.mean <<- readRDS(
     file = file.path(empirical_param_prefix, "methyl_gene_level_mean.rds"))
@@ -68,7 +68,7 @@ simuldata <- function(seed,
                               prop_missing_train = prop_missing_train,
                               prop_missing_test = prop_missing_test)
   # Save the data
-  dir.create(save_path, recursive = TRUE, showWarnings = FALSE)
+  dir.create(dirname(save_path), recursive = TRUE, showWarnings = FALSE)
   saveRDS(object = multi_omics, file = save_path)
   return(save_path)
 }

@@ -104,11 +104,14 @@ myInterSIM <- function(n.sample=500,cluster.sample.prop=c(0.30,0.30,0.40),
   rownames(DMP) <- names(mean.M)
   if (delta.methyl == 0) {
     effect <- mean.M 
-    sim.methyl <- mvrnorm(n=n.sample, mu=effect, Sigma=cov.str)
+    # sim.methyl <- mvrnorm(n=n.sample, mu=effect, Sigma=cov.str)
+    sim.methyl <- rmvn(n=n.sample, mu=effect, V=cov.str)
   } else {
     d <- lapply(1:n.cluster,function(i) {
       effect <- mean.M + DMP[,i]*delta.methyl
-      mvrnorm(n=n.sample.in.cluster[i], mu=effect, Sigma=cov.str)})
+      # mvrnorm(n=n.sample.in.cluster[i], mu=effect, Sigma=cov.str)
+      rmvn(n=n.sample.in.cluster[i], mu=effect, V=cov.str)
+      })
     sim.methyl <- do.call(rbind,d)
     sim.methyl <- rev.logit(sim.methyl) 						 # Transform back to beta values between (0,1)
   }
@@ -139,11 +142,14 @@ myInterSIM <- function(n.sample=500,cluster.sample.prop=c(0.30,0.30,0.40),
   if(delta.expr==0){
     rho.m.e <- 0
     effect <- mean.expr
-    sim.expr <- mvrnorm(n=n.sample, mu=effect, Sigma=cov.str)
+    # sim.expr <- mvrnorm(n=n.sample, mu=effect, Sigma=cov.str)
+    sim.expr <- rmvn(n=n.sample, mu=effect, V=cov.str)
   } else {
     d <- lapply(1:n.cluster,function(i) {
       effect <- (rho.m.e*methyl.gene.level.mean+sqrt(1-rho.m.e^2)*mean.expr) + DEG[,i]*delta.expr
-      mvrnorm(n=n.sample.in.cluster[i], mu=effect, Sigma=cov.str)})
+      # mvrnorm(n=n.sample.in.cluster[i], mu=effect, Sigma=cov.str)
+      rmvn(n=n.sample.in.cluster[i], mu=effect, V=cov.str)
+      })
     sim.expr <- do.call(rbind,d)
   }
   
@@ -173,11 +179,14 @@ myInterSIM <- function(n.sample=500,cluster.sample.prop=c(0.30,0.30,0.40),
   if(delta.protein==0) {
     rho.e.p <- 0
     effect <- mean.protein
-    sim.protein <- mvrnorm(n=n.sample, mu=effect, Sigma=cov.str)
+    # sim.protein <- mvrnorm(n=n.sample, mu=effect, Sigma=cov.str)
+    sim.protein <- rmvn(n=n.sample, mu=effect, V=cov.str)
   } else {
     d <- lapply(1:n.cluster,function(i) {
       effect <- (rho.e.p*mean.expr.with.mapped.protein+sqrt(1-rho.e.p^2)*mean.protein) + DEP[,i]*delta.protein
-      mvrnorm(n=n.sample.in.cluster[i], mu=effect, Sigma=cov.str)})
+      # mvrnorm(n=n.sample.in.cluster[i], mu=effect, Sigma=cov.str)
+      rmvn(n=n.sample.in.cluster[i], mu=effect, V=cov.str)
+      })
     sim.protein <- do.call(rbind,d)
   }
   

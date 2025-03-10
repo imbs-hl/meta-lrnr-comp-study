@@ -4,9 +4,9 @@ source(file.path(code_dir, "01-effect-definition/init.R"), chdir = TRUE)
 # param_df <- expand.grid(delta.methyl = c(0, 0.001, 0.01, 0.1), 
 #                         delta.expr = c(0, 0.01, 0.1, 1), 
 #                         delta.protein = c(0, 0.001, 0.01, 0.1))
-param_df <- expand.grid(delta.methyl = c(0, 0.001, 0.01, 0.1), 
-                        delta.expr = c(0, 0, 0, 0), 
-                        delta.protein = c(0, 0, 0, 0))
+param_df <- expand.grid(delta.methyl = c(0, 0.001, 0.01, 0.1, 0.2), 
+                        delta.expr = c(0, 0, 0, 0, 0), 
+                        delta.protein = c(0, 0, 0, 0, 0))
 # Add seeds
 set.seed(123)
 random_integers <- sample(1:2000, nrow(param_df), replace = FALSE)
@@ -39,7 +39,7 @@ run_boruta10 <- wrap_batchtools(reg_name = "01-effect-definition",
                                 ),
                                 name = "methyl-data",
                                 overwrite = TRUE,
-                                memory = "10g",
+                                memory = "25g",
                                 n_cpus = no.threads,
                                 walltime = "0",
                                 sleep = 5,
@@ -49,8 +49,8 @@ run_boruta10 <- wrap_batchtools(reg_name = "01-effect-definition",
                                 wait_for_jobs = FALSE,
                                 packages = c(
                                   "devtools",
-                                  "Pomona",
-                                  "data.table"
+                                  "data.table",
+                                  "MASS"
                                 ),
                                 config_file = config_file,
                                 interactive_session = interactive_session)
