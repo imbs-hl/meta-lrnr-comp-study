@@ -23,31 +23,31 @@ simuldata <- function(seed,
   source(file.path(function_dir, "myInterSIM.R"))
   # Load global InterSIM's global variables
   # Protein parameters
-  mean_protein <<- readRDS(file = file.path(empirical_param_prefix,
+  mean.protein <<- readRDS(file = file.path(empirical_param_prefix,
                                            "mean_protein.rds"))
-  cov_protein <<- readRDS(file = file.path(empirical_param_prefix,
+  cov.protein <<- readRDS(file = file.path(empirical_param_prefix,
                                           "cov_protein.rds"))
-  protein_gene_map_for_DEP <<- readRDS(
+  protein.gene.map.for.DEP <<- readRDS(
     file = file.path(empirical_param_prefix, "protein_gene_map_for_DEP.rds"))
-  mean_expr_with_mapped_protein <<- readRDS(
+  mean.expr.with.mapped.protein <<- readRDS(
     file = file.path(empirical_param_prefix,
                      "mean_expr_with_mapped_protein.rds"))
   # Methylation parameters
-  mean_M <<- readRDS(file = file.path(empirical_param_prefix, "mean_M.rds"))
-  cov_M <<- readRDS(file = file.path(empirical_param_prefix, "cov_M.rds"))
-  CpG_gene_map_for_DEG <<- readRDS(
+  mean.M <<- readRDS(file = file.path(empirical_param_prefix, "mean_M.rds"))
+  cov.M <<- readRDS(file = file.path(empirical_param_prefix, "cov_M.rds"))
+  CpG.gene.map.for.DEG <<- readRDS(
     file = file.path(empirical_param_prefix, "CpG_gene_map_for_DEG.rds"))
-  methyl_gene_level_mean <<- readRDS(
+  methyl.gene.level.mean <<- readRDS(
     file = file.path(empirical_param_prefix, "methyl_gene_level_mean.rds"))
   # Gene expression parameters
-  mean_expr <<- readRDS(file = file.path(empirical_param_prefix,
+  mean.expr <<- readRDS(file = file.path(empirical_param_prefix,
                                         "mean_expr.rds"))
-  cov_expr <<- readRDS(file = file.path(empirical_param_prefix,
+  cov.expr <<- readRDS(file = file.path(empirical_param_prefix,
                                        "cov_expr.rds"))
   # Methylation-gene and protein-gene correlation estimates
-  rho_methyl_expr <<- readRDS(file = file.path(empirical_param_prefix,
+  rho.methyl.expr <<- readRDS(file = file.path(empirical_param_prefix,
                                               "rho_methyl_expr.rds"))
-  rho_expr_protein <<- readRDS(file = file.path(empirical_param_prefix,
+  rho.expr.protein <<- readRDS(file = file.path(empirical_param_prefix,
                                                "rho_expr_protein.rds"))
   # Start simulation
   set.seed(seed)
