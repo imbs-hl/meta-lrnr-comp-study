@@ -23,31 +23,31 @@ simuldata <- function(seed,
   source(file.path(function_dir, "myInterSIM.R"))
   # Load global InterSIM's global variables
   # Protein parameters
-  mean.protein <<- readRDS(file = file.path(empirical_param_prefix,
+  mean_protein <<- readRDS(file = file.path(empirical_param_prefix,
                                            "mean_protein.rds"))
-  cov.protein <<- readRDS(file = file.path(empirical_param_prefix,
+  cov_protein <<- readRDS(file = file.path(empirical_param_prefix,
                                           "cov_protein.rds"))
-  protein.gene.map.for.DEP <<- readRDS(
+  protein_gene_map_for_DEP <<- readRDS(
     file = file.path(empirical_param_prefix, "protein_gene_map_for_DEP.rds"))
-  mean.expr.with.mapped.protein <<- readRDS(
+  mean_expr_with_mapped_protein <<- readRDS(
     file = file.path(empirical_param_prefix,
                      "mean_expr_with_mapped_protein.rds"))
   # Methylation parameters
-  mean.M <<- readRDS(file = file.path(empirical_param_prefix, "mean_M.rds"))
-  cov.M <<- readRDS(file = file.path(empirical_param_prefix, "cov_M.rds"))
-  CpG.gene.map.for.DEG <<- readRDS(
+  mean_M <<- readRDS(file = file.path(empirical_param_prefix, "mean_M.rds"))
+  cov_M <<- readRDS(file = file.path(empirical_param_prefix, "cov_M.rds"))
+  CpG_gene_map_for_DEG <<- readRDS(
     file = file.path(empirical_param_prefix, "CpG_gene_map_for_DEG.rds"))
-  methyl.gene.level.mean <<- readRDS(
+  methyl_gene_level_mean <<- readRDS(
     file = file.path(empirical_param_prefix, "methyl_gene_level_mean.rds"))
   # Gene expression parameters
-  mean.expr <<- readRDS(file = file.path(empirical_param_prefix,
+  mean_expr <<- readRDS(file = file.path(empirical_param_prefix,
                                         "mean_expr.rds"))
-  cov.expr <<- readRDS(file = file.path(empirical_param_prefix,
+  cov_expr <<- readRDS(file = file.path(empirical_param_prefix,
                                        "cov_expr.rds"))
   # Methylation-gene and protein-gene correlation estimates
-  rho.methyl.expr <<- readRDS(file = file.path(empirical_param_prefix,
+  rho_methyl_expr <<- readRDS(file = file.path(empirical_param_prefix,
                                               "rho_methyl_expr.rds"))
-  rho.expr.protein <<- readRDS(file = file.path(empirical_param_prefix,
+  rho_expr_protein <<- readRDS(file = file.path(empirical_param_prefix,
                                                "rho_expr_protein.rds"))
   # Start simulation
   set.seed(seed)
@@ -59,11 +59,11 @@ simuldata <- function(seed,
                               p.DMP = p.DMP,
                               p.DEG = p.DEG,
                               p.DEP = p.DEP,
-                              sigma.methyl = cov.M,
-                              sigma.expr = cov.expr,
-                              sigma.protein = cov.protein,
-                              cor.methyl.expr = rho.methyl.expr,
-                              cor.expr.protein = rho.expr.protein,
+                              sigma.methyl = cov_M,
+                              sigma.expr = cov_expr,
+                              sigma.protein = cov_protein,
+                              cor.methyl.expr = rho_methyl_expr,
+                              cor.expr.protein = rho_expr_protein,
                               do.plot = do.plot,
                               sample.cluster = sample.cluster,
                               feature.cluster = feature.cluster,

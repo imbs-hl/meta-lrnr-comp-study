@@ -16,7 +16,7 @@ param_df_proexpr$save_path <- file.path(data_effect_def,
                                               paste(param_df_proexpr$seed, "rds", sep = "."),
                                               sep = "/"))
 ## Send jobs
-no.threads <- 1
+no.threads <- 5
 run_boruta10 <- wrap_batchtools(reg_name = "01-effect-def-proexpr",
                                 work_dir = working_dir,
                                 reg_dir = registry_dir,
@@ -43,14 +43,15 @@ run_boruta10 <- wrap_batchtools(reg_name = "01-effect-def-proexpr",
                                 n_cpus = no.threads,
                                 walltime = "0",
                                 sleep = 5,
-                                partition = partition, ## Set partition in init-global
+                                partition = "batch", ## Set partition in init-global
                                 account = "imbs", ## Set account in init-global
                                 test_job = FALSE,
                                 wait_for_jobs = FALSE,
                                 packages = c(
                                   "devtools",
                                   "data.table",
-                                  "mgcv"
+                                  "mgcv",
+                                  "InterSIM"
                                 ),
                                 config_file = config_file,
                                 interactive_session = interactive_session)

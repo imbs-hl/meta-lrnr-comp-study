@@ -3,7 +3,10 @@
 # TODO: Include ranger hyperparameter as arguments of single_replicate.
 single_replicate <- function (
     data_file = file.path(data_simulation, "multi_omics.rds"),
-    seed = 124
+    seed = 124,
+    delta.methyl = param_df$delta.methyl,
+    delta.expr = param_df$delta.expr,
+    delta.protein = param_df$delta.protein
 ) {
   multi_omics <- readRDS(data_file)
   # Set up a training object
@@ -18,12 +21,12 @@ single_replicate <- function (
                    train_data = multi_omics$training$methylation,
                    varsel_package = "Boruta",
                    varsel_fct = "Boruta",
-                   varsel_param = list(num.trees = 1000L,
-                                       # mtry = 3L,
+                   varsel_param = list(num.trees = 5L,
+                                       mtry = 3L,
                                        probability = TRUE),
                    lrner_package = "ranger",
                    lrn_fct = "ranger",
-                   param_train_list = list(num.trees = 500L,
+                   param_train_list = list(num.trees = 5L,
                                            probability = TRUE,
                                            mtry = 1L),
                    param_pred_list = list(),
@@ -34,8 +37,8 @@ single_replicate <- function (
                    train_data = multi_omics$training$geneexpr,
                    varsel_package = "Boruta",
                    varsel_fct = "Boruta",
-                   varsel_param = list(num.trees = 1000L,
-                                       # mtry = 3L,
+                   varsel_param = list(num.trees = 5L,
+                                       mtry = 3L,
                                        probability = TRUE),
                    lrner_package = "ranger",
                    lrn_fct = "ranger",
@@ -50,8 +53,8 @@ single_replicate <- function (
                    train_data = multi_omics$training$proteinexpr,
                    varsel_package = "Boruta",
                    varsel_fct = "Boruta",
-                   varsel_param = list(num.trees = 1000L,
-                                       # mtry = 3L,
+                   varsel_param = list(num.trees = 5L,
+                                       mtry = 3L,
                                        probability = TRUE),
                    lrner_package = "ranger",
                    lrn_fct = "ranger",
@@ -72,7 +75,6 @@ single_replicate <- function (
   set.seed(seed)
   fusemlr(training = training,
           use_var_sel = TRUE)
-  
   # Create testing for predictions
   testing <- createTesting(id = "testing",
                            ind_col = "IDS")
@@ -103,13 +105,15 @@ single_replicate <- function (
     performances = rbind(bs, auc)
     return(performances)
   })
+  print(perf_bs)
   rownames(perf_bs) <- c("BS", "AUC")
   perf_bs <- as.data.frame(perf_bs)
   perf_bs$perf_measure <- rownames(perf_bs)
-  perf_bs$n <- n.sample
+  print("I am done....")
   perf_bs$delta.methyl <- delta.methyl
   perf_bs$delta.expr <- delta.expr
   perf_bs$delta.protein <- delta.protein
+  print("I am done....")
   # Save the Training object
   training_file <- file.path(dirname(data_file), 
                                      paste0(seed, "_meta.rds", collapse = ""))
@@ -118,4 +122,10 @@ single_replicate <- function (
 }
 
 # tmp <- single_replicate(data_file = file.path(data_simulation, "multi_omics_null.rds"))
-tmp <- single_replicate(data_file = "/imbs/projects/p23048/meta-lrnr-comp-study/data/effect_def/genexpr/665.rds")
+tmp <- single_replicate(
+  data_file = param_df$save_path[2],
+  seed = param_df$seed[2],
+  delta.methyl = param_df$delta.methyl[2],
+  delta.expr = param_df$delta.expr[2],
+  delta.protein = param_df$delta.protein[2]
+  )

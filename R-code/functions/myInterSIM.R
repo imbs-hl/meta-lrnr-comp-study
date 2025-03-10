@@ -136,7 +136,7 @@ myInterSIM <- function(n.sample=500,cluster.sample.prop=c(0.30,0.30,0.40),
     rownames(DEG) <- names(mean.expr)
   } else { DEG <- sapply(1:n.cluster,function(x){
     cg.name <- rownames(subset(DMP,DMP[,x]==1))
-    gene.name <- as.character(CpG.gene.map.for.DEG[cg.name,]$tmp.gene)
+    gene.name <- as.character(CpG_gene_map_for_DEG[cg.name,]$tmp.gene)
     as.numeric(names(mean.expr) %in% gene.name)})
   rownames(DEG) <- names(mean.expr)}
   if(delta.expr==0){
@@ -146,7 +146,7 @@ myInterSIM <- function(n.sample=500,cluster.sample.prop=c(0.30,0.30,0.40),
     sim.expr <- rmvn(n=n.sample, mu=effect, V=cov.str)
   } else {
     d <- lapply(1:n.cluster,function(i) {
-      effect <- (rho.m.e*methyl.gene.level.mean+sqrt(1-rho.m.e^2)*mean.expr) + DEG[,i]*delta.expr
+      effect <- (rho.m.e*methyl_gene_level_mean+sqrt(1-rho.m.e^2)*mean.expr) + DEG[,i]*delta.expr
       # mvrnorm(n=n.sample.in.cluster[i], mu=effect, Sigma=cov.str)
       rmvn(n=n.sample.in.cluster[i], mu=effect, V=cov.str)
       })
@@ -173,7 +173,7 @@ myInterSIM <- function(n.sample=500,cluster.sample.prop=c(0.30,0.30,0.40),
     rownames(DEP) <- names(mean.protein)
   } else { DEP <- sapply(1:n.cluster,function(x){
     gene.name <- rownames(subset(DEG,DEG[,x]==1))
-    protein.name <- rownames(protein.gene.map.for.DEP[protein.gene.map.for.DEP$gene %in% gene.name,])
+    protein.name <- rownames(protein_gene_map_for_DEP[protein_gene_map_for_DEP$gene %in% gene.name,])
     as.numeric(names(mean.protein) %in% protein.name)})
   rownames(DEP) <- names(mean.protein)}
   if(delta.protein==0) {
@@ -183,7 +183,7 @@ myInterSIM <- function(n.sample=500,cluster.sample.prop=c(0.30,0.30,0.40),
     sim.protein <- rmvn(n=n.sample, mu=effect, V=cov.str)
   } else {
     d <- lapply(1:n.cluster,function(i) {
-      effect <- (rho.e.p*mean.expr.with.mapped.protein+sqrt(1-rho.e.p^2)*mean.protein) + DEP[,i]*delta.protein
+      effect <- (rho.e.p*mean_expr_with_mapped_protein+sqrt(1-rho.e.p^2)*mean.protein) + DEP[,i]*delta.protein
       # mvrnorm(n=n.sample.in.cluster[i], mu=effect, Sigma=cov.str)
       rmvn(n=n.sample.in.cluster[i], mu=effect, V=cov.str)
       })
