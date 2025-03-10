@@ -17,6 +17,9 @@ simuldata <- function(seed,
                       prop_missing_train = 0,
                       prop_missing_test = 0,
                       function_dir) {
+  if (file.exists(save_path)) {
+    unlist(save_path)    
+  }
   source(file.path(function_dir, "myInterSIM.R"))
   # Load global InterSIM's global variables
   # Protein parameters

@@ -4,24 +4,24 @@ source(file.path(code_dir, "01-effect-definition/init.R"), chdir = TRUE)
 # param_df <- expand.grid(delta.methyl = c(0, 0.001, 0.01, 0.1), 
 #                         delta.expr = c(0, 0.01, 0.1, 1), 
 #                         delta.protein = c(0, 0.001, 0.01, 0.1))
-param_df <- expand.grid(delta.methyl = c(0, 0.001, 0.01, 0.1, 0.2), 
-                        delta.expr = c(0, 0, 0, 0, 0), 
-                        delta.protein = c(0, 0, 0, 0, 0))
+param_df_proexpr <- expand.grid(delta.methyl = c(0, 0, 0, 0, 0), 
+                                delta.expr = c(0, 0, 0, 0, 0), 
+                                delta.protein = c(0, 0.01, 0.05, 0.1, 1.5))
 # Add seeds
 set.seed(123)
-random_integers <- sample(1:2000, nrow(param_df), replace = FALSE)
-param_df$seed <- random_integers
-param_df$save_path <- file.path(data_effect_def,
-                                paste("methyl",
-                                      paste(param_df$seed, "rds", sep = "."),
-                                      sep = "/"))
+random_integers <- sample(1:2000, nrow(param_df_proexpr), replace = FALSE)
+param_df_proexpr$seed <- random_integers
+param_df_proexpr$save_path <- file.path(data_effect_def,
+                                        paste("proexpr",
+                                              paste(param_df_proexpr$seed, "rds", sep = "."),
+                                              sep = "/"))
 ## Send jobs
-no.threads <- 5
-run_boruta10 <- wrap_batchtools(reg_name = "01-effect-definition",
+no.threads <- 1
+run_boruta10 <- wrap_batchtools(reg_name = "01-effect-def-proexpr",
                                 work_dir = working_dir,
                                 reg_dir = registry_dir,
                                 r_function = simuldata,
-                                vec_args = param_df,
+                                vec_args = param_df_proexpr,
                                 more_args = list(
                                   empirical_param_prefix = data_tcga,
                                   n.sample = 300,
@@ -37,7 +37,7 @@ run_boruta10 <- wrap_batchtools(reg_name = "01-effect-definition",
                                   prop_missing_test = 0,
                                   function_dir = function_dir
                                 ),
-                                name = "methyl-data",
+                                name = "proexpr-data",
                                 overwrite = TRUE,
                                 memory = "25g",
                                 n_cpus = no.threads,
