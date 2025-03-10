@@ -21,6 +21,7 @@ simuldata <- function(seed,
     unlist(save_path)    
   }
   source(file.path(function_dir, "myInterSIM.R"))
+  library("InterSIM")
   # Load global InterSIM's global variables
   # Protein parameters
   mean.protein <<- readRDS(file = file.path(empirical_param_prefix,
@@ -59,11 +60,11 @@ simuldata <- function(seed,
                               p.DMP = p.DMP,
                               p.DEG = p.DEG,
                               p.DEP = p.DEP,
-                              sigma.methyl = cov_M,
-                              sigma.expr = cov_expr,
-                              sigma.protein = cov_protein,
-                              cor.methyl.expr = rho_methyl_expr,
-                              cor.expr.protein = rho_expr_protein,
+                              sigma.methyl = cov.M,
+                              sigma.expr = cov.expr,
+                              sigma.protein = cov.protein,
+                              cor.methyl.expr = rho.methyl.expr,
+                              cor.expr.protein = rho.expr.protein,
                               do.plot = do.plot,
                               sample.cluster = sample.cluster,
                               feature.cluster = feature.cluster,

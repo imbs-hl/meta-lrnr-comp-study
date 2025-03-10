@@ -50,8 +50,7 @@ run_boruta10 <- wrap_batchtools(reg_name = "01-effect-definition",
                                 packages = c(
                                   "devtools",
                                   "data.table",
-                                  "mgcv",
-                                  "InterSIM"
+                                  "mgcv"
                                 ),
                                 config_file = config_file,
                                 interactive_session = interactive_session)
