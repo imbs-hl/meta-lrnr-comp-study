@@ -13,17 +13,17 @@ reg_genexpr_train <- wrap_batchtools(reg_name = "02-def-genexpr-best",
                                        delta.protein = param_df_genexpr$delta.protein
                                      ),
                                      more_args = list(
-                                       num.tree.boruta.methyl = 15000L,
-                                       num.tree.ranger.methyl = 2000L,
+                                       num.tree.boruta.methyl = 5L,
+                                       num.tree.ranger.methyl = 2L,
                                        num.tree.boruta.genexpr = 2500L,
                                        num.tree.ranger.genexpr = 2000L,
-                                       num.tree.boruta.proexpr = 2500L,
-                                       num.tree.ranger.proexpr = 2000L
+                                       num.tree.boruta.proexpr = 25L,
+                                       num.tree.ranger.proexpr = 20L
                                      ),
                                      name = "genexpr-train",
                                      overwrite = TRUE,
                                      memory = "25g",
-                                     n_cpus = 5,
+                                     n_cpus = 15,
                                      walltime = "60",
                                      sleep = 5,
                                      partition = "prio", ## Set partition in init-global
