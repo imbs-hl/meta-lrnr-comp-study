@@ -73,13 +73,7 @@ single_run_best <- function (
                        meta_layer_id = "meta_layer",
                        lrner_package = NULL,
                        lrn_fct = "bestLayerLearner",
-                       param_train_list = list(
-                         perf = function(observed, predicted) {
-                             val_esti <- mean(x = (predicted - observed)^2, na.rm = TRUE)
-                               val_esti[is.na(val_esti)] <- .Machine$double.eps
-                             return(val_esti)
-                         }
-                       ),
+                       param_train_list = list(),
                        param_pred_list = list(na_rm = TRUE),
                        na_action = "na.rm")
   # Variable selection
