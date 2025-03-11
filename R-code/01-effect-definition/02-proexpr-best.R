@@ -1,7 +1,7 @@
 source(file.path(code_dir, "01-effect-definition/init.R"), chdir = TRUE)
 ## Send jobs
 no.threads <- 5
-run_boruta10 <- wrap_batchtools(reg_name = "02-def-proexpr-best",
+def_proexpr_best <- wrap_batchtools(reg_name = "02-def-proexpr-best",
                                 work_dir = working_dir,
                                 reg_dir = registry_dir,
                                 r_function = single_run_best,
@@ -13,10 +13,10 @@ run_boruta10 <- wrap_batchtools(reg_name = "02-def-proexpr-best",
                                   delta.protein = param_df_proexpr$delta.protein
                                 ),
                                 more_args = list(
-                                  num.tree.boruta.methyl = 15000L,
-                                  num.tree.ranger.methyl = 2000L,
-                                  num.tree.boruta.genexpr = 2500L,
-                                  num.tree.ranger.genexpr = 2000L,
+                                  num.tree.boruta.methyl = 5L,
+                                  num.tree.ranger.methyl = 2L,
+                                  num.tree.boruta.genexpr = 2L,
+                                  num.tree.ranger.genexpr = 2L,
                                   num.tree.boruta.proexpr = 2500L,
                                   num.tree.ranger.proexpr = 2000L
                                 ),
@@ -26,7 +26,7 @@ run_boruta10 <- wrap_batchtools(reg_name = "02-def-proexpr-best",
                                 n_cpus = 5,
                                 walltime = "60",
                                 sleep = 5,
-                                partition = "batch", ## Set partition in init-global
+                                partition = "prio", ## Set partition in init-global
                                 account = "p23048", ## Set account in init-global
                                 test_job = FALSE,
                                 wait_for_jobs = FALSE,
