@@ -1,27 +1,11 @@
 source(file.path(code_dir, "01-effect-definition/init.R"), chdir = TRUE)
-
-# Prepare parameters
-# param_df <- expand.grid(delta.methyl = c(0, 0.001, 0.01, 0.1), 
-#                         delta.expr = c(0, 0.01, 0.1, 1), 
-#                         delta.protein = c(0, 0.001, 0.01, 0.1))
-param_df <- expand.grid(delta.methyl = c(0, 0.001, 0.01, 0.1, 0.2), 
-                        delta.expr = c(0, 0, 0, 0, 0), 
-                        delta.protein = c(0, 0, 0, 0, 0))
-# Add seeds
-set.seed(123)
-random_integers <- sample(1:2000, nrow(param_df), replace = FALSE)
-param_df$seed <- random_integers
-param_df$save_path <- file.path(data_effect_def,
-                                paste("methyl",
-                                      paste(param_df$seed, "rds", sep = "."),
-                                      sep = "/"))
 ## Send jobs
 no.threads <- 5
 run_boruta10 <- wrap_batchtools(reg_name = "01-effect-definition",
                                 work_dir = working_dir,
                                 reg_dir = registry_dir,
                                 r_function = simuldata,
-                                vec_args = param_df,
+                                vec_args = param_df_methyl,
                                 more_args = list(
                                   empirical_param_prefix = data_tcga,
                                   n.sample = 300,
@@ -43,8 +27,8 @@ run_boruta10 <- wrap_batchtools(reg_name = "01-effect-definition",
                                 n_cpus = no.threads,
                                 walltime = "0",
                                 sleep = 5,
-                                partition = partition, ## Set partition in init-global
-                                account = "imbs", ## Set account in init-global
+                                partition = "prio", ## Set partition in init-global
+                                account = "dzhk-omics", ## Set account in init-global
                                 test_job = FALSE,
                                 wait_for_jobs = FALSE,
                                 packages = c(

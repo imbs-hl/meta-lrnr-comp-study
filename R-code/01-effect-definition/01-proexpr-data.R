@@ -1,20 +1,5 @@
 source(file.path(code_dir, "01-effect-definition/init.R"), chdir = TRUE)
 
-# Prepare parameters
-# param_df <- expand.grid(delta.methyl = c(0, 0.001, 0.01, 0.1), 
-#                         delta.expr = c(0, 0.01, 0.1, 1), 
-#                         delta.protein = c(0, 0.001, 0.01, 0.1))
-param_df_proexpr <- expand.grid(delta.methyl = c(0, 0, 0, 0, 0), 
-                                delta.expr = c(0, 0, 0, 0, 0), 
-                                delta.protein = c(0, 0.01, 0.05, 0.1, 1.5))
-# Add seeds
-set.seed(123)
-random_integers <- sample(1:2000, nrow(param_df_proexpr), replace = FALSE)
-param_df_proexpr$seed <- random_integers
-param_df_proexpr$save_path <- file.path(data_effect_def,
-                                        paste("proexpr",
-                                              paste(param_df_proexpr$seed, "rds", sep = "."),
-                                              sep = "/"))
 ## Send jobs
 no.threads <- 5
 run_boruta10 <- wrap_batchtools(reg_name = "01-effect-def-proexpr",

@@ -1,20 +1,4 @@
 source(file.path(code_dir, "01-effect-definition/init.R"), chdir = TRUE)
-
-# Prepare parameters
-# param_df <- expand.grid(delta.methyl = c(0, 0.001, 0.01, 0.1), 
-#                         delta.expr = c(0, 0.01, 0.1, 1), 
-#                         delta.protein = c(0, 0.001, 0.01, 0.1))
-param_df <- expand.grid(delta.methyl = c(0, 0.001, 0.01, 0.1, 0.2), 
-                        delta.expr = c(0, 0, 0, 0, 0), 
-                        delta.protein = c(0, 0, 0, 0, 0))
-# Add seeds
-set.seed(123)
-random_integers <- sample(1:2000, nrow(param_df), replace = FALSE)
-param_df$seed <- random_integers
-param_df$save_path <- file.path(data_effect_def,
-                                paste("methyl",
-                                      paste(param_df$seed, "rds", sep = "."),
-                                      sep = "/"))
 ## Send jobs
 no.threads <- 5
 run_boruta10 <- wrap_batchtools(reg_name = "02-def-methyl-best",
@@ -22,11 +6,11 @@ run_boruta10 <- wrap_batchtools(reg_name = "02-def-methyl-best",
                                 reg_dir = registry_dir,
                                 r_function = single_run_best,
                                 vec_args = data.frame(
-                                  data_file = param_df$save_path,
-                                  seed = param_df$seed,
-                                  delta.methyl = param_df$delta.methyl,
-                                  delta.expr = param_df$delta.expr,
-                                  delta.protein = param_df$delta.protein
+                                  data_file = param_df_methyl$save_path,
+                                  seed = param_df_methyl$seed,
+                                  delta.methyl = param_df_methyl$delta.methyl,
+                                  delta.expr = param_df_methyl$delta.expr,
+                                  delta.protein = param_df_methyl$delta.protein
                                 ),
                                 more_args = list(
                                   num.tree.boruta.methyl = 15000L,
@@ -37,7 +21,7 @@ run_boruta10 <- wrap_batchtools(reg_name = "02-def-methyl-best",
                                   num.tree.ranger.proexpr = 2000L
                                 ),
                                 name = "methyl-train",
-                                overwrite = TRUE,
+                                overwrite = FALSE,
                                 memory = "40g",
                                 n_cpus = no.threads,
                                 walltime = "0",
@@ -53,3 +37,24 @@ run_boruta10 <- wrap_batchtools(reg_name = "02-def-methyl-best",
                                 ),
                                 config_file = config_file,
                                 interactive_session = interactive_session)
+
+## Run this after that your jobs are completed
+## ----------------------------------------------
+## Resume results
+## ----------------------------------------------
+##
+reg_methyl_train <- batchtools::loadRegistry(
+  file.dir = file.path(registry_dir, "02-def-methyl-best"), writeable = TRUE,
+  conf.file = config_file)
+reg_methyl_train <- batchtools::reduceResultsList(
+  ids = batchtools::findDone(
+    ids = 1:nrow(param_df_methyl),
+    reg = reg_methyl_train
+  ),
+  reg = reg_methyl_train)
+
+
+## resume filtered results
+reg_methyl_train_DT <- data.table::rbindlist(reg_methyl_train)
+methyl_mean_perf <- reg_methyl_train_DT[ , .(mean_perf = mean(meta_layer)), 
+                                           by = .(perf_measure, delta.methyl)]

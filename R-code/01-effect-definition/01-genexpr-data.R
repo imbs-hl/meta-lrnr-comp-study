@@ -1,20 +1,4 @@
 source(file.path(code_dir, "01-effect-definition/init.R"), chdir = TRUE)
-
-# Prepare parameters
-# param_df <- expand.grid(delta.methyl = c(0, 0.001, 0.01, 0.1), 
-#                         delta.expr = c(0, 0.01, 0.1, 1), 
-#                         delta.protein = c(0, 0.001, 0.01, 0.1))
-param_df_genexpr <- expand.grid(delta.methyl = c(0, 0, 0, 0, 0), 
-                        delta.expr = c(0, 0.01, 0.1, 1, 1.5), 
-                        delta.protein = c(0, 0, 0, 0, 0))
-# Add seeds
-set.seed(123)
-random_integers <- sample(1:2000, nrow(param_df_genexpr), replace = FALSE)
-param_df_genexpr$seed <- random_integers
-param_df_genexpr$save_path <- file.path(data_effect_def,
-                                paste("genexpr",
-                                      paste(param_df_genexpr$seed, "rds", sep = "."),
-                                      sep = "/"))
 ## Send jobs
 no.threads <- 5
 run_boruta10 <- wrap_batchtools(reg_name = "01-effect-def-genexpr",
