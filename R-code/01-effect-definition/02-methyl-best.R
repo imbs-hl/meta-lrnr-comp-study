@@ -29,12 +29,12 @@ run_boruta10 <- wrap_batchtools(reg_name = "02-def-methyl-best",
                                   delta.protein = param_df$delta.protein
                                 ),
                                 more_args = list(
-                                  num.tree.boruta.methyl = 25000L,
-                                  num.tree.ranger.methyl = 5000L,
-                                  num.tree.boruta.genexpr = 10000L,
+                                  num.tree.boruta.methyl = 15000L,
+                                  num.tree.ranger.methyl = 2000L,
+                                  num.tree.boruta.genexpr = 2500L,
                                   num.tree.ranger.genexpr = 2000L,
-                                  num.tree.boruta.proexpr = 5000L,
-                                  num.tree.ranger.proexpr = 1000L
+                                  num.tree.boruta.proexpr = 2500L,
+                                  num.tree.ranger.proexpr = 2000L
                                 ),
                                 name = "methyl-train",
                                 overwrite = TRUE,
@@ -49,7 +49,7 @@ run_boruta10 <- wrap_batchtools(reg_name = "02-def-methyl-best",
                                 packages = c(
                                   "devtools",
                                   "data.table",
-                                  "mgcv"
+                                  "fuseMLR"
                                 ),
                                 config_file = config_file,
                                 interactive_session = interactive_session)

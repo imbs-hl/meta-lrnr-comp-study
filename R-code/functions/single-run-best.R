@@ -20,7 +20,7 @@ single_run_best <- function (
                              ind_col = "IDS",
                              target = "disease",
                              target_df = multi_omics$training$target,
-                             verbose = TRUE)
+                             verbose = FALSE)
   # Create methylation layer
   createTrainLayer(training = training,
                    train_layer_id = "methylation",
