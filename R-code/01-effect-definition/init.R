@@ -38,7 +38,7 @@ param_df_genexpr$save_path <- file.path(data_effect_def,
 #
 param_df_proexpr <- expand.grid(delta.methyl = c(0, 0, 0, 0, 0), 
                                 delta.expr = c(0, 0, 0, 0, 0), 
-                                delta.protein = c(0, 2, 4, 6, 8))
+                                delta.protein = c(0, 70, 90, 110, 120))
 # Add seeds
 set.seed(123)
 random_integers <- sample(1:2000, nrow(param_df_proexpr), replace = FALSE)
