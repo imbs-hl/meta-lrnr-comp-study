@@ -76,9 +76,8 @@ single_run_best <- function (
                        param_train_list = list(
                          perf = function(observed, predicted) {
                              val_esti <- mean(x = (predicted - observed)^2, na.rm = TRUE)
-                             if (is.na(val_esti)) {
-                               val_esti <- .Machine$double.eps
-                             }
+                               val_esti[is.na(val_esti)] <- .Machine$double.eps
+                             return(val_esti)
                          }
                        ),
                        param_pred_list = list(na_rm = TRUE),
