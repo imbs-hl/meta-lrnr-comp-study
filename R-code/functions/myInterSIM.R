@@ -184,6 +184,7 @@ myInterSIM <- function(n.sample=500,cluster.sample.prop=c(0.30,0.30,0.40),
   } else {
     d <- lapply(1:n.cluster,function(i) {
       effect <- (rho.e.p*mean.expr.with.mapped.protein+sqrt(1-rho.e.p^2)*mean.protein) + DEP[,i]*delta.protein
+      print(head(effect))
       # mvrnorm(n=n.sample.in.cluster[i], mu=effect, Sigma=cov.str)
       rmvn(n=n.sample.in.cluster[i], mu=effect, V=cov.str)
       })

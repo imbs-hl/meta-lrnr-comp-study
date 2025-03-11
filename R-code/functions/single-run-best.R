@@ -53,7 +53,6 @@ single_run_best <- function (
                    na_action = "na.keep")
   
   # Create gene protein abundance layer
-  # TODO: Fix this: [ , !is.na(colnames(multi_omics$training$proteinexpr))]
   createTrainLayer(training = training,
                    train_layer_id = "proteinexpr",
                    train_data = multi_omics$training$proteinexpr,
