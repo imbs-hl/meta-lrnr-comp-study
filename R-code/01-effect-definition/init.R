@@ -47,4 +47,4 @@ param_df_proexpr$save_path <- file.path(data_effect_def,
                                         paste("proexpr",
                                               paste(param_df_proexpr$seed, "rds", sep = "."),
                                               sep = "/"))
-param_df_proexpr <- param_df_proexpr[6:25, ]
+param_df_proexpr <- param_df_proexpr
