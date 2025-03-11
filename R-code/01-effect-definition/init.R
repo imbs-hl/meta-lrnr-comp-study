@@ -22,7 +22,7 @@ param_df_methyl$save_path <- file.path(data_effect_def,
 # ==============================
 #
 param_df_genexpr <- expand.grid(delta.methyl = c(0, 0, 0, 0, 0), 
-                                delta.expr = c(0, 40, 50, 60, 70), 
+                                delta.expr = c(0, 60, 70, 80, 90), 
                                 delta.protein = c(0, 0, 0, 0, 0))
 # Add seeds
 set.seed(123)
@@ -32,7 +32,7 @@ param_df_genexpr$save_path <- file.path(data_effect_def,
                                         paste("genexpr",
                                               paste(param_df_genexpr$seed, "rds", sep = "."),
                                               sep = "/"))
-
+param_df_genexpr <- param_df_genexpr[6:25, ]
 # ==============================
 # Protein expression parameters
 # ==============================
