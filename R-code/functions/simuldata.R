@@ -21,7 +21,6 @@ simuldata <- function(seed,
     unlist(save_path)    
   }
   source(file.path(function_dir, "myInterSIM.R"))
-  library("InterSIM")
   # Load global InterSIM's global variables
   # Protein parameters
   mean.protein <<- readRDS(file = file.path(empirical_param_prefix,

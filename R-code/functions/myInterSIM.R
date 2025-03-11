@@ -113,7 +113,7 @@ myInterSIM <- function(n.sample=500,cluster.sample.prop=c(0.30,0.30,0.40),
       rmvn(n=n.sample.in.cluster[i], mu=effect, V=cov.str)
       })
     sim.methyl <- do.call(rbind,d)
-    sim.methyl <- rev.logit(sim.methyl) 						 # Transform back to beta values between (0,1)
+    sim.methyl <- InterSIM::rev.logit(sim.methyl) 						 # Transform back to beta values between (0,1)
   }
   
   #-------------------
