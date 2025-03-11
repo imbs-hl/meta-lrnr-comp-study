@@ -1,6 +1,6 @@
 source(file.path(code_dir, "01-effect-definition/init.R"), chdir = TRUE)
 ## Send jobs
-no.threads <- 5
+no.threads <- 20
 effect_def_proexpr <- wrap_batchtools(reg_name = "01-effect-def-proexpr",
                                       work_dir = working_dir,
                                       reg_dir = registry_dir,

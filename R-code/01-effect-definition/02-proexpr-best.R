@@ -1,6 +1,6 @@
 source(file.path(code_dir, "01-effect-definition/init.R"), chdir = TRUE)
 ## Send jobs
-no.threads <- 5
+no.threads <- 20
 def_proexpr_best <- wrap_batchtools(reg_name = "02-def-proexpr-best",
                                 work_dir = working_dir,
                                 reg_dir = registry_dir,
@@ -17,13 +17,13 @@ def_proexpr_best <- wrap_batchtools(reg_name = "02-def-proexpr-best",
                                   num.tree.ranger.methyl = 2L,
                                   num.tree.boruta.genexpr = 2L,
                                   num.tree.ranger.genexpr = 2L,
-                                  num.tree.boruta.proexpr = 2500L,
-                                  num.tree.ranger.proexpr = 2000L
+                                  num.tree.boruta.proexpr = 2000L,
+                                  num.tree.ranger.proexpr = 1000L
                                 ),
                                 name = "proexpr-train",
                                 overwrite = TRUE,
                                 memory = "25g",
-                                n_cpus = 5,
+                                n_cpus = no.threads,
                                 walltime = "60",
                                 sleep = 5,
                                 partition = "prio", ## Set partition in init-global
