@@ -21,13 +21,13 @@ run_boruta10 <- wrap_batchtools(reg_name = "02-def-methyl-best",
                                   num.tree.ranger.proexpr = 2000L
                                 ),
                                 name = "methyl-train",
-                                overwrite = FALSE,
+                                overwrite = TRUE,
                                 memory = "40g",
                                 n_cpus = no.threads,
                                 walltime = "0",
                                 sleep = 10,
-                                partition = partition, ## Set partition in init-global
-                                account = "imbs", ## Set account in init-global
+                                partition = "prio", ## Set partition in init-global
+                                account = "dzhk-omics", ## Set account in init-global
                                 test_job = FALSE,
                                 wait_for_jobs = FALSE,
                                 packages = c(

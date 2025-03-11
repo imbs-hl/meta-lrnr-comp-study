@@ -21,7 +21,7 @@ run_boruta10 <- wrap_batchtools(reg_name = "02-def-proexpr-best",
                                   num.tree.ranger.proexpr = 2000L
                                 ),
                                 name = "proexpr-train",
-                                overwrite = TRUE,
+                                overwrite = FALSE,
                                 memory = "25g",
                                 n_cpus = 5,
                                 walltime = "60",
