@@ -21,13 +21,13 @@ run_boruta10 <- wrap_batchtools(reg_name = "02-def-proexpr-best",
                                   num.tree.ranger.proexpr = 2000L
                                 ),
                                 name = "proexpr-train",
-                                overwrite = FALSE,
+                                overwrite = TRUE,
                                 memory = "25g",
                                 n_cpus = 5,
                                 walltime = "60",
                                 sleep = 5,
-                                partition = "prio", ## Set partition in init-global
-                                account = "dzhk-omics", ## Set account in init-global
+                                partition = "batch", ## Set partition in init-global
+                                account = "p23048", ## Set account in init-global
                                 test_job = FALSE,
                                 wait_for_jobs = FALSE,
                                 packages = c(
@@ -38,3 +38,27 @@ run_boruta10 <- wrap_batchtools(reg_name = "02-def-proexpr-best",
                                 ),
                                 config_file = config_file,
                                 interactive_session = interactive_session)
+
+## Run this after that your jobs are completed
+## ----------------------------------------------
+## Resume results
+## ----------------------------------------------
+##
+reg_proexpr_train <- batchtools::loadRegistry(
+  file.dir = file.path(registry_dir, "02-def-proexpr-best"), writeable = TRUE,
+  conf.file = config_file)
+reg_proexpr_train <- batchtools::reduceResultsList(
+  ids = batchtools::findDone(
+    ids = 1:nrow(param_df_proexpr),
+    reg = reg_proexpr_train
+  ),
+  reg = reg_proexpr_train)
+
+
+## resume filtered results
+reg_proexpr_train_DT <- data.table::rbindlist(reg_proexpr_train)
+proexpr_mean_perf <- reg_proexpr_train_DT[ , .(mean_perf = mean(meta_layer)), 
+                                           by = .(perf_measure, delta.protein)]
+saveRDS(object = reg_proexpr_train_DT,
+        file = file.path(dirname(param_df_proexpr$save_path[1]),
+                         "perf-def-proexpr-best.rds"))

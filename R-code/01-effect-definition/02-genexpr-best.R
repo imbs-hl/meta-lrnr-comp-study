@@ -21,13 +21,13 @@ reg_genexpr_train <- wrap_batchtools(reg_name = "02-def-genexpr-best",
                                        num.tree.ranger.proexpr = 2000L
                                      ),
                                      name = "genexpr-train",
-                                     overwrite = FALSE,
+                                     overwrite = TRUE,
                                      memory = "25g",
                                      n_cpus = 5,
                                      walltime = "60",
                                      sleep = 5,
-                                     partition = "fast", ## Set partition in init-global
-                                     account = "imbs", ## Set account in init-global
+                                     partition = "prio", ## Set partition in init-global
+                                     account = "p23048", ## Set account in init-global
                                      test_job = FALSE,
                                      wait_for_jobs = FALSE,
                                      packages = c(
