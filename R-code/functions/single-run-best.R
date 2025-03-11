@@ -129,6 +129,7 @@ single_run_best <- function (
 }
 
 # tmp <- single_replicate_best(data_file = file.path(data_simulation, "multi_omics_null.rds"))
+if (FALSE)
 tmp <- single_run_best(
   data_file = param_df$save_path[8],
   seed = param_df$seed[8],
