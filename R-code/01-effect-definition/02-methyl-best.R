@@ -20,12 +20,14 @@ no.threads <- 5
 run_boruta10 <- wrap_batchtools(reg_name = "02-def-methyl-best",
                                 work_dir = working_dir,
                                 reg_dir = registry_dir,
-                                r_function = single_replicate_best,
-                                vec_args = data_file = param_df$save_path,
-                                seed = param_df$seed,
-                                delta.methyl = param_df$delta.methyl,
-                                delta.expr = param_df$delta.expr,
-                                delta.protein = param_df$delta.protein,
+                                r_function = single_run_best,
+                                vec_args = data.frame(
+                                  data_file = param_df$save_path,
+                                  seed = param_df$seed,
+                                  delta.methyl = param_df$delta.methyl,
+                                  delta.expr = param_df$delta.expr,
+                                  delta.protein = param_df$delta.protein
+                                ),
                                 more_args = list(
                                   num.tree.boruta.methyl = 25000L,
                                   num.tree.ranger.methyl = 5000L,
