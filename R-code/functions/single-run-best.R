@@ -130,9 +130,9 @@ single_run_best <- function (
 # tmp <- single_replicate_best(data_file = file.path(data_simulation, "multi_omics_null.rds"))
 if (FALSE)
 tmp <- single_run_best(
-  data_file = param_df$save_path[8],
-  seed = param_df$seed[8],
-  delta.methyl = param_df$delta.methyl[8],
-  delta.expr = param_df$delta.expr[8],
-  delta.protein = param_df$delta.protein[8]
+  data_file = param_df_proexpr$save_path[3],
+  seed = param_df_proexpr$seed[3],
+  delta.methyl = param_df_proexpr$delta.methyl[3],
+  delta.expr = param_df_proexpr$delta.expr[3],
+  delta.protein = param_df_proexpr$delta.protein[3]
   )
