@@ -20,7 +20,7 @@ single_run_rf <- function (
   # meta_data <- extractData(object = training)$meta_layer
   meta_layer <- training$getTrainMetaLayer()
   Lrner$new(id = "ranger",
-            lrner_package = "ranger",
+            package = "ranger",
             lrn_fct = "ranger",
             param_train_list = list(num.tree = num.tree.meta),
             param_pred_list = list(na_rm = TRUE),
