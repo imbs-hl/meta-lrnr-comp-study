@@ -52,6 +52,6 @@ reg_methyl_train_rf <- batchtools::reduceResultsList(
 
 
 ## resume filtered results
-reg_methyl_train_DT <- data.table::rbindlist(reg_methyl_train_rf)
-methyl_mean_perf <- reg_methyl_train_DT[ , .(mean_perf = mean(meta_layer)), 
+reg_methyl_train_rf_DT <- data.table::rbindlist(reg_methyl_train_rf)
+methyl_mean_perf_rf <- reg_methyl_train_rf_DT[ , .(mean_perf = mean(meta_layer)), 
                                          by = .(perf_measure, effect)]

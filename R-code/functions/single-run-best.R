@@ -78,8 +78,8 @@ single_run_best <- function (
                        param_pred_list = list(na_rm = TRUE),
                        na_action = "na.rm")
   # Variable selection
-  var_sel_res <- varSelection(training = training)
   set.seed(seed)
+  var_sel_res <- varSelection(training = training)
   fusemlr(training = training,
           use_var_sel = TRUE)
   # Create testing for predictions
