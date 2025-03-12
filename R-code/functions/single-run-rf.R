@@ -24,7 +24,10 @@ single_run_rf <- function (
                        lrn_fct = "ranger",
                        param_train_list = list(num.tree = num.tree.meta),
                        param_pred_list = list(),
-                       na_action = "na.rm")
+                       na_action = "na.rm",
+                       extract_pred_fct = function(obj) {
+                         obj$predictions[ , 1]
+                       })
   # Access, update and train the new meta-learner lonly
   set.seed(seed)
   fusemlr(training = training,
