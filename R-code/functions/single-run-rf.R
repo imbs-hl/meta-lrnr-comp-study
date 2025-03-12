@@ -18,7 +18,7 @@ single_run_rf <- function (
   training <- readRDS(training_file)
   # Update meta layer learner with RF and re-train it.
   meta_layer <- training$getTrainMetaLayer()
-  Lrner$new(id = "ranger",
+  Lrner$new(id = "bestLayerLearner",
             package = "ranger",
             lrn_fct = "ranger",
             param_train_list = list(num.tree = num.tree.meta),
