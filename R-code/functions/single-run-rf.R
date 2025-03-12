@@ -18,14 +18,15 @@ single_run_rf <- function (
   training <- readRDS(training_file)
   # Update meta layer learner with RF and re-train it.
   meta_layer <- training$getTrainMetaLayer()
-  Lrner$new(id = "bestLayerLearner",
+  old_lrner <- meta_layer$getLrner()
+  lrnr <- Lrner$new(id = "RF",
             package = "ranger",
             lrn_fct = "ranger",
             param_train_list = list(num.tree = num.tree.meta),
             param_pred_list = list(na_rm = TRUE),
             na_action = "na.rm",
             train_layer = meta_layer)
-  meta_layer$train()
+  lrnr$train()
   print(meta_layer)
   # Create testing for predictions
   testing <- createTesting(id = "testing",
