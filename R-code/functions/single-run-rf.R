@@ -8,7 +8,7 @@ single_run_rf <- function (
     delta.expr = param_df$delta.expr,
     delta.protein = param_df$delta.protein,
     num.tree.meta = 1000L,
-    effect = "effect",
+    effect = "effect"
 ) {
   multi_omics <- readRDS(data_file)
   training_file <- file.path(dirname(data_file), 
