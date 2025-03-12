@@ -18,14 +18,12 @@ single_run_rf <- function (
   training <- readRDS(training_file)
   # Update meta layer learner with RF.
   # TODO: include possibility to train only the meta-learner in fuseMLR
-  meta_data <- extractData(object = training)$meta_layer
-  meta_layer <- training$getTrainMetaLayer()
   createTrainMetaLayer(training = training,
                        meta_layer_id = "meta_layer",
                        lrner_package = "ranger",
                        lrn_fct = "ranger",
                        param_train_list = list(num.tree = num.tree.meta),
-                       param_pred_list = list(na_rm = TRUE),
+                       param_pred_list = list(),
                        na_action = "na.rm")
   # Access, update and train the new meta-learner lonly
   set.seed(seed)
