@@ -17,6 +17,8 @@ single_run_rf <- function (
                                     collapse = ""))
   training <- readRDS(training_file)
   # Update meta layer learner with RF.
+  meta_data <- extractData(oobject = training)$meta_layer
+  old_meta_layer <- training$getTrainMetaLayer()
   createTrainMetaLayer(training = training,
                        meta_layer_id = "meta_layer",
                        lrner_package = "ranger",
@@ -24,8 +26,11 @@ single_run_rf <- function (
                        param_train_list = list(num.tree = num.tree.meta),
                        param_pred_list = list(na_rm = TRUE),
                        na_action = "na.rm")
-  # Access and train the new meta-learner only
+  # Access, update and train the new meta-learner lonly
   meta_layer <- training$getTrainMetaLayer()
+  meta_layer$setTrainData(id = old_meta_layer$getId(),
+                        ind_col = training$getIndCol(),
+                        data_frame = old_meta_layer$meta_layer[ , -1])
   meta_layer$train()
   # Create testing for predictions
   testing <- createTesting(id = "testing",
