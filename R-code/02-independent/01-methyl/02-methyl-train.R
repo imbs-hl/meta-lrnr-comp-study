@@ -14,12 +14,12 @@ reg_methyl_train <- wrap_batchtools(reg_name = "train-best",
                                        effect = indep_methy_param_data$effect
                                      ),
                                      more_args = list(
-                                       num.tree.boruta.methyl = 15000L,
-                                       num.tree.ranger.methyl = 2500L,
-                                       num.tree.boruta.genexpr = 5000L,
-                                       num.tree.ranger.genexpr = 1000L,
-                                       num.tree.boruta.proexpr = 5000L,
-                                       num.tree.ranger.proexpr = 1000L
+                                       num.tree.boruta.methyl = 1L,
+                                       num.tree.ranger.methyl = 2L,
+                                       num.tree.boruta.genexpr = 5L,
+                                       num.tree.ranger.genexpr = 1L,
+                                       num.tree.boruta.proexpr = 5L,
+                                       num.tree.ranger.proexpr = 1L
                                      ),
                                      name = "methyl-train",
                                      overwrite = TRUE,
