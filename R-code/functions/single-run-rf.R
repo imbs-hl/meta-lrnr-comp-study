@@ -26,7 +26,7 @@ single_run_rf <- function (
                        param_pred_list = list(),
                        na_action = "na.rm",
                        extract_pred_fct = function(obj) {
-                         print(dim(obj))
+                         print(obj)
                          obj$predictions[ , 1]
                        })
   # Access, update and train the new meta-learner lonly
