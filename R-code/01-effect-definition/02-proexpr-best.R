@@ -59,6 +59,3 @@ reg_proexpr_train <- batchtools::reduceResultsList(
 reg_proexpr_train_DT <- data.table::rbindlist(reg_proexpr_train)
 proexpr_mean_perf <- reg_proexpr_train_DT[ , .(mean_perf = mean(meta_layer)), 
                                            by = .(perf_measure, delta.protein)]
-saveRDS(object = reg_proexpr_train_DT,
-        file = file.path(dirname(param_df_proexpr$save_path[1]),
-                         "perf-def-proexpr-best.rds"))
