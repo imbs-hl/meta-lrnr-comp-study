@@ -59,7 +59,4 @@ reg_genexpr_train <- batchtools::reduceResultsList(
 reg_genexpr_train_DT <- data.table::rbindlist(reg_genexpr_train)
 genexpr_mean_perf <- reg_genexpr_train_DT[ , .(mean_perf = mean(meta_layer)), 
                                            by = .(perf_measure, delta.expr)]
-saveRDS(object = reg_genexpr_train_DT,
-        file = file.path(dirname(param_df_genexpr$save_path[1]),
-                         "perf-def-genexpr-best.rds"))
 
