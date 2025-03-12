@@ -1,18 +1,18 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
 no.threads <- 5
-indep_methy_param_data$effect <- NULL
+indep_methy_genexpr_param_data$effect <- NULL
 methyl_data <- wrap_batchtools(reg_name = "01-data",
                                work_dir = working_dir,
                                reg_dir = registry_dir,
                                r_function = simuldata,
-                               vec_args = indep_methy_param_data,
+                               vec_args = indep_methy_genexpr_param_data,
                                more_args = list(
                                  empirical_param_prefix = data_tcga,
                                  n.sample = 300,
                                  cluster.sample.prop = c(0.5, 0.5),
                                  p.DMP = 0.2,
-                                 p.DEG = NULL,
+                                 p.DEG = 0.2,
                                  p.DEP = NULL,
                                  do.plot = FALSE,
                                  sample.cluster = TRUE,
