@@ -30,7 +30,7 @@ single_run_rf <- function (
   meta_layer <- training$getTrainMetaLayer()
   meta_layer$setTrainData(id = old_meta_layer$getId(),
                         ind_col = training$getIndCol(),
-                        data_frame = old_meta_layer$meta_layer[ , -1])
+                        data_frame = old_meta_layer$meta_layer)
   meta_layer$train()
   # Create testing for predictions
   testing <- createTesting(id = "testing",
