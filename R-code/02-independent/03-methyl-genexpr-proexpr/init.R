@@ -1,5 +1,4 @@
-source("init.R", chdir = TRUE)
-
+source("../init.R", chdir = TRUE)
 
 # =======================================
 # Methylation and gene expression effects
