@@ -86,7 +86,7 @@ single_run_rf <- function (
   perf_bs$delta.protein <- delta.protein
   perf_bs$seed <- seed
   perf_bs$effect <- effect
-  perf_bs$runtime <- runtime
+  perf_bs$runtime <- start_time - end_time
   # Save the Training object
   training_file <- file.path(dirname(data_file), 
                              paste0(seed, 
