@@ -19,19 +19,32 @@ single_run_rf <- function (
   # Update meta layer learner with RF.
   # TODO: include possibility to update and train only the meta-learner 
   # in fuseMLR
-  createTrainMetaLayer(training = training,
-                       meta_layer_id = "meta_layer",
-                       lrner_package = "ranger",
+  meta_layer <- training$getTrainMetaLayer()
+  new_lnr <- Lrner$new(id = "ranger",
+                       package = "ranger",
                        lrn_fct = "ranger",
                        param_train_list = list(num.tree = num.tree.meta,
                                                probability = TRUE),
-                       param_pred_list = list(),
-                       na_action = "na.rm")
+                       train_layer = meta_layer)
+  # Remove the old model
+  tmp_key <- meta_layer$getKeyClass()
+  meta_layer$removeFromHashTable(tmp_key[tmp_key$class == "Model", "key"])
+  # Re-train the meta learner only.
+  meta_layer$train()
+  # createTrainMetaLayer(training = training,
+  #                      meta_layer_id = "meta_layer",
+  #                      lrner_package = "ranger",
+  #                      lrn_fct = "ranger",
+  #                      param_train_list = list(num.tree = num.tree.meta,
+  #                                              probability = TRUE),
+  #                      param_pred_list = list(),
+  #                      na_action = "na.rm")
   # Access, update and train the new meta-learner lolly
   set.seed(seed)
   start_time <- Sys.time()  # Record start time
-  fusemlr(training = training,
-          use_var_sel = TRUE)
+  # fusemlr(training = training,
+  #         use_var_sel = TRUE)
+  meta_layer$train()
   # Create testing for predictions
   testing <- createTesting(id = "testing",
                            ind_col = "IDS")
