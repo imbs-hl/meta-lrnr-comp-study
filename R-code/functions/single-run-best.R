@@ -121,7 +121,7 @@ single_run_best <- function (
   perf_bs$delta.expr <- delta.expr
   perf_bs$delta.protein <- delta.protein
   perf_bs$seed <- seed
-  perf_bc$effect <- effect
+  perf_bs$effect <- effect
   # Save the Training object
   training_file <- file.path(dirname(data_file), 
                                      paste0(seed, 
