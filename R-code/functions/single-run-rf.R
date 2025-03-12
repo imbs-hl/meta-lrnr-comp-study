@@ -26,7 +26,7 @@ single_run_rf <- function (
             param_pred_list = list(na_rm = TRUE),
             na_action = "na.rm",
             train_layer = meta_layer)
-  lrnr$train()
+  meta_layer$train()
   print(meta_layer)
   # Create testing for predictions
   testing <- createTesting(id = "testing",
