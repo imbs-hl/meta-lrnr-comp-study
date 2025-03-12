@@ -80,9 +80,12 @@ single_run_best <- function (
   # Variable selection
   set.seed(seed)
   var_sel_res <- varSelection(training = training)
-  start_time <- Sys.time()  # Record start time
   fusemlr(training = training,
           use_var_sel = TRUE)
+  meta_layer <- training$getTrainMetaLayer()
+  start_time <- Sys.time()  # Record start time
+  # We re-run it to save the meta-learning time only
+  meta_layer$train()
   # Create testing for predictions
   testing <- createTesting(id = "testing",
                            ind_col = "IDS")
