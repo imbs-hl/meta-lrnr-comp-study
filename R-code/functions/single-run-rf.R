@@ -17,7 +17,8 @@ single_run_rf <- function (
                                     collapse = ""))
   training <- readRDS(training_file)
   # Update meta layer learner with RF.
-  # TODO: include possibility to train only the meta-learner in fuseMLR
+  # TODO: include possibility to update and train only the meta-learner 
+  # in fuseMLR
   createTrainMetaLayer(training = training,
                        meta_layer_id = "meta_layer",
                        lrner_package = "ranger",
@@ -28,6 +29,7 @@ single_run_rf <- function (
                        na_action = "na.rm")
   # Access, update and train the new meta-learner lolly
   set.seed(seed)
+  start_time <- Sys.time()  # Record start time
   fusemlr(training = training,
           use_var_sel = TRUE)
   # Create testing for predictions
@@ -46,6 +48,7 @@ single_run_rf <- function (
                   test_layer_id = "proteinexpr",
                   test_data = multi_omics$testing$proteinexpr)
   predictions <- predict(object = training, testing = testing)
+  end_time <- Sys.time()  # Record end time
   pred_values <- predictions$predicted_values
   actual_pred <- merge(x = pred_values,
                        y = multi_omics$testing$target,
@@ -70,6 +73,7 @@ single_run_rf <- function (
   perf_bs$delta.protein <- delta.protein
   perf_bs$seed <- seed
   perf_bs$effect <- effect
+  perf_bs$runtime <- runtime
   # Save the Training object
   training_file <- file.path(dirname(data_file), 
                              paste0(seed, 

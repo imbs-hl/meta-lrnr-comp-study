@@ -80,6 +80,7 @@ single_run_best <- function (
   # Variable selection
   set.seed(seed)
   var_sel_res <- varSelection(training = training)
+  start_time <- Sys.time()  # Record start time
   fusemlr(training = training,
           use_var_sel = TRUE)
   # Create testing for predictions
@@ -98,6 +99,7 @@ single_run_best <- function (
                   test_layer_id = "proteinexpr",
                   test_data = multi_omics$testing$proteinexpr)
   predictions <- predict(object = training, testing = testing)
+  end_time <- Sys.time()  # Record end time
   pred_values <- predictions$predicted_values
   actual_pred <- merge(x = pred_values,
                        y = multi_omics$testing$target,
@@ -122,6 +124,7 @@ single_run_best <- function (
   perf_bs$delta.protein <- delta.protein
   perf_bs$seed <- seed
   perf_bs$effect <- effect
+  perf_bs$runtime <- runtime
   # Save the Training object
   training_file <- file.path(dirname(data_file), 
                                      paste0(seed, 
