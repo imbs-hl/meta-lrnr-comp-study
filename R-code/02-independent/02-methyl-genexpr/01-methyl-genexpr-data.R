@@ -4,7 +4,7 @@ no.threads <- 5
 indep_methy_genexpr_param_data$effect <- NULL
 methyl_data <- wrap_batchtools(reg_name = "01-data",
                                work_dir = working_dir,
-                               reg_dir = registry_dir,
+                               reg_dir = reg_dep_methyl_genexpr,
                                r_function = simuldata,
                                vec_args = indep_methy_genexpr_param_data,
                                more_args = list(
