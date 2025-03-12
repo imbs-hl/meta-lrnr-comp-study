@@ -7,6 +7,7 @@ single_run_best <- function (
     delta.methyl = param_df$delta.methyl,
     delta.expr = param_df$delta.expr,
     delta.protein = param_df$delta.protein,
+    effect = "effect",
     num.tree.boruta.methyl = 25000L,
     num.tree.ranger.methyl = 5000L,
     num.tree.boruta.genexpr = 10000L,
@@ -120,9 +121,12 @@ single_run_best <- function (
   perf_bs$delta.expr <- delta.expr
   perf_bs$delta.protein <- delta.protein
   perf_bs$seed <- seed
+  perf_bc$effect <- effect
   # Save the Training object
   training_file <- file.path(dirname(data_file), 
-                                     paste0(seed, "_meta.rds", collapse = ""))
+                                     paste0(seed, 
+                                            sprintf("%s_meta.rds", effect),
+                                            collapse = ""))
   saveRDS(object = training, file = training_file)
   return(perf_bs)
 }
