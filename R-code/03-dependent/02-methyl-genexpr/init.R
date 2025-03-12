@@ -1,5 +1,5 @@
 source("../init.R", chdir = TRUE)
-source(function_dir, "methyl-genexpr-effect.R")
+source(file.path(function_dir, "methyl-genexpr-effect.R"))
 
 set.seed(4157)
 dep_methy_genexpr_param_data <- methyl_genexpr_effect(

@@ -1,12 +1,12 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
 no.threads <- 5
-dep_methy_genexpr_param_data$effect <- NULL
+dep_methyl_genexpr_param_data$effect <- NULL
 methyl_data <- wrap_batchtools(reg_name = "01-data",
                                work_dir = working_dir,
                                reg_dir = reg_dep_methyl_genexpr,
                                r_function = simuldata,
-                               vec_args = dep_methy_genexpr_param_data,
+                               vec_args = dep_methyl_genexpr_param_data,
                                more_args = list(
                                  empirical_param_prefix = data_tcga,
                                  n.sample = 300,
