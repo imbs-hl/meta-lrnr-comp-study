@@ -1,6 +1,6 @@
 source(file.path(code_dir, "01-effect-definition/init.R"), chdir = TRUE)
 ## Send jobs
-no.threads <- 20
+no.threads <- 5
 def_proexpr_best <- wrap_batchtools(reg_name = "02-def-proexpr-best",
                                 work_dir = working_dir,
                                 reg_dir = registry_dir,
@@ -17,7 +17,7 @@ def_proexpr_best <- wrap_batchtools(reg_name = "02-def-proexpr-best",
                                   num.tree.ranger.methyl = 2L,
                                   num.tree.boruta.genexpr = 2L,
                                   num.tree.ranger.genexpr = 2L,
-                                  num.tree.boruta.proexpr = 2000L,
+                                  num.tree.boruta.proexpr = 5000L,
                                   num.tree.ranger.proexpr = 1000L
                                 ),
                                 name = "proexpr-train",
