@@ -22,14 +22,11 @@ single_run_rf <- function (
                        meta_layer_id = "meta_layer",
                        lrner_package = "ranger",
                        lrn_fct = "ranger",
-                       param_train_list = list(num.tree = num.tree.meta),
+                       param_train_list = list(num.tree = num.tree.meta,
+                                               probability = TRUE),
                        param_pred_list = list(),
-                       na_action = "na.rm",
-                       extract_pred_fct = function(obj) {
-                         print(obj)
-                         obj$predictions[ , 1]
-                       })
-  # Access, update and train the new meta-learner lonly
+                       na_action = "na.rm")
+  # Access, update and train the new meta-learner lolly
   set.seed(seed)
   fusemlr(training = training,
           use_var_sel = TRUE)
