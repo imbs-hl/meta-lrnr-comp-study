@@ -19,7 +19,7 @@ single_run_rf <- function (
   # Update meta layer learner with RF.
   createTrainMetaLayer(training = training,
                        meta_layer_id = "meta_layer",
-                       lrner_package = NULL,
+                       lrner_package = "ranger",
                        lrn_fct = "ranger",
                        param_train_list = list(num.tree = num.tree.meta),
                        param_pred_list = list(na_rm = TRUE),
