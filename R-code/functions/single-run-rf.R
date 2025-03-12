@@ -17,20 +17,28 @@ single_run_rf <- function (
                                     collapse = ""))
   training <- readRDS(training_file)
   # Update meta layer learner with RF.
-  meta_data <- extractData(object = training)$meta_layer
-  old_meta_layer <- training$getTrainMetaLayer()
-  createTrainMetaLayer(training = training,
-                       meta_layer_id = "meta_layer",
-                       lrner_package = "ranger",
-                       lrn_fct = "ranger",
-                       param_train_list = list(num.tree = num.tree.meta),
-                       param_pred_list = list(na_rm = TRUE),
-                       na_action = "na.rm")
-  # Access, update and train the new meta-learner lonly
+  # meta_data <- extractData(object = training)$meta_layer
   meta_layer <- training$getTrainMetaLayer()
-  meta_layer$setTrainData(id = old_meta_layer$getId(),
-                        ind_col = training$getIndCol(),
-                        data_frame = old_meta_layer$meta_layer)
+  Lrner$new(id = "ranger",
+            lrner_package = "ranger",
+            lrn_fct = "ranger",
+            param_train_list = list(num.tree = num.tree.meta),
+            param_pred_list = list(na_rm = TRUE),
+            na_action = "na.rm",
+            train_layer = meta_layer)
+  # meta_learner <- meta_layer$getLrnr()
+  # createTrainMetaLayer(training = training,
+  #                      meta_layer_id = "meta_layer",
+  #                      lrner_package = "ranger",
+  #                      lrn_fct = "ranger",
+  #                      param_train_list = list(num.tree = num.tree.meta),
+  #                      param_pred_list = list(na_rm = TRUE),
+  #                      na_action = "na.rm")
+  # Access, update and train the new meta-learner lonly
+  # meta_layer <- training$getTrainMetaLayer()
+  # meta_layer$setTrainData(id = old_meta_layer$getId(),
+  #                       ind_col = training$getIndCol(),
+  #                       data_frame = old_meta_layer$meta_layer)
   meta_layer$train()
   # Create testing for predictions
   testing <- createTesting(id = "testing",
