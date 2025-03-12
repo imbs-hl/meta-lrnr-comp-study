@@ -17,7 +17,7 @@ single_run_rf <- function (
                                     collapse = ""))
   training <- readRDS(training_file)
   # Update meta layer learner with RF.
-  meta_data <- extractData(oobject = training)$meta_layer
+  meta_data <- extractData(object = training)$meta_layer
   old_meta_layer <- training$getTrainMetaLayer()
   createTrainMetaLayer(training = training,
                        meta_layer_id = "meta_layer",
