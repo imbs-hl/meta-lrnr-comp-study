@@ -36,7 +36,7 @@ methyl_genexpr_proexpr_effect <- function(n = 100L,
 }
 
 set.seed(4157)
-indep_methy_genexpr_proexpr_param_data <- methyl_genexpr_proexpr_effect(
+indep_methyl_genexpr_proexpr_param_data <- methyl_genexpr_proexpr_effect(
   n = 100L,
   save_dir = indep_methyl_genexpr_proexpr_dir
 )
