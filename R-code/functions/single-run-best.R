@@ -132,7 +132,7 @@ single_run_best <- function (
   training_file <- file.path(dirname(data_file), 
                                      paste0(seed, 
                                             sprintf("%s_meta.rds", effect),
-                                            collapse = ""))
+                                            collapse = "_"))
   saveRDS(object = training, file = training_file)
   return(perf_bs)
 }
