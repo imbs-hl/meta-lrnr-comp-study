@@ -26,5 +26,5 @@ predict.mylasso <- function(object, data) {
                          type = "response",
                          # type = "class",
                          s = object$model$lambda)
-  return(as.vector(1 - glmnet_pred))
+  return(as.vector(glmnet_pred))
 }
