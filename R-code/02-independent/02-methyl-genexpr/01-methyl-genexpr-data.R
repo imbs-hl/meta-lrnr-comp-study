@@ -1,7 +1,7 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
 no.threads <- 5
-indep_methy_genexpr_param_data$effect <- NULL
+indep_methyl_genexpr_param_data$effect <- NULL
 methyl_data <- wrap_batchtools(reg_name = "01-data",
                                work_dir = working_dir,
                                reg_dir = reg_indep_methyl_genexpr,
@@ -23,7 +23,7 @@ methyl_data <- wrap_batchtools(reg_name = "01-data",
                                  function_dir = function_dir
                                ),
                                name = "mege-data",
-                               overwrite = FALSE,
+                               overwrite = TRUE,
                                memory = "40g",
                                n_cpus = no.threads,
                                walltime = "0",

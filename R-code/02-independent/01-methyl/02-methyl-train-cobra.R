@@ -22,7 +22,7 @@ reg_methyl_train_rf <- wrap_batchtools(reg_name = "train-cobra",
                                     n_cpus = 5,
                                     walltime = "60",
                                     sleep = 5,
-                                    partition = "batch", ## Set partition in init-global
+                                    partition = "fast", ## Set partition in init-global
                                     account = "p23048", ## Set account in init-global
                                     test_job = FALSE,
                                     wait_for_jobs = FALSE,
@@ -40,18 +40,18 @@ reg_methyl_train_rf <- wrap_batchtools(reg_name = "train-cobra",
 ## Resume results
 ## ----------------------------------------------
 ##
-reg_methyl_train_rf <- batchtools::loadRegistry(
+reg_methyl_train_cobra <- batchtools::loadRegistry(
   file.dir = file.path(reg_indep_methyl, "train-cobra"), writeable = TRUE,
   conf.file = config_file)
-reg_methyl_train_rf <- batchtools::reduceResultsList(
+reg_methyl_train_cobra <- batchtools::reduceResultsList(
   ids = batchtools::findDone(
     ids = 1:nrow(indep_methy_param_data),
-    reg = reg_methyl_train_rf
+    reg = reg_methyl_train_cobra
   ),
-  reg = reg_methyl_train_rf)
+  reg = reg_methyl_train_cobra)
 
 
 ## resume filtered results
-reg_methyl_train_rf_DT <- data.table::rbindlist(reg_methyl_train_rf)
-methyl_mean_perf_rf <- reg_methyl_train_rf_DT[ , .(mean_perf = mean(meta_layer)), 
+reg_methyl_train_cobra_DT <- data.table::rbindlist(reg_methyl_train_cobra)
+methyl_mean_perf_cobra <- reg_methyl_train_cobra_DT[ , .(mean_perf = mean(meta_layer)), 
                                          by = .(perf_measure, effect)]
