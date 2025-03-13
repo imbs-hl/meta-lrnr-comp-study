@@ -1,4 +1,4 @@
-source("init.R", chdir = TRUE)
+source("../init.R", chdir = TRUE)
 source(file.path(function_dir, "methyl-effect.R"))
 
 set.seed(4157)
