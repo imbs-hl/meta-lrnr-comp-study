@@ -1,7 +1,7 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
 no.threads <- 5
-reg_indep_megepro_train_cobra <- wrap_batchtools(reg_name = "train-cobra",
+reg_indep_megepro_train_cobra <- wrap_batchtools(reg_name = "02-train-cobra",
                                     work_dir = working_dir,
                                     reg_dir = reg_indep_methyl_genexpr_proexpr,
                                     r_function = single_run_cobra,
@@ -22,7 +22,7 @@ reg_indep_megepro_train_cobra <- wrap_batchtools(reg_name = "train-cobra",
                                     n_cpus = 5,
                                     walltime = "60",
                                     sleep = 5,
-                                    partition = "batch", ## Set partition in init-global
+                                    partition = "prio", ## Set partition in init-global
                                     account = "p23048", ## Set account in init-global
                                     test_job = FALSE,
                                     wait_for_jobs = FALSE,
@@ -41,7 +41,7 @@ reg_indep_megepro_train_cobra <- wrap_batchtools(reg_name = "train-cobra",
 ## ----------------------------------------------
 ##
 reg_megepro_train_cobra <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_methyl_genexpr_proexpr, "train-cobra"),
+  file.dir = file.path(reg_indep_methyl_genexpr_proexpr, "02-train-cobra"),
   writeable = TRUE,
   conf.file = config_file)
 reg_megepro_train_cobra <- batchtools::reduceResultsList(

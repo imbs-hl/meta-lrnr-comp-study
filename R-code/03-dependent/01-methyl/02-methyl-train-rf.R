@@ -1,17 +1,17 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
 no.threads <- 5
-reg_dep_me_train_rf <- wrap_batchtools(reg_name = "dep-train-rf",
+reg_dep_me_train_rf <- wrap_batchtools(reg_name = "train-rf",
                                     work_dir = working_dir,
                                     reg_dir = reg_dep_methyl,
                                     r_function = single_run_rf,
                                     vec_args = data.frame(
-                                      data_file = dep_methy_param_data$save_path,
-                                      seed = dep_methy_param_data$seed,
-                                      delta.methyl = dep_methy_param_data$delta.methyl,
-                                      delta.expr = dep_methy_param_data$delta.expr,
-                                      delta.protein = dep_methy_param_data$delta.protein,
-                                      effect = dep_methy_param_data$effect
+                                      data_file = dep_methyl_param_data$save_path,
+                                      seed = dep_methyl_param_data$seed,
+                                      delta.methyl = dep_methyl_param_data$delta.methyl,
+                                      delta.expr = dep_methyl_param_data$delta.expr,
+                                      delta.protein = dep_methyl_param_data$delta.protein,
+                                      effect = dep_methyl_param_data$effect
                                     ),
                                     more_args = list(
                                       num.tree.meta = 1000L
@@ -41,7 +41,7 @@ reg_dep_me_train_rf <- wrap_batchtools(reg_name = "dep-train-rf",
 ## ----------------------------------------------
 ##
 reg_dep_me_train_rf <- batchtools::loadRegistry(
-  file.dir = file.path(reg_dep_me, "dep-train-rf"), writeable = TRUE,
+  file.dir = file.path(reg_dep_me, "train-rf"), writeable = TRUE,
   conf.file = config_file)
 reg_dep_me_train_rf <- batchtools::reduceResultsList(
   ids = batchtools::findDone(

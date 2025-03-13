@@ -1,3 +1,8 @@
 source("../init-global.R", chdir = TRUE)
 source(file.path(function_dir, "simuldata.R"))
 source(file.path(function_dir, "single-run-best.R"))
+source(file.path(function_dir, "single-run-rf.R"))
+source(file.path(function_dir, "single-run-lasso.R"))
+source(file.path(function_dir, "single-run-lr.R"))
+source(file.path(function_dir, "single-run-cobra.R"))
+source(file.path(function_dir, "single-run-wa.R"))

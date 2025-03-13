@@ -1,17 +1,17 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
 no.threads <- 5
-reg_megepro_train <- wrap_batchtools(reg_name = "02-train-best",
+reg_methyl_genexpr_train <- wrap_batchtools(reg_name = "02-train-best",
                                             work_dir = working_dir,
-                                            reg_dir = reg_indep_methyl_genexpr_proexpr,
+                                            reg_dir = reg_dep_methyl_genexpr,
                                             r_function = single_run_best,
                                             vec_args = data.frame(
-                                              data_file = indep_methyl_genexpr_proexpr_param_data$save_path,
-                                              seed = indep_methyl_genexpr_proexpr_param_data$seed,
-                                              delta.methyl = indep_methyl_genexpr_proexpr_param_data$delta.methyl,
-                                              delta.expr = indep_methyl_genexpr_proexpr_param_data$delta.expr,
-                                              delta.protein = indep_methyl_genexpr_proexpr_param_data$delta.protein,
-                                              effect = indep_methyl_genexpr_proexpr_param_data$effect
+                                              data_file = dep_methyl_genexpr_param_data$save_path,
+                                              seed = dep_methyl_genexpr_param_data$seed,
+                                              delta.methyl = dep_methyl_genexpr_param_data$delta.methyl,
+                                              delta.expr = dep_methyl_genexpr_param_data$delta.expr,
+                                              delta.protein = dep_methyl_genexpr_param_data$delta.protein,
+                                              effect = dep_methyl_genexpr_param_data$effect
                                             ),
                                             more_args = list(
                                               num.tree.boruta.methyl = 15000L,
@@ -21,7 +21,7 @@ reg_megepro_train <- wrap_batchtools(reg_name = "02-train-best",
                                               num.tree.boruta.proexpr = 5000L,
                                               num.tree.ranger.proexpr = 1000L
                                             ),
-                                            name = "megepro-best",
+                                            name = "mege-best",
                                             overwrite = TRUE,
                                             memory = "25g",
                                             n_cpus = 5,
@@ -45,19 +45,18 @@ reg_megepro_train <- wrap_batchtools(reg_name = "02-train-best",
 ## Resume results
 ## ----------------------------------------------
 ##
-reg_methyl_genexpr_proexpr_train_best <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_methyl_genexpr_proexpr, "02-train-best"),
-  writeable = TRUE,
+reg_methyl_genexpr_train_best <- batchtools::loadRegistry(
+  file.dir = file.path(reg_indep_methyl_genexpr, "02-train-best"), writeable = TRUE,
   conf.file = config_file)
-reg_methyl_genexpr_proexpr_train_best <- batchtools::reduceResultsList(
+reg_methyl_genexpr_train_best <- batchtools::reduceResultsList(
   ids = batchtools::findDone(
-    ids = 1:nrow(indep_methyl_genexpr_proexpr_param_data),
-    reg = reg_methyl_genexpr_proexpr_train_best
+    ids = 1:nrow(indep_methy_genexpr_param_data),
+    reg = reg_methyl_genexpr_train_best
   ),
-  reg = reg_methyl_genexpr_proexpr_train_best)
+  reg = reg_methyl_genexpr_train_best)
 
 
 ## resume filtered results
-reg_methyl_genexpr_proexpr_train_DT <- data.table::rbindlist(reg_methyl_genexpr_proexpr_train_best)
-methyl_mean_perf <- reg_methyl_genexpr_proexpr_train_DT[ , .(mean_perf = mean(meta_layer)), 
-                                         by = .(perf_measure, effect)]
+reg_methyl_genexpr_train_DT <- data.table::rbindlist(reg_methyl_genexpr_train_best)
+methyl_mean_perf <- reg_methyl_genexpr_train_DT[ , .(mean_perf = mean(meta_layer)), 
+                                                 by = .(perf_measure, effect)]

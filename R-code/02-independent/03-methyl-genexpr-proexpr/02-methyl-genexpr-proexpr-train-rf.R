@@ -1,7 +1,7 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
 no.threads <- 5
-reg_indep_megepro_train_rf <- wrap_batchtools(reg_name = "train-rf",
+reg_indep_megepro_train_rf <- wrap_batchtools(reg_name = "02-train-rf",
                                     work_dir = working_dir,
                                     reg_dir = reg_indep_methyl_genexpr_proexpr,
                                     r_function = single_run_rf,
@@ -41,7 +41,7 @@ reg_indep_megepro_train_rf <- wrap_batchtools(reg_name = "train-rf",
 ## ----------------------------------------------
 ##
 reg_megepro_train_rf <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_methyl_genexpr_proexpr, "train-rf"), writeable = TRUE,
+  file.dir = file.path(reg_indep_methyl_genexpr_proexpr, "02-train-rf"), writeable = TRUE,
   conf.file = config_file)
 reg_megepro_train_rf <- batchtools::reduceResultsList(
   ids = batchtools::findDone(

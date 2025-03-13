@@ -1,7 +1,7 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
 no.threads <- 5
-reg_indep_megepro_train_lasso <- wrap_batchtools(reg_name = "train-lasso",
+reg_indep_megepro_train_lasso <- wrap_batchtools(reg_name = "02-train-lasso",
                                     work_dir = working_dir,
                                     reg_dir = reg_indep_methyl_genexpr_proexpr,
                                     r_function = single_run_lasso,
@@ -41,7 +41,7 @@ reg_indep_megepro_train_lasso <- wrap_batchtools(reg_name = "train-lasso",
 ## ----------------------------------------------
 ##
 reg_megepro_train_lasso <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_methyl_genexpr_proexpr, "train-lasso"),
+  file.dir = file.path(reg_indep_methyl_genexpr_proexpr, "02-train-lasso"),
   writeable = TRUE,
   conf.file = config_file)
 reg_megepro_train_lasso <- batchtools::reduceResultsList(
