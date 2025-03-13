@@ -22,7 +22,7 @@ single_run_lr <- function (
   # Wrap a new log. reg. learner
   # =============================
   #
-  myglm <- function (x, y) {
+  myglm <<- function (x, y) {
     y = as.integer(y == 2)
     data <- as.data.frame(x)
     data$y <- y
@@ -33,7 +33,7 @@ single_run_lr <- function (
     return(glm_model)
   }
   
-  predict.myglm <- function(object, data) {
+  predict.myglm <<- function(object, data) {
     tmp <- predict(object = object$model, newdata = as.data.frame(data), type = "response")
     return(as.vector(tmp))
   }
