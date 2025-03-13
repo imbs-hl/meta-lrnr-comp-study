@@ -1,7 +1,7 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
 no.threads <- 5
-reg_methyl_genexpr_train <- wrap_batchtools(reg_name = "train-best",
+reg_methyl_genexpr_train <- wrap_batchtools(reg_name = "02-train-best",
                                             work_dir = working_dir,
                                             reg_dir = reg_indep_methyl_genexpr,
                                             r_function = single_run_best,
@@ -46,7 +46,7 @@ reg_methyl_genexpr_train <- wrap_batchtools(reg_name = "train-best",
 ## ----------------------------------------------
 ##
 reg_methyl_genexpr_train_best <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_methyl_genexpr, "train-best"), writeable = TRUE,
+  file.dir = file.path(reg_indep_methyl_genexpr, "02-train-best"), writeable = TRUE,
   conf.file = config_file)
 reg_methyl_genexpr_train_best <- batchtools::reduceResultsList(
   ids = batchtools::findDone(
