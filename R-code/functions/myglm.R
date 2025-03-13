@@ -6,7 +6,7 @@ myglm <- function (x, y) {
   y = as.integer(y == 2)
   data <- as.data.frame(x = x)
   data$y <- y
-  # print(head(data))
+  print(head(data))
   glm_model <- glm(y ~ ., data = data, family = binomial())
   glm_model <- list(model = glm_model)
   class(glm_model) <- "myglm"
