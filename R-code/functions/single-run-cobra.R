@@ -26,13 +26,12 @@ single_run_cobra <- function (
   # Remove the old model
   tmp_key <- meta_layer$getKeyClass()
   meta_layer$removeFromHashTable(tmp_key[tmp_key$class == "Model", "key"])
-  # Re-train the meta learner only.
-  meta_layer$train()
   # Access, update and train the new meta-learner lolly
   set.seed(seed)
   start_time <- Sys.time()  # Record start time
   # fusemlr(training = training,
   #         use_var_sel = TRUE)
+  # Re-train the meta learner only.
   meta_layer$train()
   # Create testing for predictions
   testing <- createTesting(id = "testing",
