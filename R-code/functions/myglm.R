@@ -3,8 +3,7 @@
 # =============================
 #
 myglm <- function (x, y) {
-  print(table(y))
-  y = as.integer(y == 2)
+  y = as.integer(y == 1)
   data <- as.data.frame(x = x)
   data$y <- y
   glm_model <- glm(y ~ ., data = data, family = binomial())
