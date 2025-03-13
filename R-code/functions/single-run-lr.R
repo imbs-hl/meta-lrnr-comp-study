@@ -18,25 +18,6 @@ single_run_lr <- function (
   training <- readRDS(training_file)
   # Update meta layer learner with RF.
   meta_layer <- training$getTrainMetaLayer()
-  # =============================
-  # Wrap a new log. reg. learner
-  # =============================
-  #
-  myglm <<- function (x, y) {
-    y = as.integer(y == 2)
-    data <- as.data.frame(x)
-    data$y <- y
-    # print(head(data))
-    glm_model <- glm(y ~ ., data = data, family = binomial())
-    glm_model <- list(model = glm_model)
-    class(glm_model) <- "myglm"
-    return(glm_model)
-  }
-  
-  predict.myglm <<- function(object, data) {
-    tmp <- predict(object = object$model, newdata = as.data.frame(data), type = "response")
-    return(as.vector(tmp))
-  }
   new_lnr <- Lrner$new(id = "logreg",
                        package = NULL,
                        lrn_fct = "myglm",

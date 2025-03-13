@@ -32,6 +32,8 @@ reg_methyl_train_lr <- wrap_batchtools(reg_name = "train-lr",
                                       "mgcv",
                                       "fuseMLR"
                                     ),
+                                    source = c(file.path(function_dir, 
+                                                         "myglm.R")),
                                     config_file = config_file,
                                     interactive_session = interactive_session)
 
