@@ -32,6 +32,7 @@ reg_methyl_train_lasso <- wrap_batchtools(reg_name = "train-lasso",
                                       "mgcv",
                                       "fuseMLR"
                                     ),
+                                    source = c("mylasso.R"),
                                     config_file = config_file,
                                     interactive_session = interactive_session)
 

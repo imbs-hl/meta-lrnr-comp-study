@@ -22,6 +22,7 @@
 #' @param name [string] Chunk name to appeared in swatch (SLURM)
 #' @param sleep [integer] Parameter to control the duration to sleep between temporary errors.
 #' @param interactive_session 
+#' @param source Files which should be sourced on the slaves prior to executing a job. Calls sys.source using the .GlobalEnv.
 #'
 #' @return Nothing, throws an error if not all jobs are finished 
 wrap_batchtools <- function(reg_name,
@@ -40,6 +41,7 @@ wrap_batchtools <- function(reg_name,
                             account = account,
                             test_job = FALSE,
                             wait_for_jobs = TRUE,
+                            source = character(0L),
                             packages = character(0),
                             config_file,
                             interactive_session = FALSE){
@@ -59,6 +61,7 @@ wrap_batchtools <- function(reg_name,
       file.dir = reg_abs,
       work.dir = work_dir,
       conf.file = config_file,
+      source = source,
       packages = packages)
   } else {
     reg <- batchtools::loadRegistry(
