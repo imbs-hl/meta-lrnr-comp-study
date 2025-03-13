@@ -16,5 +16,6 @@ myglm <- function (x, y) {
 predict.myglm <- function(object, data) {
   tmp <- predict(object = object$model,
                  newdata = as.data.frame(data), type = "response")
+  print(table(tmp))
   return(as.vector(tmp))
 }
