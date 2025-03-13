@@ -21,7 +21,7 @@ reg_methyl_train <- wrap_batchtools(reg_name = "train-best",
                                        num.tree.boruta.proexpr = 5000L,
                                        num.tree.ranger.proexpr = 1000L
                                      ),
-                                     name = "methyl-train",
+                                     name = "methyl-best",
                                      overwrite = TRUE,
                                      memory = "25g",
                                      n_cpus = 5,

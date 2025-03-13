@@ -10,10 +10,22 @@ methyl_genexpr_effect <- function(n = 100L,
   genexpr_moderate <- rnorm(n = n, mean = 80, sd = 10)
   genexpr_low <- rnorm(n = n, mean = 60, sd = 10)
   effect_df <- data.frame(
-    delta.methyl = c(methyl_strong, methyl_moderate, methyl_low),
-    delta.expr = c(genexpr_moderate, genexpr_low, genexpr_low),
+    delta.methyl = c(methyl_strong,
+                     methyl_strong,
+                     methyl_moderate,
+                     methyl_moderate,
+                     methyl_low),
+    delta.expr = c(genexpr_moderate,
+                   genexpr_low,
+                   genexpr_moderate,
+                   genexpr_low,
+                   genexpr_low),
     delta.protein = 0,
-    effect = rep(c("strong_moderate", "moderate_low", "low_low"), each = n)
+    effect = rep(c("strong_moderate",
+                   "strong_low",
+                   "moderate_moderate",
+                   "moderate_low",
+                   "low_low"), each = n)
   )
   random_integers <- sample(1:15000, nrow(effect_df), replace = FALSE)
   effect_df$seed <- random_integers
