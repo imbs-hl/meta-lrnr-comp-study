@@ -51,7 +51,7 @@ reg_methyl_genexpr_proexpr_train_best <- batchtools::loadRegistry(
   conf.file = config_file)
 reg_methyl_genexpr_proexpr_train_best <- batchtools::reduceResultsList(
   ids = batchtools::findDone(
-    ids = 1:nrow(indep_methy_genexpr_proexpr_param_data),
+    ids = 1:nrow(indep_methyl_genexpr_proexpr_param_data),
     reg = reg_methyl_genexpr_proexpr_train_best
   ),
   reg = reg_methyl_genexpr_proexpr_train_best)
@@ -60,4 +60,4 @@ reg_methyl_genexpr_proexpr_train_best <- batchtools::reduceResultsList(
 ## resume filtered results
 reg_methyl_genexpr_proexpr_train_DT <- data.table::rbindlist(reg_methyl_genexpr_proexpr_train_best)
 methyl_mean_perf <- reg_methyl_genexpr_proexpr_train_DT[ , .(mean_perf = mean(meta_layer)), 
-                                         by = .(perf_measure, delta.expr, effect)]
+                                         by = .(perf_measure, effect)]
