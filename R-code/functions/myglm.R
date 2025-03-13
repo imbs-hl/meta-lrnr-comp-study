@@ -14,6 +14,7 @@ myglm <- function (x, y) {
 }
 
 predict.myglm <- function(object, data) {
+  print(object$model)
   tmp <- predict(object = object$model,
                  newdata = as.data.frame(data), type = "response")
   print(table(tmp))
