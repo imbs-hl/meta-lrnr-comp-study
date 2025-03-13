@@ -1,7 +1,7 @@
 # This file will run a single replication and estimate prediction performance 
-# for random forests.
+# for lasso.
 # The code is similar to the code provided in the vignette of fuseMLR.
-single_run_rf <- function (
+single_run_lasso <- function (
     data_file = file.path(data_simulation, "multi_omics.rds"),
     seed = 124,
     delta.methyl = param_df$delta.methyl,
@@ -17,14 +17,41 @@ single_run_rf <- function (
                                     collapse = ""))
   training <- readRDS(training_file)
   # Update meta layer learner with RF.
-  # TODO: Include possibility to update and train only the meta-learner 
-  # in fuseMLR
   meta_layer <- training$getTrainMetaLayer()
-  new_lnr <- Lrner$new(id = "ranger",
-                       package = "ranger",
-                       lrn_fct = "ranger",
-                       param_train_list = list(num.tree = num.tree.meta,
-                                               probability = TRUE),
+  # =============================
+  # Wrap a new lasso learner
+  # =============================
+  #
+  mylasso <- function (x, y,
+                       nlambda = 25,
+                       nfolds = 10) {
+    # Perform cross-validation to find the optimal lambda
+    cv_lasso <- cv.glmnet(x = as.matrix(x), y = y,
+                          family = "binomial",
+                          type.measure = "deviance",
+                          nfolds = nfolds)
+    best_lambda <- cv_lasso$lambda.min
+    lasso_best <- glmnet(x = as.matrix(x), y = y,
+                         family = "binomial",
+                         alpha = 1,
+                         lambda = best_lambda
+    )
+    lasso_model <- list(model = lasso_best)
+    class(lasso_model) <- "mylasso"
+    return(lasso_model)
+  }
+  predict.mylasso <- function(object, data) {
+    glmnet_pred <- predict(object = object$model,
+                           newx = as.matrix(data),
+                           type = "response",
+                           # type = "class",
+                           s = object$model$lambda)
+    return(as.vector(1 - glmnet_pred))
+  }
+  new_lnr <- Lrner$new(id = "lasso",
+                       package = NULL,
+                       lrn_fct = "mylasso",
+                       param_train_list = list(nlambda = 25, nfolds = 10),
                        train_layer = meta_layer)
   # Remove the old model
   tmp_key <- meta_layer$getKeyClass()

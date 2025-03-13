@@ -1,7 +1,7 @@
 # This file will run a single replication and estimate prediction performance 
-# for random forests.
+# for logistic regression.
 # The code is similar to the code provided in the vignette of fuseMLR.
-single_run_rf <- function (
+single_run_cobra <- function (
     data_file = file.path(data_simulation, "multi_omics.rds"),
     seed = 124,
     delta.methyl = param_df$delta.methyl,
@@ -17,14 +17,11 @@ single_run_rf <- function (
                                     collapse = ""))
   training <- readRDS(training_file)
   # Update meta layer learner with RF.
-  # TODO: Include possibility to update and train only the meta-learner 
-  # in fuseMLR
   meta_layer <- training$getTrainMetaLayer()
-  new_lnr <- Lrner$new(id = "ranger",
-                       package = "ranger",
-                       lrn_fct = "ranger",
-                       param_train_list = list(num.tree = num.tree.meta,
-                                               probability = TRUE),
+  new_lnr <- Lrner$new(id = "cobra",
+                       package = NULL,
+                       lrn_fct = "cobra",
+                       param_train_list = list(tune = "epsilon"),
                        train_layer = meta_layer)
   # Remove the old model
   tmp_key <- meta_layer$getKeyClass()
