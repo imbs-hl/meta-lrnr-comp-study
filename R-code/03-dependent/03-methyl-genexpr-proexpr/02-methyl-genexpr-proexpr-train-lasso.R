@@ -16,22 +16,24 @@ reg_dep_megepro_train_lasso <- wrap_batchtools(reg_name = "02-train-lasso",
                                                more_args = list(
                                                  num.tree.meta = 1000L
                                                ),
-                                               name = "me-lasso",
+                                               name = "dep-megepro-lasso",
                                                overwrite = TRUE,
                                                memory = "25g",
                                                n_cpus = 5,
                                                walltime = "60",
                                                sleep = 5,
-                                               partition = "batch", ## Set partition in init-global
+                                               partition = "prio", ## Set partition in init-global
                                                account = "p23048", ## Set account in init-global
                                                test_job = FALSE,
                                                wait_for_jobs = FALSE,
                                                packages = c(
                                                  "devtools",
                                                  "data.table",
-                                                 "mgcv",
+                                                 "glmnet",
                                                  "fuseMLR"
                                                ),
+                                               source = c(file.path(function_dir, 
+                                                                    "mylasso.R")),
                                                config_file = config_file,
                                                interactive_session = interactive_session)
 

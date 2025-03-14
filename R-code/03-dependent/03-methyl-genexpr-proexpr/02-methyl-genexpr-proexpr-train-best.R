@@ -46,12 +46,12 @@ reg_megepro_train <- wrap_batchtools(reg_name = "02-train-best",
 ## ----------------------------------------------
 ##
 reg_dep_megepro_train_best <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_methyl_genexpr_proexpr, "02-train-best"),
+  file.dir = file.path(reg_dep_methyl_genexpr_proexpr, "02-train-best"),
   writeable = TRUE,
   conf.file = config_file)
 reg_dep_megepro_train_best <- batchtools::reduceResultsList(
   ids = batchtools::findDone(
-    ids = 1:nrow(indep_methyl_genexpr_proexpr_param_data),
+    ids = 1:nrow(dep_methyl_genexpr_proexpr_param_data),
     reg = reg_dep_megepro_train_best
   ),
   reg = reg_dep_megepro_train_best)

@@ -16,13 +16,13 @@ reg_dep_megepro_train_lr <- wrap_batchtools(reg_name = "02-train-lr",
                                             more_args = list(
                                               num.tree.meta = 1000L
                                             ),
-                                            name = "methyl-lr",
+                                            name = "dep-megepro-lr",
                                             overwrite = TRUE,
                                             memory = "25g",
                                             n_cpus = 5,
                                             walltime = "60",
                                             sleep = 5,
-                                            partition = "batch", ## Set partition in init-global
+                                            partition = "prio", ## Set partition in init-global
                                             account = "p23048", ## Set account in init-global
                                             test_job = FALSE,
                                             wait_for_jobs = FALSE,
@@ -32,6 +32,8 @@ reg_dep_megepro_train_lr <- wrap_batchtools(reg_name = "02-train-lr",
                                               "mgcv",
                                               "fuseMLR"
                                             ),
+                                            source = c(file.path(function_dir, 
+                                                                 "myglm.R")),
                                             config_file = config_file,
                                             interactive_session = interactive_session)
 

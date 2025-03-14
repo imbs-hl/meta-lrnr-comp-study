@@ -6,12 +6,12 @@ reg_dep_mege_train_wa <- wrap_batchtools(reg_name = "02-train-wa",
                                          reg_dir = reg_dep_methyl_genexpr,
                                          r_function = single_run_wa,
                                          vec_args = data.frame(
-                                           data_file = dep_methy_genexpr_param_data$save_path,
-                                           seed = dep_methy_genexpr_param_data$seed,
-                                           delta.methyl = dep_methy_genexpr_param_data$delta.methyl,
-                                           delta.expr = dep_methy_genexpr_param_data$delta.expr,
-                                           delta.protein = dep_methy_genexpr_param_data$delta.protein,
-                                           effect = dep_methy_genexpr_param_data$effect
+                                           data_file = dep_methyl_genexpr_param_data$save_path,
+                                           seed = dep_methyl_genexpr_param_data$seed,
+                                           delta.methyl = dep_methyl_genexpr_param_data$delta.methyl,
+                                           delta.expr = dep_methyl_genexpr_param_data$delta.expr,
+                                           delta.protein = dep_methyl_genexpr_param_data$delta.protein,
+                                           effect = dep_methyl_genexpr_param_data$effect
                                          ),
                                          more_args = list(
                                            num.tree.meta = 1000L
@@ -22,7 +22,7 @@ reg_dep_mege_train_wa <- wrap_batchtools(reg_name = "02-train-wa",
                                          n_cpus = 5,
                                          walltime = "60",
                                          sleep = 5,
-                                         partition = "batch", ## Set partition in init-global
+                                         partition = "prio", ## Set partition in init-global
                                          account = "p23048", ## Set account in init-global
                                          test_job = FALSE,
                                          wait_for_jobs = FALSE,
@@ -46,7 +46,7 @@ reg_dep_mege_train_wa <- batchtools::loadRegistry(
   conf.file = config_file)
 reg_dep_mege_train_wa <- batchtools::reduceResultsList(
   ids = batchtools::findDone(
-    ids = 1:nrow(dep_methy_genexpr_param_data),
+    ids = 1:nrow(dep_methyl_genexpr_param_data),
     reg = reg_dep_mege_train_wa
   ),
   reg = reg_dep_mege_train_wa)

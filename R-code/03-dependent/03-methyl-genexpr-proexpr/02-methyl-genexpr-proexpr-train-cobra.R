@@ -16,7 +16,7 @@ reg_dep_megepro_train_cobra <- wrap_batchtools(reg_name = "02-train-cobra",
                                                more_args = list(
                                                  num.tree.meta = 1000L
                                                ),
-                                               name = "methyl-cobra",
+                                               name = "dep-megepro-cobra",
                                                overwrite = TRUE,
                                                memory = "25g",
                                                n_cpus = 5,

@@ -46,7 +46,7 @@ reg_dep_mege_train_cobra <- batchtools::loadRegistry(
   conf.file = config_file)
 reg_dep_mege_train_cobra <- batchtools::reduceResultsList(
   ids = batchtools::findDone(
-    ids = 1:nrow(dep_methy_genexpr_param_data),
+    ids = 1:nrow(dep_methyl_genexpr_param_data),
     reg = reg_dep_mege_train_cobra
   ),
   reg = reg_dep_mege_train_cobra)

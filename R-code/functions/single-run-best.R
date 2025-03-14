@@ -16,72 +16,77 @@ single_run_best <- function (
     num.tree.ranger.proexpr = 1000L
 ) {
   multi_omics <- readRDS(data_file)
+  training_file <- file.path(dirname(data_file), 
+                             paste0(seed, 
+                                    sprintf("%s_meta.rds", effect),
+                                    collapse = ""))
+  training <- readRDS(training_file)
   # Set up a training object
-  training <- createTraining(id = "training",
-                             ind_col = "IDS",
-                             target = "disease",
-                             target_df = multi_omics$training$target,
-                             verbose = FALSE)
-  # Create methylation layer
-  createTrainLayer(training = training,
-                   train_layer_id = "methylation",
-                   train_data = multi_omics$training$methylation,
-                   varsel_package = "Boruta",
-                   varsel_fct = "Boruta",
-                   varsel_param = list(num.trees = num.tree.boruta.methyl,
-                                       # mtry = 3L,
-                                       probability = TRUE),
-                   lrner_package = "ranger",
-                   lrn_fct = "ranger",
-                   param_train_list = list(num.trees = num.tree.ranger.methyl,
-                                           probability = TRUE),
-                   param_pred_list = list(),
-                   na_action = "na.keep")
-  # Create gene expression layer.
-  createTrainLayer(training = training,
-                   train_layer_id = "geneexpr",
-                   train_data = multi_omics$training$geneexpr,
-                   varsel_package = "Boruta",
-                   varsel_fct = "Boruta",
-                   varsel_param = list(num.trees = num.tree.boruta.genexpr,
-                                       # mtry = 3L,
-                                       probability = TRUE),
-                   lrner_package = "ranger",
-                   lrn_fct = "ranger",
-                   param_train_list = list(num.trees = num.tree.ranger.genexpr,
-                                           probability = TRUE),
-                   param_pred_list = list(),
-                   na_action = "na.keep")
-  
-  # Create gene protein abundance layer
-  createTrainLayer(training = training,
-                   train_layer_id = "proteinexpr",
-                   train_data = multi_omics$training$proteinexpr,
-                   varsel_package = "Boruta",
-                   varsel_fct = "Boruta",
-                   varsel_param = list(num.trees = num.tree.boruta.proexpr,
-                                       # mtry = 3L,
-                                       probability = TRUE),
-                   lrner_package = "ranger",
-                   lrn_fct = "ranger",
-                   param_train_list = list(num.trees = num.tree.ranger.proexpr,
-                                           probability = TRUE),
-                   param_pred_list = list(type = "response"),
-                   na_action = "na.keep")
-  
-  # Create meta layer with imputation of missing values.
-  createTrainMetaLayer(training = training,
-                       meta_layer_id = "meta_layer",
-                       lrner_package = NULL,
-                       lrn_fct = "bestLayerLearner",
-                       param_train_list = list(),
-                       param_pred_list = list(na_rm = TRUE),
-                       na_action = "na.rm")
-  # Variable selection
-  set.seed(seed)
-  var_sel_res <- varSelection(training = training)
-  fusemlr(training = training,
-          use_var_sel = TRUE)
+  # training <- createTraining(id = "training",
+  #                            ind_col = "IDS",
+  #                            target = "disease",
+  #                            target_df = multi_omics$training$target,
+  #                            verbose = FALSE)
+  # # Create methylation layer
+  # createTrainLayer(training = training,
+  #                  train_layer_id = "methylation",
+  #                  train_data = multi_omics$training$methylation,
+  #                  varsel_package = "Boruta",
+  #                  varsel_fct = "Boruta",
+  #                  varsel_param = list(num.trees = num.tree.boruta.methyl,
+  #                                      # mtry = 3L,
+  #                                      probability = TRUE),
+  #                  lrner_package = "ranger",
+  #                  lrn_fct = "ranger",
+  #                  param_train_list = list(num.trees = num.tree.ranger.methyl,
+  #                                          probability = TRUE),
+  #                  param_pred_list = list(),
+  #                  na_action = "na.keep")
+  # # Create gene expression layer.
+  # createTrainLayer(training = training,
+  #                  train_layer_id = "geneexpr",
+  #                  train_data = multi_omics$training$geneexpr,
+  #                  varsel_package = "Boruta",
+  #                  varsel_fct = "Boruta",
+  #                  varsel_param = list(num.trees = num.tree.boruta.genexpr,
+  #                                      # mtry = 3L,
+  #                                      probability = TRUE),
+  #                  lrner_package = "ranger",
+  #                  lrn_fct = "ranger",
+  #                  param_train_list = list(num.trees = num.tree.ranger.genexpr,
+  #                                          probability = TRUE),
+  #                  param_pred_list = list(),
+  #                  na_action = "na.keep")
+  # 
+  # # Create gene protein abundance layer
+  # createTrainLayer(training = training,
+  #                  train_layer_id = "proteinexpr",
+  #                  train_data = multi_omics$training$proteinexpr,
+  #                  varsel_package = "Boruta",
+  #                  varsel_fct = "Boruta",
+  #                  varsel_param = list(num.trees = num.tree.boruta.proexpr,
+  #                                      # mtry = 3L,
+  #                                      probability = TRUE),
+  #                  lrner_package = "ranger",
+  #                  lrn_fct = "ranger",
+  #                  param_train_list = list(num.trees = num.tree.ranger.proexpr,
+  #                                          probability = TRUE),
+  #                  param_pred_list = list(type = "response"),
+  #                  na_action = "na.keep")
+  # 
+  # # Create meta layer with imputation of missing values.
+  # createTrainMetaLayer(training = training,
+  #                      meta_layer_id = "meta_layer",
+  #                      lrner_package = NULL,
+  #                      lrn_fct = "bestLayerLearner",
+  #                      param_train_list = list(),
+  #                      param_pred_list = list(na_rm = TRUE),
+  #                      na_action = "na.rm")
+  # # Variable selection
+  # set.seed(seed)
+  # var_sel_res <- varSelection(training = training)
+  # fusemlr(training = training,
+  #         use_var_sel = TRUE)
   meta_layer <- training$getTrainMetaLayer()
   start_time <- Sys.time()  # Record start time
   # We re-run it to save the meta-learning time only
