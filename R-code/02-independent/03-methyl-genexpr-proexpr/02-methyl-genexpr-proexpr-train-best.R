@@ -45,19 +45,26 @@ reg_megepro_train <- wrap_batchtools(reg_name = "02-train-best",
 ## Resume results
 ## ----------------------------------------------
 ##
-reg_methyl_genexpr_proexpr_train_best <- batchtools::loadRegistry(
+reg_indep_megepro_train_best <- batchtools::loadRegistry(
   file.dir = file.path(reg_indep_methyl_genexpr_proexpr, "02-train-best"),
   writeable = TRUE,
   conf.file = config_file)
-reg_methyl_genexpr_proexpr_train_best <- batchtools::reduceResultsList(
+reg_indep_megepro_train_best <- batchtools::reduceResultsList(
   ids = batchtools::findDone(
     ids = 1:nrow(indep_methyl_genexpr_proexpr_param_data),
-    reg = reg_methyl_genexpr_proexpr_train_best
+    reg = reg_indep_megepro_train_best
   ),
-  reg = reg_methyl_genexpr_proexpr_train_best)
+  reg = reg_indep_megepro_train_best)
 
 
 ## resume filtered results
-reg_methyl_genexpr_proexpr_train_DT <- data.table::rbindlist(reg_methyl_genexpr_proexpr_train_best)
-indep_megepro_mean_perf_best <- reg_methyl_genexpr_proexpr_train_DT[ , .(mean_perf = mean(meta_layer)), 
-                                         by = .(perf_measure, effect)]
+indep_res_megepro_best <- data.table::rbindlist(reg_indep_megepro_train_best)
+indep_megepro_mean_perf_best <- indep_res_megepro_best[ , .(mean_perf = mean(meta_layer)), 
+                                                  by = .(perf_measure, effect)]
+print(indep_megepro_mean_perf_best)
+indep_res_megepro_best$Setting <- "Independent"
+indep_res_megepro_best$DE <- "DE: Methyl."
+indep_res_megepro_best$Meta_learner <- "BM"
+saveRDS(object = indep_res_megepro_best,
+        file = file.path(res_indep_methyl_genexpr_proexpr,
+                         "indep_res_megepro_best.rds"))

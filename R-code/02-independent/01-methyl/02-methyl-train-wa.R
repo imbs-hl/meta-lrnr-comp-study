@@ -52,6 +52,12 @@ reg_methyl_train_wa <- batchtools::reduceResultsList(
 
 
 ## resume filtered results
-reg_methyl_train_wa_DT <- data.table::rbindlist(reg_methyl_train_wa)
-methyl_mean_perf_wa <- reg_methyl_train_wa_DT[ , .(mean_perf = mean(meta_layer)), 
-                                               by = .(perf_measure, effect)]
+indep_res_methyl_wa <- data.table::rbindlist(reg_methyl_train_wa)
+indep_methyl_mean_perf_wa <- indep_res_methyl_wa[ , .(mean_perf = mean(meta_layer)), 
+                                                  by = .(perf_measure, effect)]
+print(indep_methyl_mean_perf_wa)
+indep_res_methyl_wa$Setting <- "Independent"
+indep_res_methyl_wa$DE <- "DE: Methyl."
+indep_res_methyl_wa$Meta_learner <- "RF"
+saveRDS(object = indep_res_methyl_wa,
+        file = file.path(res_indep_methyl, "indep_res_methyl_wa.rds"))

@@ -54,6 +54,12 @@ reg_methyl_train_lasso <- batchtools::reduceResultsList(
 
 
 ## resume filtered results
-reg_methyl_train_lasso_DT <- data.table::rbindlist(reg_methyl_train_lasso)
-methyl_mean_perf_lasso <- reg_methyl_train_lasso_DT[ , .(mean_perf = mean(meta_layer)), 
-                                                     by = .(perf_measure, effect)]
+indep_res_methyl_lasso <- data.table::rbindlist(reg_methyl_train_lasso)
+indep_methyl_mean_perf_lasso <- indep_res_methyl_lasso[ , .(mean_perf = mean(meta_layer)), 
+                                                        by = .(perf_measure, effect)]
+print(indep_methyl_mean_perf_lasso)
+indep_res_methyl_lasso$Setting <- "Independent"
+indep_res_methyl_lasso$DE <- "DE: Methyl."
+indep_res_methyl_lasso$Meta_learner <- "Lasso"
+saveRDS(object = indep_res_methyl_lasso,
+        file = file.path(res_indep_methyl, "indep_res_methyl_lasso.rds"))

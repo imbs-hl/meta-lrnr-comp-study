@@ -22,7 +22,7 @@ reg_methyl_train <- wrap_batchtools(reg_name = "02-train-best",
                                       num.tree.ranger.proexpr = 1000L
                                     ),
                                     name = "methyl-best",
-                                    overwrite = TRUE,
+                                    overwrite = FALSE,
                                     memory = "25g",
                                     n_cpus = 5,
                                     walltime = "60",
@@ -57,12 +57,13 @@ reg_methyl_train_best <- batchtools::reduceResultsList(
 
 
 ## resume filtered results
-res_methyl_best <- data.table::rbindlist(reg_methyl_train_best)
-indep_methyl_mean_perf_best <- res_methyl_best[ , .(mean_perf = mean(meta_layer)), 
+indep_res_methyl_best <- data.table::rbindlist(reg_methyl_train_best)
+indep_methyl_mean_perf_best <- indep_res_methyl_best[ , .(mean_perf = mean(meta_layer)), 
                                          by = .(perf_measure, effect)]
 print(indep_methyl_mean_perf_best)
-res_methyl_best$Setting <- "Independent"
-res_methyl_best$DE <- "DE: Methyl."
-saveRDS(object = res_methyl_best,
-        file = file.path(res_indep_methyl, "res_methyl_best.rds"))
+indep_res_methyl_best$Setting <- "Independent"
+indep_res_methyl_best$DE <- "DE: Methyl."
+indep_res_methyl_best$Meta_learner <- "BM"
+saveRDS(object = indep_res_methyl_best,
+        file = file.path(res_indep_methyl, "indep_res_methyl_best.rds"))
 

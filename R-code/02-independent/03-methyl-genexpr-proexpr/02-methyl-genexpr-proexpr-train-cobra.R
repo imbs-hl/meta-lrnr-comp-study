@@ -40,19 +40,26 @@ reg_indep_megepro_train_cobra <- wrap_batchtools(reg_name = "02-train-cobra",
 ## Resume results
 ## ----------------------------------------------
 ##
-reg_megepro_train_cobra <- batchtools::loadRegistry(
+reg_indep_megepro_train_cobra <- batchtools::loadRegistry(
   file.dir = file.path(reg_indep_methyl_genexpr_proexpr, "02-train-cobra"),
   writeable = TRUE,
   conf.file = config_file)
-reg_megepro_train_cobra <- batchtools::reduceResultsList(
+reg_indep_megepro_train_cobra <- batchtools::reduceResultsList(
   ids = batchtools::findDone(
     ids = 1:nrow(indep_methyl_genexpr_proexpr_param_data),
-    reg = reg_megepro_train_cobra
+    reg = reg_indep_megepro_train_cobra
   ),
-  reg = reg_megepro_train_cobra)
+  reg = reg_indep_megepro_train_cobra)
 
 
 ## resume filtered results
-reg_megepro_train_cobra_DT <- data.table::rbindlist(reg_megepro_train_cobra)
-indep_megepro_mean_perf_cobra <- reg_megepro_train_cobra_DT[ , .(mean_perf = mean(meta_layer)), 
-                                         by = .(perf_measure, effect)]
+indep_res_megepro_cobra <- data.table::rbindlist(reg_indep_megepro_train_cobra)
+indep_megepro_mean_perf_cobra <- indep_res_megepro_cobra[ , .(mean_perf = mean(meta_layer)), 
+                                                        by = .(perf_measure, effect)]
+print(indep_megepro_mean_perf_cobra)
+indep_res_megepro_cobra$Setting <- "Independent"
+indep_res_megepro_cobra$DE <- "DE: Methyl."
+indep_res_megepro_cobra$Meta_learner <- "BM"
+saveRDS(object = indep_res_megepro_cobra,
+        file = file.path(res_indep_methyl_genexpr_proexpr,
+                         "indep_res_megepro_cobra.rds"))

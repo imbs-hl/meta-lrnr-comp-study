@@ -57,3 +57,14 @@ reg_methyl_train_lr <- batchtools::reduceResultsList(
 reg_methyl_train_lr_DT <- data.table::rbindlist(reg_methyl_train_lr)
 methyl_mean_perf_lr <- reg_methyl_train_lr_DT[ , .(mean_perf = mean(meta_layer)), 
                                                by = .(perf_measure, effect)]
+
+## resume filtered results
+indep_res_methyl_lr <- data.table::rbindlist(reg_methyl_train_lr)
+indep_methyl_mean_perf_lr <- indep_res_methyl_lr[ , .(mean_perf = mean(meta_layer)), 
+                                                        by = .(perf_measure, effect)]
+print(indep_methyl_mean_perf_lr)
+indep_res_methyl_lr$Setting <- "Independent"
+indep_res_methyl_lr$DE <- "DE: Methyl."
+indep_res_methyl_lr$Meta_learner <- "LogReg"
+saveRDS(object = indep_res_methyl_lr,
+        file = file.path(res_indep_methyl, "indep_res_methyl_lr.rds"))

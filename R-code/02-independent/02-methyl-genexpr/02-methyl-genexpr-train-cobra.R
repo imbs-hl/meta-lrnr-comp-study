@@ -53,6 +53,13 @@ reg_indep_mege_train_cobra <- batchtools::reduceResultsList(
 
 
 ## resume filtered results
-reg_indep_mege_train_cobra_DT <- data.table::rbindlist(reg_indep_mege_train_cobra)
-indep_mege_mean_perf_cobra <- reg_indep_mege_train_cobra_DT[ , .(mean_perf = mean(meta_layer)), 
-                                                             by = .(perf_measure, effect)]
+indep_res_mege_cobra <- data.table::rbindlist(reg_indep_mege_train_cobra)
+indep_mege_mean_perf_cobra <- indep_res_mege_cobra[ , .(mean_perf = mean(meta_layer)), 
+                                                  by = .(perf_measure, effect)]
+print(indep_mege_mean_perf_cobra)
+indep_res_mege_cobra$Setting <- "Independent"
+indep_res_mege_cobra$DE <- "DE: Methyl."
+indep_res_mege_cobra$Meta_learner <- "COBRA"
+saveRDS(object = indep_res_mege_cobra,
+        file = file.path(res_indep_methyl_genexpr,
+                         "indep_res_mege_cobra.rds"))
