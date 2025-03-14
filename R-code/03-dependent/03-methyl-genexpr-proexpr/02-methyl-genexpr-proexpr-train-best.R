@@ -3,7 +3,7 @@ source("init.R", chdir = TRUE)
 no.threads <- 5
 reg_megepro_train <- wrap_batchtools(reg_name = "02-train-best",
                                      work_dir = working_dir,
-                                     reg_dir = reg_indep_methyl_genexpr_proexpr,
+                                     reg_dir = reg_dep_methyl_genexpr_proexpr,
                                      r_function = single_run_best,
                                      vec_args = data.frame(
                                        data_file = dep_methyl_genexpr_proexpr_param_data$save_path,
@@ -58,6 +58,6 @@ reg_dep_megepro_train_best <- batchtools::reduceResultsList(
 
 
 ## resume filtered results
-reg_dep_megepro_train_DT <- data.table::rbindlist(reg_dep_megepro_train_best)
-methyl_mean_perf <- reg_dep_megepro_best_train_DT[ , .(mean_perf = mean(meta_layer)), 
+reg_dep_megepro_best_train_DT <- data.table::rbindlist(reg_dep_megepro_train_best)
+megepro_mean_perf_best <- reg_dep_megepro_best_train_DT[ , .(mean_perf = mean(meta_layer)), 
                                                    by = .(perf_measure, effect)]
