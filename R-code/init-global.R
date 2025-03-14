@@ -168,3 +168,28 @@ dir.create(reg_dep_methyl, showWarnings = FALSE, recursive = TRUE)
 dir.create(reg_dep_methyl_genexpr, showWarnings = FALSE, recursive = TRUE)
 dir.create(reg_dep_methyl_genexpr_proexpr, showWarnings = FALSE,
            recursive = TRUE)
+# Result dir
+dir.create(result_dir, showWarnings = FALSE, recursive = TRUE)
+
+# Registries for independent differentially expressed markers
+res_independent_dir <- file.path(result_dir, "independent")
+dir.create(res_independent_dir, showWarnings = FALSE, recursive = TRUE)
+res_indep_methyl <- file.path(res_independent_dir, "methyl")
+res_indep_methyl_genexpr <- file.path(res_independent_dir, "methyl_genexpr")
+res_indep_methyl_genexpr_proexpr <- file.path(res_independent_dir,
+                                              "methyl_genexpr_proexpr")
+dir.create(res_indep_methyl, showWarnings = FALSE, recursive = TRUE)
+dir.create(res_indep_methyl_genexpr, showWarnings = FALSE, recursive = TRUE)
+dir.create(res_indep_methyl_genexpr_proexpr, showWarnings = FALSE,
+           recursive = TRUE)
+# Registries for dependent differentially expressed markers
+res_dependent_dir <- file.path(result_dir, "dependent")
+dir.create(res_dependent_dir, showWarnings = FALSE, recursive = TRUE)
+res_dep_methyl <- file.path(res_dependent_dir, "methyl")
+res_dep_methyl_genexpr <- file.path(reg_dependent_dir, "methyl_genexpr")
+res_dep_methyl_genexpr_proexpr <- file.path(res_dependent_dir,
+                                            "methyl_genexpr_proexpr")
+dir.create(res_dep_methyl, showWarnings = FALSE, recursive = TRUE)
+dir.create(res_dep_methyl_genexpr, showWarnings = FALSE, recursive = TRUE)
+dir.create(res_dep_methyl_genexpr_proexpr, showWarnings = FALSE,
+           recursive = TRUE)
