@@ -56,5 +56,5 @@ reg_megepro_train_lasso <- batchtools::reduceResultsList(
 
 ## resume filtered results
 reg_megepro_train_lasso_DT <- data.table::rbindlist(reg_megepro_train_lasso)
-megepro_mean_perf_lasso <- reg_megepro_train_lasso_DT[ , .(mean_perf = mean(meta_layer)), 
+dep_megepro_mean_perf_lasso <- reg_megepro_train_lasso_DT[ , .(mean_perf = mean(meta_layer)), 
                                                        by = .(perf_measure, effect)]

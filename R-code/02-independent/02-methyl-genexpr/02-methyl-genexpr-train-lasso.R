@@ -6,12 +6,12 @@ reg_indep_mege_train_lasso <- wrap_batchtools(reg_name = "02-train-lasso",
                                     reg_dir = reg_indep_methyl_genexpr,
                                     r_function = single_run_lasso,
                                     vec_args = data.frame(
-                                      data_file = indep_methy_genexpr_param_data$save_path,
-                                      seed = indep_methy_genexpr_param_data$seed,
-                                      delta.methyl = indep_methy_genexpr_param_data$delta.methyl,
-                                      delta.expr = indep_methy_genexpr_param_data$delta.expr,
-                                      delta.protein = indep_methy_genexpr_param_data$delta.protein,
-                                      effect = indep_methy_genexpr_param_data$effect
+                                      data_file = indep_methyl_genexpr_param_data$save_path,
+                                      seed = indep_methyl_genexpr_param_data$seed,
+                                      delta.methyl = indep_methyl_genexpr_param_data$delta.methyl,
+                                      delta.expr = indep_methyl_genexpr_param_data$delta.expr,
+                                      delta.protein = indep_methyl_genexpr_param_data$delta.protein,
+                                      effect = indep_methyl_genexpr_param_data$effect
                                     ),
                                     more_args = list(
                                       num.tree.meta = 1000L
@@ -22,16 +22,18 @@ reg_indep_mege_train_lasso <- wrap_batchtools(reg_name = "02-train-lasso",
                                     n_cpus = 5,
                                     walltime = "60",
                                     sleep = 5,
-                                    partition = "batch", ## Set partition in init-global
+                                    partition = "fast", ## Set partition in init-global
                                     account = "p23048", ## Set account in init-global
                                     test_job = FALSE,
                                     wait_for_jobs = FALSE,
                                     packages = c(
                                       "devtools",
                                       "data.table",
-                                      "mgcv",
+                                      "glmnet",
                                       "fuseMLR"
                                     ),
+                                    source = c(file.path(function_dir, 
+                                                         "mylasso.R")),
                                     config_file = config_file,
                                     interactive_session = interactive_session)
 
@@ -46,7 +48,7 @@ reg_indep_mege_train_lasso <- batchtools::loadRegistry(
   conf.file = config_file)
 reg_indep_mege_train_lasso <- batchtools::reduceResultsList(
   ids = batchtools::findDone(
-    ids = 1:nrow(indep_methy_genexpr_param_data),
+    ids = 1:nrow(indep_methyl_genexpr_param_data),
     reg = reg_indep_mege_train_lasso
   ),
   reg = reg_indep_mege_train_lasso)

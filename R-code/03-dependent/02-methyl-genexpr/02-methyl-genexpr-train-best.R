@@ -58,5 +58,5 @@ reg_methyl_genexpr_train_best <- batchtools::reduceResultsList(
 
 ## resume filtered results
 reg_methyl_genexpr_train_DT <- data.table::rbindlist(reg_methyl_genexpr_train_best)
-methyl_mean_perf <- reg_methyl_genexpr_train_DT[ , .(mean_perf = mean(meta_layer)), 
+dep_mege_mean_perf_best <- reg_methyl_genexpr_train_DT[ , .(mean_perf = mean(meta_layer)), 
                                                  by = .(perf_measure, effect)]

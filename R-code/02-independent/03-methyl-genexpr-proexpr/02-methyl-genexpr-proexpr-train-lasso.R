@@ -16,7 +16,7 @@ reg_indep_megepro_train_lasso <- wrap_batchtools(reg_name = "02-train-lasso",
                                     more_args = list(
                                       num.tree.meta = 1000L
                                     ),
-                                    name = "me-lasso",
+                                    name = "indep-me-lasso",
                                     overwrite = TRUE,
                                     memory = "25g",
                                     n_cpus = 5,
@@ -29,9 +29,11 @@ reg_indep_megepro_train_lasso <- wrap_batchtools(reg_name = "02-train-lasso",
                                     packages = c(
                                       "devtools",
                                       "data.table",
-                                      "mgcv",
+                                      "glmnet",
                                       "fuseMLR"
                                     ),
+                                    source = c(file.path(function_dir, 
+                                                         "mylasso.R")),
                                     config_file = config_file,
                                     interactive_session = interactive_session)
 
@@ -54,5 +56,5 @@ reg_megepro_train_lasso <- batchtools::reduceResultsList(
 
 ## resume filtered results
 reg_megepro_train_lasso_DT <- data.table::rbindlist(reg_megepro_train_lasso)
-megepro_mean_perf_lasso <- reg_megepro_train_lasso_DT[ , .(mean_perf = mean(meta_layer)), 
+indep_megepro_mean_perf_lasso <- reg_megepro_train_lasso_DT[ , .(mean_perf = mean(meta_layer)), 
                                          by = .(perf_measure, effect)]

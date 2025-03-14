@@ -54,5 +54,5 @@ reg_megepro_train_cobra <- batchtools::reduceResultsList(
 
 ## resume filtered results
 reg_megepro_train_cobra_DT <- data.table::rbindlist(reg_megepro_train_cobra)
-megepro_mean_perf_cobra <- reg_megepro_train_cobra_DT[ , .(mean_perf = mean(meta_layer)), 
+indep_megepro_mean_perf_cobra <- reg_megepro_train_cobra_DT[ , .(mean_perf = mean(meta_layer)), 
                                          by = .(perf_measure, effect)]

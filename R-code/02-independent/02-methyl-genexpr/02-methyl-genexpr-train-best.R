@@ -22,7 +22,7 @@ reg_methyl_genexpr_train <- wrap_batchtools(reg_name = "02-train-best",
                                               num.tree.ranger.proexpr = 1000L
                                             ),
                                             name = "mege-best",
-                                            overwrite = TRUE,
+                                            overwrite = FALSE,
                                             memory = "25g",
                                             n_cpus = 5,
                                             walltime = "60",
@@ -50,7 +50,7 @@ reg_methyl_genexpr_train_best <- batchtools::loadRegistry(
   conf.file = config_file)
 reg_methyl_genexpr_train_best <- batchtools::reduceResultsList(
   ids = batchtools::findDone(
-    ids = 1:nrow(indep_methy_genexpr_param_data),
+    ids = 1:nrow(indep_methyl_genexpr_param_data),
     reg = reg_methyl_genexpr_train_best
   ),
   reg = reg_methyl_genexpr_train_best)
@@ -58,5 +58,5 @@ reg_methyl_genexpr_train_best <- batchtools::reduceResultsList(
 
 ## resume filtered results
 reg_methyl_genexpr_train_DT <- data.table::rbindlist(reg_methyl_genexpr_train_best)
-methyl_mean_perf <- reg_methyl_genexpr_train_DT[ , .(mean_perf = mean(meta_layer)), 
+indep_mege_mean_perf_best <- reg_methyl_genexpr_train_DT[ , .(mean_perf = mean(meta_layer)), 
                                                  by = .(perf_measure, effect)]

@@ -57,6 +57,12 @@ reg_methyl_train_best <- batchtools::reduceResultsList(
 
 
 ## resume filtered results
-reg_methyl_train_DT <- data.table::rbindlist(reg_methyl_train_best)
-methyl_mean_perf <- reg_methyl_train_DT[ , .(mean_perf = mean(meta_layer)), 
+res_methyl_best <- data.table::rbindlist(reg_methyl_train_best)
+indep_methyl_mean_perf_best <- res_methyl_best[ , .(mean_perf = mean(meta_layer)), 
                                          by = .(perf_measure, effect)]
+print(indep_methyl_mean_perf_best)
+res_methyl_best$Experiment <- "Independent"
+res_methyl_best$DE <- "DE: Methyl"
+saveRDS(object = res_methyl_best,
+        file = file.path(res_indep_methyl, "res_methyl_best.rds"))
+

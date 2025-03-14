@@ -22,7 +22,7 @@ reg_indep_megepro_train_lr <- wrap_batchtools(reg_name = "02-train-lr",
                                     n_cpus = 5,
                                     walltime = "60",
                                     sleep = 5,
-                                    partition = "batch", ## Set partition in init-global
+                                    partition = "fast", ## Set partition in init-global
                                     account = "p23048", ## Set account in init-global
                                     test_job = FALSE,
                                     wait_for_jobs = FALSE,
@@ -32,6 +32,8 @@ reg_indep_megepro_train_lr <- wrap_batchtools(reg_name = "02-train-lr",
                                       "mgcv",
                                       "fuseMLR"
                                     ),
+                                    source = c(file.path(function_dir, 
+                                                         "myglm.R")),
                                     config_file = config_file,
                                     interactive_session = interactive_session)
 
@@ -41,7 +43,8 @@ reg_indep_megepro_train_lr <- wrap_batchtools(reg_name = "02-train-lr",
 ## ----------------------------------------------
 ##
 reg_megepro_train_lr <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_methyl_genexpr_proexpr, "02-train-lr"), writeable = TRUE,
+  file.dir = file.path(reg_indep_methyl_genexpr_proexpr, "02-train-lr"),
+  writeable = TRUE,
   conf.file = config_file)
 reg_megepro_train_lr <- batchtools::reduceResultsList(
   ids = batchtools::findDone(
@@ -53,5 +56,5 @@ reg_megepro_train_lr <- batchtools::reduceResultsList(
 
 ## resume filtered results
 reg_megepro_train_lr_DT <- data.table::rbindlist(reg_megepro_train_lr)
-megepro_mean_perf_lr <- reg_megepro_train_lr_DT[ , .(mean_perf = mean(meta_layer)), 
+indep_egepro_mean_perf_lr <- reg_megepro_train_lr_DT[ , .(mean_perf = mean(meta_layer)), 
                                          by = .(perf_measure, effect)]

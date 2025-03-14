@@ -32,6 +32,8 @@ reg_indep_mege_train_lr <- wrap_batchtools(reg_name = "02-train-lr",
                                       "mgcv",
                                       "fuseMLR"
                                     ),
+                                    source = c(file.path(function_dir, 
+                                                         "myglm.R")),
                                     config_file = config_file,
                                     interactive_session = interactive_session)
 
@@ -46,7 +48,7 @@ reg_indep_mege_train_lr <- batchtools::loadRegistry(
   conf.file = config_file)
 reg_indep_mege_train_lr <- batchtools::reduceResultsList(
   ids = batchtools::findDone(
-    ids = 1:nrow(indep_methy_genexpr_param_data),
+    ids = 1:nrow(indep_methyl_genexpr_param_data),
     reg = reg_indep_mege_train_lr
   ),
   reg = reg_indep_mege_train_lr)

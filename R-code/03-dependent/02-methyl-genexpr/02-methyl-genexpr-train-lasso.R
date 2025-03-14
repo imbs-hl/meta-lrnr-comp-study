@@ -22,14 +22,14 @@ reg_dep_mege_train_lasso <- wrap_batchtools(reg_name = "02-train-lasso",
                                             n_cpus = 5,
                                             walltime = "60",
                                             sleep = 5,
-                                            partition = "prio", ## Set partition in init-global
+                                            partition = "fast", ## Set partition in init-global
                                             account = "p23048", ## Set account in init-global
                                             test_job = FALSE,
                                             wait_for_jobs = FALSE,
                                             packages = c(
                                               "devtools",
                                               "data.table",
-                                              "mgcv",
+                                              "glmnet",
                                               "fuseMLR"
                                             ),
                                             source = c(file.path(function_dir, 
@@ -56,5 +56,5 @@ reg_dep_mege_train_lasso <- batchtools::reduceResultsList(
 
 ## resume filtered results
 reg_dep_mege_train_lasso_DT <- data.table::rbindlist(reg_dep_mege_train_lasso)
-dep_mege_mean_perf_lasso <- reg_indep_mege_train_lasso_DT[ , .(mean_perf = mean(meta_layer)), 
+dep_mege_mean_perf_lasso <- reg_dep_mege_train_lasso_DT[ , .(mean_perf = mean(meta_layer)), 
                                                            by = .(perf_measure, effect)]

@@ -55,5 +55,5 @@ reg_megepro_train_lr <- batchtools::reduceResultsList(
 
 ## resume filtered results
 reg_megepro_train_lr_DT <- data.table::rbindlist(reg_megepro_train_lr)
-megepro_mean_perf_lr <- reg_megepro_train_lr_DT[ , .(mean_perf = mean(meta_layer)), 
+dep_megepro_mean_perf_lr <- reg_megepro_train_lr_DT[ , .(mean_perf = mean(meta_layer)), 
                                                  by = .(perf_measure, effect)]
