@@ -4,7 +4,7 @@ source("../init.R", chdir = TRUE)
 # ==============================================================================
 #
 indep_missbalanced_me_dir <- file.path(data_indep_missbalanced_dir, "me")
-indep_missbalanced_megepro_dir <- file.path(data_indep_missbalanced_dir,
+indep_missbalanced_mege_dir <- file.path(data_indep_missbalanced_dir,
                                                     "mege")
 indep_missbalanced_megepro_dir <- file.path(
   data_indep_missbalanced_dir,
