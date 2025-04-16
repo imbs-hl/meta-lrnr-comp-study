@@ -1,12 +1,13 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
 no.threads <- 5
-indep_megepro_param_data$effect <- NULL
+prop_missing_train <- 0.05
+indep_missbalanced_megepro_param_data$effect <- NULL
 methyl_data <- wrap_batchtools(reg_name = "01-data",
                                work_dir = working_dir,
-                               reg_dir = reg_indep_methyl_genexpr_proexpr,
+                               reg_dir = reg_indep_missbalanced_megepro,
                                r_function = simuldata,
-                               vec_args = indep_methyl_genexpr_proexpr_param_data,
+                               vec_args = indep_missbalanced_megepro_param_data,
                                more_args = list(
                                  empirical_param_prefix = data_tcga,
                                  n.sample = 300,
@@ -18,7 +19,7 @@ methyl_data <- wrap_batchtools(reg_name = "01-data",
                                  sample.cluster = TRUE,
                                  feature.cluster = FALSE,
                                  training_prop = 2/3,
-                                 prop_missing_train = 0,
+                                 prop_missing_train = prop_missing_train,
                                  prop_missing_test = 0,
                                  function_dir = function_dir
                                ),
