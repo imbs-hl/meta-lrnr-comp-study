@@ -79,6 +79,7 @@ library(InterSIM)
 library(this.path)
 library(MASS)
 library(mgcv)
+library(gridExtra)
 
 # Load required package to estimate the empirical correlation matrices.
 library(corpcor)
