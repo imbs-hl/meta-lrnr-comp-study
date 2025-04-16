@@ -2,7 +2,7 @@
 # Methylation and gene expression effects
 # =======================================
 #
-methyl_genexpr_proexpr_effect <- function(n = 100L,
+megepro_effect <- function(n = 100L,
                                           save_dir = indep_missbalanced_megepro_dir) {
   me_strong <- rnorm(n = n, mean = 0.2, sd = 0.05)
   me_moderate <- rnorm(n = n, mean = 0.15, sd = 0.05)
