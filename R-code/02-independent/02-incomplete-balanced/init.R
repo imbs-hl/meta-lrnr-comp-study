@@ -1,4 +1,4 @@
-source("init.R", chdir = TRUE)
+source("../init.R", chdir = TRUE)
 # ==============================================================================
 # Modality directories for the incomplete-case scenarios
 # ==============================================================================
