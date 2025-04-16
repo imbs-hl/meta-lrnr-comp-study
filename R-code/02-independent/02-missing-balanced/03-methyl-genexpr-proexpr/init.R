@@ -1,5 +1,5 @@
 source("../init.R", chdir = TRUE)
-source(file.path(function_dir, "megepro.R"))
+source(file.path(function_dir, "megepro-effect.R"))
 
 set.seed(4157)
 indep_missbalanced_megepro_param_data <- megepro_effect(
