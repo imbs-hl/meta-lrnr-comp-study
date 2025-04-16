@@ -1,7 +1,7 @@
 source("../init.R", chdir = TRUE)
 source(file.path(function_dir, "me-effect.R"))
 set.seed(4157)
-indep_missbalanced_me_param_data <- methyl_effect(
+indep_missbalanced_me_param_data <- me_effect(
   n = 100L,
   save_dir = indep_missbalanced_me_dir)
 # Rename path to indicate the proportion of missingness
