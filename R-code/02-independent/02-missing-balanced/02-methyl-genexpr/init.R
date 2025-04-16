@@ -2,9 +2,9 @@ source("../init.R", chdir = TRUE)
 source(file.path(function_dir, "mege-effect.R"))
 
 set.seed(4157)
-indep_incombalanced_mege_param_data <- methyl_genexpr_effect(
+indep_incombalanced_mege_param_data <- mege_effect(
   n = 100L,
-  save_dir = indep_methyl_genexpr_dir
+  save_dir = indep_missbalanced_mege_dir
 )
 
 # Rename path to indicate the proportion of missingness
