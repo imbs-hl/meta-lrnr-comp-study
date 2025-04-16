@@ -187,5 +187,4 @@ res_dep_megepro <- file.path(res_dependent_dir,
                                             "megepro")
 dir.create(res_dep_me, showWarnings = FALSE, recursive = TRUE)
 dir.create(res_dep_mege, showWarnings = FALSE, recursive = TRUE)
-dir.create(res_dep_megepro, showWarnings = FALSE,
-           recursive = TRUE)
+dir.create(res_dep_megepro, showWarnings = FALSE, recursive = TRUE)

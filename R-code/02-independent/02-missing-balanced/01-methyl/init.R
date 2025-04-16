@@ -1,5 +1,5 @@
 source("../init.R", chdir = TRUE)
-source(file.path(function_dir, "methyl-effect.R"))
+source(file.path(function_dir, "me-effect.R"))
 set.seed(4157)
 indep_missbalanced_me_param_data <- methyl_effect(
   n = 100L,

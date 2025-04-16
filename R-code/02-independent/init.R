@@ -11,11 +11,11 @@ source(file.path(function_dir, "single-run-wa.R"))
 # Set directories for complete case and balanced scenarios
 # ------------------------------------------------------------------------------
 #
-# Independent differentially expressed markers
+# Independently and differentially expressed markers
 data_indep_combalanced_dir <- file.path(data_independent_dir, "combalanced")
 dir.create(data_indep_combalanced_dir, showWarnings = FALSE, recursive = TRUE)
 
-# Dependent differentially expressed markers
+# Dependently and differentially expressed markers
 data_indep_missbalanced_dir <- file.path(data_independent_dir, "missbalanced")
 dir.create(data_indep_missbalanced_dir, showWarnings = FALSE, recursive = TRUE)
 
@@ -23,10 +23,10 @@ dir.create(data_indep_missbalanced_dir, showWarnings = FALSE, recursive = TRUE)
 # Set registires for complete case and balanced scenarios
 # ------------------------------------------------------------------------------
 #
-# Independent differentially expressed markers
+# Independently and differentially expressed markers
 reg_indep_combalanced_dir <- file.path(reg_independent_dir, "combalanced")
 dir.create(reg_indep_combalanced_dir, showWarnings = FALSE, recursive = TRUE)
 
-# Dependent differentially expressed markers
+# Dependently and differentially expressed markers
 reg_indep_missbalanced_dir <- file.path(reg_independent_dir, "missbalanced")
 dir.create(reg_indep_missbalanced_dir, showWarnings = FALSE, recursive = TRUE)
