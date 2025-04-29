@@ -1,7 +1,6 @@
 source("../init.R", chdir = TRUE)
 source(file.path(function_dir, "me-effect.R"))
 set.seed(4157)
-print("I am sourceing it...\n")
 indep_missbalanced_me_param_data <- me_effect(
   n = 100L,
   save_dir = indep_missbalanced_me_dir)
