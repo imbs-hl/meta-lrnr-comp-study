@@ -108,6 +108,7 @@ wrap_batchtools <- function(reg_name,
           memory = memory,
           account = account,
           walltime = walltime,
+          exclude = "n25,n26",
           partition = partition,
           chunks.as.arrayjobs = TRUE),
         reg = reg)
