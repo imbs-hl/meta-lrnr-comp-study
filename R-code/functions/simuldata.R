@@ -71,13 +71,11 @@ simuldata <- function(seed,
                               prop_missing_train = prop_missing_train,
                               prop_missing_test = prop_missing_test)
   # Save the data
-  if (prop_missing_train == 0) {
-    save_path <- save_path
-  } else {
-    save_path <- sub("\\.rds$",
-                     sprintf("_missingness%s.rds", prop_missing_train * 100L),
-                     save_path)
-  }
+  # if (prop_missing_train == 0) {
+  #   save_path <- save_path
+  # } else {
+  #   save_path <- save_path
+  # }
   dir.create(dirname(save_path), recursive = TRUE, showWarnings = FALSE)
   saveRDS(object = multi_omics, file = save_path)
   return(save_path)

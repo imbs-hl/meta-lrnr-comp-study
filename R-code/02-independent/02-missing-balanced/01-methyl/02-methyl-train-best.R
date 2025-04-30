@@ -3,15 +3,15 @@ source("init.R", chdir = TRUE)
 no.threads <- 5
 reg_methyl_train <- wrap_batchtools(reg_name = "02-train-best",
                                     work_dir = working_dir,
-                                    reg_dir = reg_indep_methyl,
+                                    reg_dir = reg_indep_missbalanced_me,
                                     r_function = single_run_best,
                                     vec_args = data.frame(
-                                      data_file = indep_methyl_param_data$save_path,
-                                      seed = indep_methyl_param_data$seed,
-                                      delta.methyl = indep_methyl_param_data$delta.methyl,
-                                      delta.expr = indep_methyl_param_data$delta.expr,
-                                      delta.protein = indep_methyl_param_data$delta.protein,
-                                      effect = indep_methyl_param_data$effect
+                                      data_file = indep_missbalanced_me_param_data$save_path,
+                                      seed = indep_missbalanced_me_param_data$seed,
+                                      delta.methyl = indep_missbalanced_me_param_data$delta.methyl,
+                                      delta.expr = indep_missbalanced_me_param_data$delta.expr,
+                                      delta.protein = indep_missbalanced_me_param_data$delta.protein,
+                                      effect = indep_missbalanced_me_param_data$effect
                                     ),
                                     more_args = list(
                                       num.tree.boruta.methyl = 15000L,
@@ -21,14 +21,14 @@ reg_methyl_train <- wrap_batchtools(reg_name = "02-train-best",
                                       num.tree.boruta.proexpr = 5000L,
                                       num.tree.ranger.proexpr = 1000L
                                     ),
-                                    name = "methyl-best",
-                                    overwrite = FALSE,
+                                    name = "miss-me-best",
+                                    overwrite = TRUE,
                                     memory = "25g",
                                     n_cpus = 5,
                                     walltime = "60",
                                     sleep = 5,
                                     partition = "prio", ## Set partition in init-global
-                                    account = "p23048", ## Set account in init-global
+                                    account = "dzhk-omics", ## Set account in init-global
                                     test_job = FALSE,
                                     wait_for_jobs = FALSE,
                                     packages = c(
@@ -46,7 +46,7 @@ reg_methyl_train <- wrap_batchtools(reg_name = "02-train-best",
 ## ----------------------------------------------
 ##
 reg_methyl_train_best <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_methyl, "02-train-best"), writeable = TRUE,
+  file.dir = file.path(reg_indep_missbalanced_me, "02-train-best"), writeable = TRUE,
   conf.file = config_file)
 reg_methyl_train_best <- batchtools::reduceResultsList(
   ids = batchtools::findDone(

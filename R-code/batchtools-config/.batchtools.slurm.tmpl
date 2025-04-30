@@ -28,6 +28,11 @@ if(!is.null(resources$account)) {
   paste0("#SBATCH --account=", resources$account)
 }
 %>
+<%=
+if(!is.null(resources$exclude)) {
+  paste0("#SBATCH --exclude=", resources$exclude)
+}
+%>
 ## remove this line if your cluster does not support arrayjobs
 ## #SBATCH --array=1-<%= n.array.jobs %>
 <%= if (array.jobs) sprintf("#SBATCH --array=1-%i", nrow(jobs)) else "" %>

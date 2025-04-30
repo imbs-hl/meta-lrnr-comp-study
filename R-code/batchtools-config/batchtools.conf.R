@@ -97,6 +97,6 @@ makeClusterFunctionsSlurm <- function (template = "slurm",
 cluster.functions = makeClusterFunctionsSlurm(template = template,
                                               nodename = nodename)
 sleep = 3
-default.resources = list(ntasks = 1, ncpus = 1,
+default.resources = list(ntasks = 1, ncpus = 1, 
                          memory = 6000, partition = partition,
                          chunks.as.arrayjobs = TRUE)
