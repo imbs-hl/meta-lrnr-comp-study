@@ -22,7 +22,7 @@ reg_methyl_train <- wrap_batchtools(reg_name = "02-train-best",
                                       num.tree.ranger.proexpr = 1000L
                                     ),
                                     name = "miss-me-best",
-                                    overwrite = TRUE,
+                                    overwrite = FALSE,
                                     memory = "25g",
                                     n_cpus = 5,
                                     walltime = "60",
