@@ -1,7 +1,7 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
 no.threads <- 5
-reg_methyl_train <- wrap_batchtools(reg_name = "02-train-best",
+reg_methyl_train <- wrap_batchtools(reg_name = "02-train-best-na-keep",
                                     work_dir = working_dir,
                                     reg_dir = reg_indep_missbalanced_me,
                                     r_function = single_run_best,
@@ -12,7 +12,7 @@ reg_methyl_train <- wrap_batchtools(reg_name = "02-train-best",
                                       delta.expr = indep_missbalanced_me_param_data$delta.expr,
                                       delta.protein = indep_missbalanced_me_param_data$delta.protein,
                                       effect = indep_missbalanced_me_param_data$effect,
-                                      na_action == "na.impute"
+                                      na_action == "na.keep"
                                     ),
                                     more_args = list(
                                       num.tree.boruta.methyl = 15000L,

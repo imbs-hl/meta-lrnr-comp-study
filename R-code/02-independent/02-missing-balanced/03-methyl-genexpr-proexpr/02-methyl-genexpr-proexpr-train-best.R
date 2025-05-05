@@ -1,7 +1,10 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
 no.threads <- 5
-reg_megepro_train <- wrap_batchtools(reg_name = "02-train-best",
+## ----------------------------------------------
+## na_action = na_keep
+## ----------------------------------------------
+reg_megepro_train <- wrap_batchtools(reg_name = "02-train-best-na-keep",
                                   work_dir = working_dir,
                                   reg_dir = reg_indep_missbalanced_megepro,
                                   r_function = single_run_best,
@@ -46,26 +49,31 @@ reg_megepro_train <- wrap_batchtools(reg_name = "02-train-best",
 ## Resume results
 ## ----------------------------------------------
 ##
-reg_indep_megepro_train_best <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_methyl_genexpr_proexpr, "02-train-best"),
+reg_indep_missbalanced_megepro_best_na_keep <- batchtools::loadRegistry(
+  file.dir = file.path(reg_indep_missbalanced_megepro,
+                       "02-train-best-na-keep"),
   writeable = TRUE,
   conf.file = config_file)
-reg_indep_megepro_train_best <- batchtools::reduceResultsList(
+reg_indep_missbalanced_megepro_best_na_keep <- batchtools::reduceResultsList(
   ids = batchtools::findDone(
-    ids = 1:nrow(indep_methyl_genexpr_proexpr_param_data),
-    reg = reg_indep_megepro_train_best
+    ids = 1:nrow(reg_indep_missbalanced_megepro_best_na_keep),
+    reg = reg_indep_missbalanced_megepro_best_na_keep
   ),
-  reg = reg_indep_megepro_train_best)
+  reg = reg_indep_missbalanced_megepro_best_na_keep)
 
 
 ## resume filtered results
-indep_res_megepro_best <- data.table::rbindlist(reg_indep_megepro_train_best)
-indep_megepro_mean_perf_best <- indep_res_megepro_best[ , .(mean_perf = mean(meta_layer)), 
+res_indep_missbalanced_megepro_best_na_keep <- data.table::rbindlist(
+  reg_indep_missbalanced_megepro_best_na_keep)
+indep_missbalanced_megepro_mean_perf_best_na_keep <- res_indep_missbalanced_megepro_best_na_keep[ , .(mean_perf = mean(meta_layer)), 
                                                   by = .(perf_measure, effect)]
-print(indep_megepro_mean_perf_best)
-indep_res_megepro_best$Setting <- "Independent"
-indep_res_megepro_best$DE <- "DE: MeGePro"
-indep_res_megepro_best$Meta_learner <- "BM"
-saveRDS(object = indep_res_megepro_best,
+print(indep_missbalanced_megepro_mean_perf_best_na_keep)
+indep_missbalanced_megepro_mean_perf_best_na_keep$Setting <- "Independent"
+indep_missbalanced_megepro_mean_perf_best_na_keep$Balanced <- "Balanced"
+indep_missbalanced_megepro_mean_perf_best_na_keep$Na_action <- "na.impute"
+indep_missbalanced_megepro_mean_perf_best_na_keep$DE <- "DE: MeGePro"
+indep_missbalanced_megepro_mean_perf_best_na_keep$Meta_learner <- "BM"
+# TODO: Please fix where to save res_indep_methyl_genexpr_proexpr
+saveRDS(object = indep_missbalanced_megepro_mean_perf_best_na_keep,
         file = file.path(res_indep_methyl_genexpr_proexpr,
                          "indep_res_megepro_best.rds"))

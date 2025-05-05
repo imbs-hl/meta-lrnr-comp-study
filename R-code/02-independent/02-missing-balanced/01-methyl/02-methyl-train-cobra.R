@@ -1,7 +1,7 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
 no.threads <- 5
-reg_methyl_train_rf <- wrap_batchtools(reg_name = "02-train-cobra",
+reg_methyl_train_rf <- wrap_batchtools(reg_name = "02-train-cobra-na-imp",
                                        work_dir = working_dir,
                                        reg_dir = reg_indep_missbalanced_me,
                                        r_function = single_run_cobra,
@@ -39,7 +39,7 @@ reg_methyl_train_rf <- wrap_batchtools(reg_name = "02-train-cobra",
 ## Resume results
 ## ----------------------------------------------
 ##
-reg_methyl_train_cobra <- batchtools::loadRegistry(
+reg_me_train_cobra <- batchtools::loadRegistry(
   file.dir = file.path(reg_indep_methyl, "02-train-cobra"), writeable = TRUE,
   conf.file = config_file)
 reg_methyl_train_cobra <- batchtools::reduceResultsList(
