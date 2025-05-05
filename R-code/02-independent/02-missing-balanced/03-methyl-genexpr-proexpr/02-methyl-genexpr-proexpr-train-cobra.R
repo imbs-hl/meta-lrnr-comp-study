@@ -13,9 +13,7 @@ reg_indep_megepro_train_cobra <- wrap_batchtools(reg_name = "02-train-cobra",
                                       delta.protein = indep_methyl_genexpr_proexpr_param_data$delta.protein,
                                       effect = indep_methyl_genexpr_proexpr_param_data$effect
                                     ),
-                                    more_args = list(
-                                      num.tree.meta = 1000L
-                                    ),
+                                    more_args = list(),
                                     name = "methyl-cobra",
                                     overwrite = TRUE,
                                     memory = "25g",

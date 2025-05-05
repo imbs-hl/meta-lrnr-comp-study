@@ -11,7 +11,8 @@ reg_methyl_train <- wrap_batchtools(reg_name = "02-train-best",
                                       delta.methyl = indep_missbalanced_me_param_data$delta.methyl,
                                       delta.expr = indep_missbalanced_me_param_data$delta.expr,
                                       delta.protein = indep_missbalanced_me_param_data$delta.protein,
-                                      effect = indep_missbalanced_me_param_data$effect
+                                      effect = indep_missbalanced_me_param_data$effect,
+                                      na_action == "na.impute"
                                     ),
                                     more_args = list(
                                       num.tree.boruta.methyl = 15000L,
@@ -22,7 +23,7 @@ reg_methyl_train <- wrap_batchtools(reg_name = "02-train-best",
                                       num.tree.ranger.proexpr = 1000L
                                     ),
                                     name = "miss-me-best",
-                                    overwrite = FALSE,
+                                    overwrite = TRUE,
                                     memory = "25g",
                                     n_cpus = 5,
                                     walltime = "60",

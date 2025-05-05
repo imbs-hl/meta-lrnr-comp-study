@@ -13,7 +13,8 @@ single_run_best <- function (
     num.tree.boruta.genexpr = 10000L,
     num.tree.ranger.genexpr = 2000L,
     num.tree.boruta.proexpr = 5000L,
-    num.tree.ranger.proexpr = 1000L
+    num.tree.ranger.proexpr = 1000L,
+    na_action = "na.keep"
 ) {
   multi_omics <- readRDS(data_file)
   # Set up a training object
@@ -70,13 +71,36 @@ single_run_best <- function (
                    na_action = "na.keep")
   
   # Create meta layer with imputation of missing values.
-  createTrainMetaLayer(training = training,
-                       meta_layer_id = "meta_layer",
-                       lrner_package = NULL,
-                       lrn_fct = "bestLayerLearner",
-                       param_train_list = list(),
-                       param_pred_list = list(na_rm = TRUE),
-                       na_action = "na.rm")
+  if (na_action == "na.rm") {
+    createTrainMetaLayer(training = training,
+                         meta_layer_id = "meta_layer",
+                         lrner_package = NULL,
+                         lrn_fct = "bestLayerLearner",
+                         param_train_list = list(),
+                         param_pred_list = list(na_rm = TRUE),
+                         na_action = "na.rm")
+  } else {
+    if (na_action == "na.keep") {
+      createTrainMetaLayer(training = training,
+                           meta_layer_id = "meta_layer",
+                           lrner_package = NULL,
+                           lrn_fct = "bestLayerLearner",
+                           param_train_list = list(),
+                           param_pred_list = list(na_rm = TRUE),
+                           na_action = "na.keep")
+    } else {
+      if (na_action == "na.impute") {
+        createTrainMetaLayer(training = training,
+                             meta_layer_id = "meta_layer",
+                             lrner_package = NULL,
+                             lrn_fct = "bestLayerLearner",
+                             param_train_list = list(),
+                             param_pred_list = list(na_rm = TRUE),
+                             na_action = "na.impute")
+      } 
+    }
+  }
+  
   # Variable selection
   set.seed(seed)
   var_sel_res <- varSelection(training = training)
@@ -130,19 +154,20 @@ single_run_best <- function (
   perf_bs$runtime <- end_time - start_time
   # Save the Training object
   training_file <- file.path(dirname(data_file), 
-                                     paste0(seed, 
-                                            sprintf("%s_meta.rds", effect),
-                                            collapse = ""))
+                             paste0(seed, 
+                                    sprintf("%s_meta_%s.rds",
+                                            effect, na_action),
+                                    collapse = ""))
   saveRDS(object = training, file = training_file)
   return(perf_bs)
 }
 
 # tmp <- single_replicate_best(data_file = file.path(data_simulation, "multi_omics_null.rds"))
 if (FALSE)
-tmp <- single_run_best(
-  data_file = param_df_proexpr$save_path[3],
-  seed = param_df_proexpr$seed[3],
-  delta.methyl = param_df_proexpr$delta.methyl[3],
-  delta.expr = param_df_proexpr$delta.expr[3],
-  delta.protein = param_df_proexpr$delta.protein[3]
+  tmp <- single_run_best(
+    data_file = param_df_proexpr$save_path[3],
+    seed = param_df_proexpr$seed[3],
+    delta.methyl = param_df_proexpr$delta.methyl[3],
+    delta.expr = param_df_proexpr$delta.expr[3],
+    delta.protein = param_df_proexpr$delta.protein[3]
   )

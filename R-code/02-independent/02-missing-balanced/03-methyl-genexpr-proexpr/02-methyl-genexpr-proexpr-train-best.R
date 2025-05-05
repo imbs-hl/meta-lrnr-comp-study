@@ -19,7 +19,8 @@ reg_megepro_train <- wrap_batchtools(reg_name = "02-train-best",
                                     num.tree.boruta.genexpr = 5000L,
                                     num.tree.ranger.genexpr = 1000L,
                                     num.tree.boruta.proexpr = 5000L,
-                                    num.tree.ranger.proexpr = 1000L
+                                    num.tree.ranger.proexpr = 1000L,
+                                    na_action == "na.impute"
                                   ),
                                   name = "miss-megepro-best",
                                   overwrite = TRUE,

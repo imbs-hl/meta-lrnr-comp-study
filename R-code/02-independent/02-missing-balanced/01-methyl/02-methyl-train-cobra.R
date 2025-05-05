@@ -3,19 +3,18 @@ source("init.R", chdir = TRUE)
 no.threads <- 5
 reg_methyl_train_rf <- wrap_batchtools(reg_name = "02-train-cobra",
                                        work_dir = working_dir,
-                                       reg_dir = reg_indep_methyl,
+                                       reg_dir = reg_indep_missbalanced_me,
                                        r_function = single_run_cobra,
                                        vec_args = data.frame(
-                                         data_file = indep_methyl_param_data$save_path,
-                                         seed = indep_methyl_param_data$seed,
-                                         delta.methyl = indep_methyl_param_data$delta.methyl,
-                                         delta.expr = indep_methyl_param_data$delta.expr,
-                                         delta.protein = indep_methyl_param_data$delta.protein,
-                                         effect = indep_methyl_param_data$effect
+                                         data_file = indep_missbalanced_me_param_data$save_path,
+                                         seed = indep_missbalanced_me_param_data$seed,
+                                         delta.methyl = indep_missbalanced_me_param_data$delta.methyl,
+                                         delta.expr = indep_missbalanced_me_param_data$delta.expr,
+                                         delta.protein = indep_missbalanced_me_param_data$delta.protein,
+                                         effect = indep_missbalanced_me_param_data$effect,
+                                         na_action == "na.impute"
                                        ),
-                                       more_args = list(
-                                         num.tree.meta = 1000L
-                                       ),
+                                       more_args = list(),
                                        name = "me-cobra",
                                        overwrite = TRUE,
                                        memory = "25g",
