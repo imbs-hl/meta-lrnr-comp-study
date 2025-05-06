@@ -12,7 +12,7 @@ reg_methyl_train_rf <- wrap_batchtools(reg_name = "02-train-cobra-na-imp",
                                          delta.expr = indep_missbalanced_me_param_data$delta.expr,
                                          delta.protein = indep_missbalanced_me_param_data$delta.protein,
                                          effect = indep_missbalanced_me_param_data$effect,
-                                         na_action == "na.impute"
+                                         na_action = "na.impute"
                                        ),
                                        more_args = list(),
                                        name = "me-cobra",
