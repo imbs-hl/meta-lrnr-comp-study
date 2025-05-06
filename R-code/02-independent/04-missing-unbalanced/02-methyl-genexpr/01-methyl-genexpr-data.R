@@ -24,7 +24,7 @@ mege_data <- wrap_batchtools(reg_name = "01-data",
                              function_dir = function_dir
                            ),
                            name = "indep-missunb-mege-data",
-                           overwrite = TRUE,
+                           overwrite = FALSE,
                            memory = "40g",
                            n_cpus = no.threads,
                            walltime = "0",
