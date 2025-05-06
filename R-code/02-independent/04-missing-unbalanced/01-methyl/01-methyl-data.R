@@ -23,7 +23,7 @@ me_data <- wrap_batchtools(reg_name = "01-data",
                              prop_missing_test = 0,
                              function_dir = function_dir
                            ),
-                           name = "me-data",
+                           name = "me-missunb-me-data",
                            overwrite = FALSE,
                            memory = "40g",
                            n_cpus = no.threads,

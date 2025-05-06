@@ -74,8 +74,8 @@ res_indep_missbalanced_megepro_mean_perf_best_na_keep$Na_action <- "na.impute"
 res_indep_missbalanced_megepro_mean_perf_best_na_keep$DE <- "DE: MeGePro"
 res_indep_missbalanced_megepro_mean_perf_best_na_keep$Meta_learner <- "BM"
 saveRDS(object = res_indep_missbalanced_megepro_mean_perf_best_na_keep,
-        file = file.path(res_indep_megepro,
-                         "indep_res_megepro_best.rds"))
+        file = file.path(res_indep_missbalanced_megepro_mean_perf_best_na_keep,
+                         "res_indep_missbalanced_megepro_mean_perf_best_na_keep.rds"))
 
 
 ## -----------------------------------------------------------------------------
