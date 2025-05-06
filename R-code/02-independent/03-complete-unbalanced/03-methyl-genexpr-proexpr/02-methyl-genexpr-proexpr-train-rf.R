@@ -1,10 +1,10 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
 no.threads <- 5
-reg_indep_megepro_train_cobra <- wrap_batchtools(reg_name = "02-train-cobra",
+reg_indep_megepro_train_rf <- wrap_batchtools(reg_name = "02-train-rf",
                                     work_dir = working_dir,
                                     reg_dir = reg_indep_methyl_genexpr_proexpr,
-                                    r_function = single_run_cobra,
+                                    r_function = single_run_rf,
                                     vec_args = data.frame(
                                       data_file = indep_methyl_genexpr_proexpr_param_data$save_path,
                                       seed = indep_methyl_genexpr_proexpr_param_data$seed,
@@ -13,14 +13,16 @@ reg_indep_megepro_train_cobra <- wrap_batchtools(reg_name = "02-train-cobra",
                                       delta.protein = indep_methyl_genexpr_proexpr_param_data$delta.protein,
                                       effect = indep_methyl_genexpr_proexpr_param_data$effect
                                     ),
-                                    more_args = list(),
-                                    name = "methyl-cobra",
+                                    more_args = list(
+                                      num.tree.meta = 1000L
+                                    ),
+                                    name = "methyl-rf",
                                     overwrite = TRUE,
                                     memory = "25g",
                                     n_cpus = 5,
                                     walltime = "60",
                                     sleep = 5,
-                                    partition = "prio", ## Set partition in init-global
+                                    partition = "fast", ## Set partition in init-global
                                     account = "p23048", ## Set account in init-global
                                     test_job = FALSE,
                                     wait_for_jobs = FALSE,
@@ -38,26 +40,26 @@ reg_indep_megepro_train_cobra <- wrap_batchtools(reg_name = "02-train-cobra",
 ## Resume results
 ## ----------------------------------------------
 ##
-reg_indep_megepro_train_cobra <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_methyl_genexpr_proexpr, "02-train-cobra"),
+reg_indep_megepro_train_rf <- batchtools::loadRegistry(
+  file.dir = file.path(reg_indep_methyl_genexpr_proexpr, "02-train-rf"), 
   writeable = TRUE,
   conf.file = config_file)
-reg_indep_megepro_train_cobra <- batchtools::reduceResultsList(
+reg_indep_megepro_train_rf <- batchtools::reduceResultsList(
   ids = batchtools::findDone(
     ids = 1:nrow(indep_methyl_genexpr_proexpr_param_data),
-    reg = reg_indep_megepro_train_cobra
+    reg = reg_indep_megepro_train_rf
   ),
-  reg = reg_indep_megepro_train_cobra)
+  reg = reg_indep_megepro_train_rf)
 
 
 ## resume filtered results
-indep_res_megepro_cobra <- data.table::rbindlist(reg_indep_megepro_train_cobra)
-indep_megepro_mean_perf_cobra <- indep_res_megepro_cobra[ , .(mean_perf = mean(meta_layer)), 
-                                                        by = .(perf_measure, effect)]
-print(indep_megepro_mean_perf_cobra)
-indep_res_megepro_cobra$Setting <- "Independent"
-indep_res_megepro_cobra$DE <- "DE: MeGePro"
-indep_res_megepro_cobra$Meta_learner <- "COBRA"
-saveRDS(object = indep_res_megepro_cobra,
+indep_res_megepro_rf <- data.table::rbindlist(reg_indep_megepro_train_rf)
+indep_megepro_mean_perf_rf <- indep_res_megepro_lr[ , .(mean_perf = mean(meta_layer)), 
+                                                    by = .(perf_measure, effect)]
+print(indep_megepro_mean_perf_rf)
+indep_res_megepro_rf$Setting <- "Independent"
+indep_res_megepro_rf$DE <- "DE: MeGePro"
+indep_res_megepro_rf$Meta_learner <- "RF"
+saveRDS(object = indep_res_megepro_rf,
         file = file.path(res_indep_methyl_genexpr_proexpr,
-                         "indep_res_megepro_cobra.rds"))
+                         "indep_res_megepro_rf.rds"))

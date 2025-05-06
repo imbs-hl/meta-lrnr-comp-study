@@ -1,19 +1,19 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
 no.threads <- 5
-prop_missing_train <- 0.00
-indep_combalanced_mege_param_data$effect <- NULL
-mege_data <- wrap_batchtools(reg_name = "01-data",
+prop_missing_train <- 0.05
+indep_comunbalanced_me_param_data$effect <- NULL
+me_data <- wrap_batchtools(reg_name = "01-data",
                            work_dir = working_dir,
-                           reg_dir = reg_indep_combalanced_mege,
+                           reg_dir = reg_indep_comunbalanced_me,
                            r_function = simuldata,
-                           vec_args = indep_combalanced_mege_param_data,
+                           vec_args = indep_comunbalanced_me_param_data,
                            more_args = list(
                              empirical_param_prefix = data_tcga,
                              n.sample = 300,
-                             cluster.sample.prop = c(0.5, 0.5),
+                             cluster.sample.prop = c(0.7, 0.3),
                              p.DMP = 0.2,
-                             p.DEG = 0.2,
+                             p.DEG = NULL,
                              p.DEP = NULL,
                              do.plot = FALSE,
                              sample.cluster = TRUE,
@@ -23,11 +23,11 @@ mege_data <- wrap_batchtools(reg_name = "01-data",
                              prop_missing_test = 0,
                              function_dir = function_dir
                            ),
-                           name = "indep-com-mege-data",
-                           overwrite = TRUE,
+                           name = "me-missunb-me-data",
+                           overwrite = FALSE,
                            memory = "40g",
                            n_cpus = no.threads,
-                           walltime = "0",
+                           walltime = "60",
                            sleep = 5,
                            partition = "prio", ## Set partition in init-global
                            account = "dzhk-omics", ## Set account in init-global

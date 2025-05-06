@@ -1,17 +1,17 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
 no.threads <- 5
-prop_missing_train <- 0.00
-indep_combalanced_mege_param_data$effect <- NULL
+prop_missing_train <- 0.05
+indep_comunbalanced_mege_param_data$effect <- NULL
 mege_data <- wrap_batchtools(reg_name = "01-data",
                            work_dir = working_dir,
-                           reg_dir = reg_indep_combalanced_mege,
+                           reg_dir = reg_indep_comunbalanced_mege,
                            r_function = simuldata,
-                           vec_args = indep_combalanced_mege_param_data,
+                           vec_args = indep_comunbalanced_mege_param_data,
                            more_args = list(
                              empirical_param_prefix = data_tcga,
                              n.sample = 300,
-                             cluster.sample.prop = c(0.5, 0.5),
+                             cluster.sample.prop = c(0.7, 0.3),
                              p.DMP = 0.2,
                              p.DEG = 0.2,
                              p.DEP = NULL,
@@ -23,8 +23,8 @@ mege_data <- wrap_batchtools(reg_name = "01-data",
                              prop_missing_test = 0,
                              function_dir = function_dir
                            ),
-                           name = "indep-com-mege-data",
-                           overwrite = TRUE,
+                           name = "indep-missunb-mege-data",
+                           overwrite = FALSE,
                            memory = "40g",
                            n_cpus = no.threads,
                            walltime = "0",
