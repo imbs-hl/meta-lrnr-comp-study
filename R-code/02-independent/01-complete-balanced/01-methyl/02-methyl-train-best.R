@@ -26,7 +26,7 @@ reg_indep_combalanced_me_best_na_keep <- wrap_batchtools(reg_name = "02-train-be
                                                            na_action = "na.keep"
                                                          ),
                                                          name = "miss-me-best-na-keep",
-                                                         overwrite = FALSE,
+                                                         overwrite = TRUE,
                                                          memory = "25g",
                                                          n_cpus = 5,
                                                          walltime = "60",
