@@ -7,13 +7,14 @@ single_run_lr <- function (
     delta.methyl = param_df$delta.methyl,
     delta.expr = param_df$delta.expr,
     delta.protein = param_df$delta.protein,
-    num.tree.meta = 1000L,
-    effect = "effect"
+    effect = "effect",
+    na_action = "na.keep"
 ) {
   multi_omics <- readRDS(data_file)
   training_file <- file.path(dirname(data_file), 
                              paste0(seed, 
-                                    sprintf("%s_meta.rds", effect),
+                                    sprintf("%s_meta_%s.rds",
+                                            effect, na_action),
                                     collapse = ""))
   training <- readRDS(training_file)
   # Update meta layer learner with RF.
@@ -79,7 +80,8 @@ single_run_lr <- function (
   # Save the Training object
   training_file <- file.path(dirname(data_file), 
                              paste0(seed, 
-                                    sprintf("%s_meta_rf.rds", effect),
+                                    sprintf("%s_meta_lr_%s.rds",
+                                            effect, na_action),
                                     collapse = ""))
   saveRDS(object = training, file = training_file)
   return(perf_bs)

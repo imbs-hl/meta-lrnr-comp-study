@@ -25,7 +25,7 @@ reg_indep_combalanced_mege_best_na_keep <- wrap_batchtools(reg_name = "02-train-
                                                              num.tree.ranger.proexpr = 1000L,
                                                              na_action = "na.keep"
                                                            ),
-                                                           name = "miss-mege-best-na-keep",
+                                                           name = "comb-mege-best-na-keep",
                                                            overwrite = TRUE,
                                                            memory = "25g",
                                                            n_cpus = 5,
@@ -102,7 +102,7 @@ reg_indep_combalanced_mege_best_na_impute <- wrap_batchtools(reg_name = "02-trai
                                                                num.tree.ranger.proexpr = 1000L,
                                                                na_action = "na.impute"
                                                              ),
-                                                             name = "miss-mege-best-na-impute",
+                                                             name = "comb-mege-best-na-impute",
                                                              overwrite = FALSE,
                                                              memory = "25g",
                                                              n_cpus = 5,

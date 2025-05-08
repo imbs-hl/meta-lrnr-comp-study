@@ -79,7 +79,8 @@ single_run_cobra <- function (
   # Save the Training object
   training_file <- file.path(dirname(data_file), 
                              paste0(seed, 
-                                    sprintf("%s_meta_rf.rds", effect),
+                                    sprintf("%s_meta_cobra_%s.rds",
+                                            effect, na_action),
                                     collapse = ""))
   saveRDS(object = training, file = training_file)
   return(perf_bs)
