@@ -1,6 +1,6 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
-no.threads <- 5
+no.threads <- 8
 indep_combalanced_me_param_data$effect <- NULL
 me_data <- wrap_batchtools(reg_name = "01-data",
                            work_dir = working_dir,
@@ -23,10 +23,10 @@ me_data <- wrap_batchtools(reg_name = "01-data",
                              function_dir = function_dir
                            ),
                            name = "me-com-data",
-                           overwrite = FALSE,
+                           overwrite = TRUE,
                            memory = "40g",
                            n_cpus = no.threads,
-                           walltime = "60",
+                           walltime = "0",
                            sleep = 5,
                            partition = "prio", ## Set partition in init-global
                            account = "dzhk-omics", ## Set account in init-global

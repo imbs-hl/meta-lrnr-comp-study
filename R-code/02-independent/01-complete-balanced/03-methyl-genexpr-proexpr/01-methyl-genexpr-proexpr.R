@@ -1,13 +1,12 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
-no.threads <- 5
-prop_missing_train <- 0.05
-indep_missbalanced_megepro_param_data$effect <- NULL
+no.threads <- 8
+indep_combalanced_megepro_param_data$effect <- NULL
 megepro_data <- wrap_batchtools(reg_name = "01-data",
                                work_dir = working_dir,
-                               reg_dir = reg_indep_missbalanced_megepro,
+                               reg_dir = reg_indep_combalanced_megepro,
                                r_function = simuldata,
-                               vec_args = indep_missbalanced_megepro_param_data,
+                               vec_args = indep_combalanced_megepro_param_data,
                                more_args = list(
                                  empirical_param_prefix = data_tcga,
                                  n.sample = 300,
@@ -23,13 +22,13 @@ megepro_data <- wrap_batchtools(reg_name = "01-data",
                                  prop_missing_test = 0,
                                  function_dir = function_dir
                                ),
-                               name = "indep-miss-megepro-data",
+                               name = "indep-com-megepro-data",
                                overwrite = TRUE,
                                memory = "40g",
                                n_cpus = no.threads,
                                walltime = "0",
                                sleep = 5,
-                               partition = "prio", ## Set partition in init-global
+                               partition = "batch", ## Set partition in init-global
                                account = "dzhk-omics", ## Set account in init-global
                                test_job = FALSE,
                                wait_for_jobs = FALSE,

@@ -1,7 +1,6 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
 no.threads <- 5
-prop_missing_train <- 0.05
 indep_comunbalanced_me_param_data$effect <- NULL
 me_data <- wrap_batchtools(reg_name = "01-data",
                            work_dir = working_dir,

@@ -8,6 +8,7 @@ indep_comunbalanced_mege_param_data <- mege_effect(
 )
 
 # Rename path to indicate the proportion of missingness
+prop_missing_train <- 0.0
 for(i in 1:length(indep_comunbalanced_mege_param_data$save_path)) {
   indep_comunbalanced_mege_param_data$save_path[i] <- sub(pattern = "\\.rds$",
                                                             replacement = sprintf("_prop_miss%s.rds", prop_missing_train * 100L),
