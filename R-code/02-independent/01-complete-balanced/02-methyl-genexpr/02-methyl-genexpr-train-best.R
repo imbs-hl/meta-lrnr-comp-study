@@ -26,7 +26,7 @@ reg_indep_combalanced_mege_best_na_keep <- wrap_batchtools(reg_name = "02-train-
                                                              na_action = "na.keep"
                                                            ),
                                                            name = "comb-mege-best-na-keep",
-                                                           overwrite = TRUE,
+                                                           overwrite = FALSE,
                                                            memory = "25g",
                                                            n_cpus = 5,
                                                            walltime = "60",
@@ -106,7 +106,7 @@ reg_indep_combalanced_mege_best_na_impute <- wrap_batchtools(reg_name = "02-trai
                                                              overwrite = FALSE,
                                                              memory = "25g",
                                                              n_cpus = 5,
-                                                             walltime = "60",
+                                                             walltime = "0",
                                                              sleep = 5,
                                                              partition = "prio", ## Set partition in init-global
                                                              account = "dzhk-omics", ## Set account in init-global

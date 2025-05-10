@@ -26,10 +26,10 @@ reg_indep_combalanced_me_best_na_keep <- wrap_batchtools(reg_name = "02-train-be
                                                            na_action = "na.keep"
                                                          ),
                                                          name = "comb-me-best-na-keep",
-                                                         overwrite = TRUE,
+                                                         overwrite = FALSE,
                                                          memory = "25g",
                                                          n_cpus = 5,
-                                                         walltime = "60",
+                                                         walltime = "0",
                                                          sleep = 5,
                                                          partition = "prio", ## Set partition in init-global
                                                          account = "dzhk-omics", ## Set account in init-global
@@ -105,10 +105,10 @@ reg_indep_combalanced_me_best_na_impute <- wrap_batchtools(reg_name = "02-train-
                                                              na_action = "na.impute"
                                                            ),
                                                            name = "comb-me-best-na-impute",
-                                                           overwrite = TRUE,
+                                                           overwrite = FALSE,
                                                            memory = "25g",
                                                            n_cpus = 5,
-                                                           walltime = "60",
+                                                           walltime = "0",
                                                            sleep = 5,
                                                            partition = "prio", ## Set partition in init-global
                                                            account = "dzhk-omics", ## Set account in init-global
