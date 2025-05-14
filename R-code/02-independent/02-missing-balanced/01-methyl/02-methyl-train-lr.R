@@ -19,7 +19,7 @@ reg_me_indep_missbalanced_na_impute <- wrap_batchtools(reg_name = "02-train-lr-n
                                                        ),
                                                        more_args = list(na_action = "na.impute"),
                                                        name = "missb-me-lr-na-impute",
-                                                       overwrite = TRUE,
+                                                       overwrite = FALSE,
                                                        memory = "25g",
                                                        n_cpus = 5,
                                                        walltime = "60",
@@ -61,9 +61,9 @@ res_indep_missbalanced_me_mean_perf_lr_na_impute <- res_indep_missbalanced_me_lr
 print(res_indep_missbalanced_me_mean_perf_lr_na_impute)
 res_indep_missbalanced_me_mean_perf_lr_na_impute$Setting <- "Independent"
 res_indep_missbalanced_me_mean_perf_lr_na_impute$Y_Distribution <- "Balanced"
-res_indep_missbalanced_me_mean_perf_lr_na_impute$Na_action <- "na.keep"
+res_indep_missbalanced_me_mean_perf_lr_na_impute$Na_action <- "na.impute"
 res_indep_missbalanced_me_mean_perf_lr_na_impute$DE <- "DE: Me"
-res_indep_missbalanced_me_mean_perf_lr_na_impute$Meta_learner <- "BM"
+res_indep_missbalanced_me_mean_perf_lr_na_impute$Meta_learner <- "Logistic regression"
 saveRDS(
   object = res_indep_missbalanced_me_mean_perf_lr_na_impute,
   file = file.path(res_indep_me,

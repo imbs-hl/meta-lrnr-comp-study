@@ -5,7 +5,7 @@ no.threads <- 5
 ## na_action = na_impute
 ## -----------------------------------------------------------------------------
 ##
-reg_me_indep_combalanced_na_impute <- wrap_batchtools(reg_name = "02-train-lasso-na-imp",
+reg_me_indep_combalanced_na_impute <- wrap_batchtools(reg_name = "02-train-lasso-na-keep",
                                                        work_dir = working_dir,
                                                        reg_dir = reg_indep_combalanced_me,
                                                        r_function = single_run_lasso,
@@ -17,11 +17,11 @@ reg_me_indep_combalanced_na_impute <- wrap_batchtools(reg_name = "02-train-lasso
                                                          delta.protein = indep_combalanced_me_param_data$delta.protein,
                                                          effect = indep_combalanced_me_param_data$effect
                                                        ),
-                                                       more_args = list(na_action = "na.impute"),
-                                                       name = "comb-me-lasso-na-impute",
+                                                       more_args = list(na_action = "na.keep"),
+                                                       name = "comb-me-lasso-na-keep",
                                                        overwrite = TRUE,
                                                        memory = "25g",
-                                                       n_cpus = 5,
+                                                       n_cpus = 6,
                                                        walltime = "60",
                                                        sleep = 5,
                                                        partition = "fast", ## Set partition in init-global
@@ -32,8 +32,11 @@ reg_me_indep_combalanced_na_impute <- wrap_batchtools(reg_name = "02-train-lasso
                                                          "devtools",
                                                          "data.table",
                                                          "mgcv",
-                                                         "fuseMLR"
+                                                         "fuseMLR",
+                                                         "glmnet"
                                                        ),
+                                                      source = c(file.path(function_dir, 
+                                                                           "mylasso.R")),
                                                        config_file = config_file,
                                                        interactive_session = interactive_session)
 
@@ -42,30 +45,30 @@ reg_me_indep_combalanced_na_impute <- wrap_batchtools(reg_name = "02-train-lasso
 ## Resume results
 ## ----------------------------------------------
 ##
-reg_indep_combalanced_me_lasso_na_impute <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_combalanced_me, "02-train-lasso-na-impute"),
+reg_indep_combalanced_me_lasso_na_keep <- batchtools::loadRegistry(
+  file.dir = file.path(reg_indep_combalanced_me, "02-train-lasso-na-keep"),
   writeable = TRUE,
   conf.file = config_file)
-reg_indep_combalanced_me_lasso_na_impute <- batchtools::reduceResultsList(
+reg_indep_combalanced_me_lasso_na_keep <- batchtools::reduceResultsList(
   ids = batchtools::findDone(
     ids = 1:nrow(indep_combalanced_me_param_data),
-    reg = reg_indep_combalanced_me_lasso_na_impute
+    reg = reg_indep_combalanced_me_lasso_na_keep
   ),
-  reg = reg_indep_combalanced_me_lasso_na_impute)
+  reg = reg_indep_combalanced_me_lasso_na_keep)
 
 
 ## resume filtered results
-res_indep_combalanced_me_lasso_na_impute <- data.table::rbindlist(reg_indep_combalanced_me_lasso_na_impute)
-res_indep_combalanced_me_mean_perf_lasso_na_impute <- res_indep_combalanced_me_lasso_na_impute[ , .(mean_perf = mean(meta_layer)), 
+res_indep_combalanced_me_lasso_na_keep <- data.table::rbindlist(reg_indep_combalanced_me_lasso_na_keep)
+res_indep_combalanced_me_mean_perf_lasso_na_keep <- res_indep_combalanced_me_lasso_na_keep[ , .(mean_perf = mean(meta_layer)), 
                                                                                                   by = .(perf_measure, effect)]
-print(res_indep_combalanced_me_mean_perf_lasso_na_impute)
-res_indep_combalanced_me_mean_perf_lasso_na_impute$Setting <- "Independent"
-res_indep_combalanced_me_mean_perf_lasso_na_impute$Y_Distribution <- "Balanced"
-res_indep_combalanced_me_mean_perf_lasso_na_impute$Na_action <- "na.keep"
-res_indep_combalanced_me_mean_perf_lasso_na_impute$DE <- "DE: Me"
-res_indep_combalanced_me_mean_perf_lasso_na_impute$Meta_learner <- "BM"
+print(res_indep_combalanced_me_mean_perf_lasso_na_keep)
+res_indep_combalanced_me_mean_perf_lasso_na_keep$Setting <- "Independent"
+res_indep_combalanced_me_mean_perf_lasso_na_keep$Y_Distribution <- "Balanced"
+res_indep_combalanced_me_mean_perf_lasso_na_keep$Na_action <- "na.keep"
+res_indep_combalanced_me_mean_perf_lasso_na_keep$DE <- "DE: Me"
+res_indep_combalanced_me_mean_perf_lasso_na_keep$Meta_learner <- "Lasso"
 saveRDS(
-  object = res_indep_combalanced_me_mean_perf_lasso_na_impute,
+  object = res_indep_combalanced_me_mean_perf_lasso_na_keep,
   file = file.path(res_indep_me,
-                   "res_indep_combalanced_me_mean_perf_lasso_na_impute.rds")
+                   "res_indep_combalanced_me_mean_perf_lasso_na_keep.rds")
 )

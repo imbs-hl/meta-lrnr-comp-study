@@ -20,12 +20,12 @@ reg_me_indep_combalanced_na_keep <- wrap_batchtools(reg_name = "02-train-rf-na-k
                                                      more_args = list(na_action = "na.keep",
                                                                       num.tree.meta = 1000L),
                                                      name = "comb-me-rf-na-keep",
-                                                     overwrite = TRUE,
+                                                     overwrite = FALSE,
                                                      memory = "25g",
-                                                     n_cpus = 5,
+                                                     n_cpus = 6,
                                                      walltime = "60",
                                                      sleep = 5,
-                                                     partition = "prio", ## Set partition in init-global
+                                                     partition = "fast", ## Set partition in init-global
                                                      account = "dzhk-omics", ## Set account in init-global
                                                      test_job = FALSE,
                                                      wait_for_jobs = FALSE,
@@ -64,7 +64,7 @@ res_indep_combalanced_me_mean_perf_rf_na_keep$Setting <- "Independent"
 res_indep_combalanced_me_mean_perf_rf_na_keep$Y_Distribution <- "Balanced"
 res_indep_combalanced_me_mean_perf_rf_na_keep$Na_action <- "na.keep"
 res_indep_combalanced_me_mean_perf_rf_na_keep$DE <- "DE: Me"
-res_indep_combalanced_me_mean_perf_rf_na_keep$Meta_learner <- "BM"
+res_indep_combalanced_me_mean_perf_rf_na_keep$Meta_learner <- "Random forests"
 saveRDS(
   object = res_indep_combalanced_me_mean_perf_rf_na_keep,
   file = file.path(res_indep_me,
@@ -91,12 +91,12 @@ reg_me_indep_combalanced_na_impute <- wrap_batchtools(reg_name = "02-train-rf-na
                                                        more_args = list(na_action = "na.impute",
                                                                         num.tree.meta = 1000L),
                                                        name = "comb-me-rf-na-impute",
-                                                       overwrite = TRUE,
+                                                       overwrite = FALSE,
                                                        memory = "25g",
-                                                       n_cpus = 5,
+                                                       n_cpus = 6,
                                                        walltime = "60",
                                                        sleep = 5,
-                                                       partition = "prio", ## Set partition in init-global
+                                                       partition = "fast", ## Set partition in init-global
                                                        account = "dzhk-omics", ## Set account in init-global
                                                        test_job = FALSE,
                                                        wait_for_jobs = FALSE,

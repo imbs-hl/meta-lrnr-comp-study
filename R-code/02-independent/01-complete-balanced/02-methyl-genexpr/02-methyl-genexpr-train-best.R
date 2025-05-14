@@ -28,7 +28,7 @@ reg_indep_combalanced_mege_best_na_keep <- wrap_batchtools(reg_name = "02-train-
                                                            name = "comb-mege-best-na-keep",
                                                            overwrite = FALSE,
                                                            memory = "25g",
-                                                           n_cpus = 5,
+                                                           n_cpus = 8,
                                                            walltime = "60",
                                                            sleep = 5,
                                                            partition = "prio", ## Set partition in init-global
@@ -71,8 +71,8 @@ print(res_indep_combalanced_mege_mean_perf_best_na_keep)
 res_indep_combalanced_mege_mean_perf_best_na_keep$Setting <- "Independent"
 res_indep_combalanced_mege_mean_perf_best_na_keep$Y_Distribution <- "Balanced"
 res_indep_combalanced_mege_mean_perf_best_na_keep$Na_action <- "na.impute"
-res_indep_combalanced_mege_mean_perf_best_na_keep$DE <- "DE: MeGePro"
-res_indep_combalanced_mege_mean_perf_best_na_keep$Meta_learner <- "BM"
+res_indep_combalanced_mege_mean_perf_best_na_keep$DE <- "DE: MeGe"
+res_indep_combalanced_mege_mean_perf_best_na_keep$Meta_learner <- "Best modality−spec. learner"
 saveRDS(object = res_indep_combalanced_mege_mean_perf_best_na_keep,
         file = file.path(res_indep_mege,
                          "res_indep_combalanced_mege_mean_perf_best_na_keep.rds"))
@@ -105,7 +105,7 @@ reg_indep_combalanced_mege_best_na_impute <- wrap_batchtools(reg_name = "02-trai
                                                              name = "comb-mege-best-na-impute",
                                                              overwrite = FALSE,
                                                              memory = "25g",
-                                                             n_cpus = 5,
+                                                             n_cpus = 8,
                                                              walltime = "0",
                                                              sleep = 5,
                                                              partition = "prio", ## Set partition in init-global
@@ -146,7 +146,7 @@ print(res_indep_combalanced_mege_mean_perf_best_na_impute)
 res_indep_combalanced_mege_mean_perf_best_na_impute$Setting <- "Independent"
 res_indep_combalanced_mege_mean_perf_best_na_impute$Y_Distribution <- "Balanced"
 res_indep_combalanced_mege_mean_perf_best_na_impute$Na_action <- "na.keep"
-res_indep_combalanced_mege_mean_perf_best_na_impute$DE <- "DE: Me"
+res_indep_combalanced_mege_mean_perf_best_na_impute$DE <- "DE: MeGe"
 res_indep_combalanced_mege_mean_perf_best_na_impute$Meta_learner <- "BM"
 saveRDS(
   object = res_indep_combalanced_mege_mean_perf_best_na_impute,

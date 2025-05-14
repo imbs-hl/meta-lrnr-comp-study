@@ -1,6 +1,6 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
-no.threads <- 5
+no.threads <- 6
 ## -----------------------------------------------------------------------------
 ## na_action = na_keep
 ## -----------------------------------------------------------------------------
@@ -18,12 +18,12 @@ reg_me_indep_combalanced_na_keep <- wrap_batchtools(reg_name = "02-train-cobra-n
                                                      ),
                                                      more_args = list(na_action = "na.keep"),
                                                      name = "comb-me-cobra-na-keep",
-                                                     overwrite = TRUE,
+                                                     overwrite = FALSE,
                                                      memory = "25g",
-                                                     n_cpus = 5,
-                                                     walltime = "0",
+                                                     n_cpus = 6,
+                                                     walltime = "60",
                                                      sleep = 5,
-                                                     partition = "prio", ## Set partition in init-global
+                                                     partition = "fast", ## Set partition in init-global
                                                      account = "dzhk-omics", ## Set account in init-global
                                                      test_job = FALSE,
                                                      wait_for_jobs = FALSE,
@@ -62,7 +62,7 @@ res_indep_combalanced_me_mean_perf_cobra_na_keep$Setting <- "Independent"
 res_indep_combalanced_me_mean_perf_cobra_na_keep$Y_Distribution <- "Balanced"
 res_indep_combalanced_me_mean_perf_cobra_na_keep$Na_action <- "na.keep"
 res_indep_combalanced_me_mean_perf_cobra_na_keep$DE <- "DE: Me"
-res_indep_combalanced_me_mean_perf_cobra_na_keep$Meta_learner <- "BM"
+res_indep_combalanced_me_mean_perf_cobra_na_keep$Meta_learner <- "COBRA"
 saveRDS(
   object = res_indep_combalanced_me_mean_perf_cobra_na_keep,
   file = file.path(res_indep_me,
@@ -88,12 +88,12 @@ reg_me_indep_combalanced_na_impute <- wrap_batchtools(reg_name = "02-train-cobra
                                                        ),
                                                        more_args = list(na_action = "na.impute"),
                                                        name = "comb-me-cobra-na-impute",
-                                                       overwrite = TRUE,
+                                                       overwrite = FALSE,
                                                        memory = "25g",
-                                                       n_cpus = 5,
-                                                       walltime = "0",
+                                                       n_cpus = 6,
+                                                       walltime = "60",
                                                        sleep = 5,
-                                                       partition = "prio", ## Set partition in init-global
+                                                       partition = "fast", ## Set partition in init-global
                                                        account = "dzhk-omics", ## Set account in init-global
                                                        test_job = FALSE,
                                                        wait_for_jobs = FALSE,
@@ -112,7 +112,7 @@ reg_me_indep_combalanced_na_impute <- wrap_batchtools(reg_name = "02-train-cobra
 ## ----------------------------------------------
 ##
 reg_indep_combalanced_me_cobra_na_impute <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_combalanced_me, "02-train-cobra-na-impute"),
+  file.dir = file.path(reg_indep_combalanced_me, "02-train-cobra-na-imp"),
   writeable = TRUE,
   conf.file = config_file)
 reg_indep_combalanced_me_cobra_na_impute <- batchtools::reduceResultsList(
@@ -130,9 +130,9 @@ res_indep_combalanced_me_mean_perf_cobra_na_impute <- res_indep_combalanced_me_c
 print(res_indep_combalanced_me_mean_perf_cobra_na_impute)
 res_indep_combalanced_me_mean_perf_cobra_na_impute$Setting <- "Independent"
 res_indep_combalanced_me_mean_perf_cobra_na_impute$Y_Distribution <- "Balanced"
-res_indep_combalanced_me_mean_perf_cobra_na_impute$Na_action <- "na.keep"
+res_indep_combalanced_me_mean_perf_cobra_na_impute$Na_action <- "na.impute"
 res_indep_combalanced_me_mean_perf_cobra_na_impute$DE <- "DE: Me"
-res_indep_combalanced_me_mean_perf_cobra_na_impute$Meta_learner <- "BM"
+res_indep_combalanced_me_mean_perf_cobra_na_impute$Meta_learner <- "COBRA"
 saveRDS(
   object = res_indep_combalanced_me_mean_perf_cobra_na_impute,
   file = file.path(res_indep_me,

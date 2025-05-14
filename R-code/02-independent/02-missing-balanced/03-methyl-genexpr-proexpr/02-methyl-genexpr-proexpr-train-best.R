@@ -23,7 +23,7 @@ reg_megepro_train <- wrap_batchtools(reg_name = "02-train-best-na-keep",
                                     num.tree.ranger.genexpr = 1000L,
                                     num.tree.boruta.proexpr = 5000L,
                                     num.tree.ranger.proexpr = 1000L,
-                                    na_action = "na.impute"
+                                    na_action = "na.keep"
                                   ),
                                   name = "miss-megepro-best-na-keep",
                                   overwrite = FALSE,
@@ -72,7 +72,7 @@ res_indep_missbalanced_megepro_mean_perf_best_na_keep$Setting <- "Independent"
 res_indep_missbalanced_megepro_mean_perf_best_na_keep$Y_Distribution <- "Balanced"
 res_indep_missbalanced_megepro_mean_perf_best_na_keep$Na_action <- "na.impute"
 res_indep_missbalanced_megepro_mean_perf_best_na_keep$DE <- "DE: MeGePro"
-res_indep_missbalanced_megepro_mean_perf_best_na_keep$Meta_learner <- "BM"
+res_indep_missbalanced_megepro_mean_perf_best_na_keep$Meta_learner <- "Best modality−spec. learner"
 saveRDS(object = res_indep_missbalanced_megepro_mean_perf_best_na_keep,
         file = file.path(res_indep_missbalanced_megepro_mean_perf_best_na_keep,
                          "res_indep_missbalanced_megepro_mean_perf_best_na_keep.rds"))
@@ -148,7 +148,7 @@ res_indep_missbalanced_megepro_mean_perf_best_na_impute$Setting <- "Independent"
 res_indep_missbalanced_megepro_mean_perf_best_na_impute$Y_Distribution <- "Balanced"
 res_indep_missbalanced_megepro_mean_perf_best_na_impute$Na_action <- "na.keep"
 res_indep_missbalanced_megepro_mean_perf_best_na_impute$DE <- "DE: Me"
-res_indep_missbalanced_megepro_mean_perf_best_na_impute$Meta_learner <- "BM"
+res_indep_missbalanced_megepro_mean_perf_best_na_impute$Meta_learner <- "Best modality−spec. learner"
 saveRDS(
   object = res_indep_missbalanced_megepro_mean_perf_best_na_impute,
   file = file.path(res_indep_megepro,

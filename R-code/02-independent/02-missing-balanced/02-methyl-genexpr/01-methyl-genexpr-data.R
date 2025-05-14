@@ -1,6 +1,6 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
-no.threads <- 5
+no.threads <- 6
 indep_missbalanced_mege_param_data$effect <- NULL
 mege_data <- wrap_batchtools(reg_name = "01-data",
                            work_dir = working_dir,

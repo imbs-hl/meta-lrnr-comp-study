@@ -1,6 +1,6 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
-no.threads <- 5
+no.threads <- 6
 ## -----------------------------------------------------------------------------
 ## na_action = na_keep
 ## -----------------------------------------------------------------------------
@@ -20,7 +20,7 @@ reg_me_indep_missbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-cobra-
                                                      name = "missb-me-cobra-na-keep",
                                                      overwrite = TRUE,
                                                      memory = "25g",
-                                                     n_cpus = 5,
+                                                     n_cpus = 6,
                                                      walltime = "60",
                                                      sleep = 5,
                                                      partition = "prio", ## Set partition in init-global
@@ -62,7 +62,7 @@ res_indep_missbalanced_me_mean_perf_cobra_na_keep$Setting <- "Independent"
 res_indep_missbalanced_me_mean_perf_cobra_na_keep$Y_Distribution <- "Balanced"
 res_indep_missbalanced_me_mean_perf_cobra_na_keep$Na_action <- "na.keep"
 res_indep_missbalanced_me_mean_perf_cobra_na_keep$DE <- "DE: Me"
-res_indep_missbalanced_me_mean_perf_cobra_na_keep$Meta_learner <- "BM"
+res_indep_missbalanced_me_mean_perf_cobra_na_keep$Meta_learner <- "COBRA"
 saveRDS(
   object = res_indep_missbalanced_me_mean_perf_cobra_na_keep,
   file = file.path(res_indep_me,
@@ -90,7 +90,7 @@ reg_me_indep_missbalanced_na_impute <- wrap_batchtools(reg_name = "02-train-cobr
                                                        name = "missb-me-cobra-na-impute",
                                                        overwrite = TRUE,
                                                        memory = "25g",
-                                                       n_cpus = 5,
+                                                       n_cpus = 6,
                                                        walltime = "60",
                                                        sleep = 5,
                                                        partition = "prio", ## Set partition in init-global
