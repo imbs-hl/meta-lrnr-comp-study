@@ -19,7 +19,7 @@ reg_mege_indep_missbalanced_na_impute <- wrap_batchtools(reg_name = "02-train-la
                                                        ),
                                                        more_args = list(na_action = "na.impute"),
                                                        name = "missb-mege-lasso-na-impute",
-                                                       overwrite = FALSE,
+                                                       overwrite = TRUE,
                                                        memory = "25g",
                                                        n_cpus = 6,
                                                        walltime = "60",

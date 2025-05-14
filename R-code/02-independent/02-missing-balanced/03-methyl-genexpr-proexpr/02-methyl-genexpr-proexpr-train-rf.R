@@ -115,7 +115,7 @@ reg_megepro_indep_missbalanced_na_impute <- wrap_batchtools(reg_name = "02-train
 ## ----------------------------------------------
 ##
 reg_indep_missbalanced_megepro_rf_na_impute <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_missbalanced_megepro, "02-train-rf-na-impute"),
+  file.dir = file.path(reg_indep_missbalanced_megepro, "02-train-rf-na-imp"),
   writeable = TRUE,
   conf.file = config_file)
 reg_indep_missbalanced_megepro_rf_na_impute <- batchtools::reduceResultsList(

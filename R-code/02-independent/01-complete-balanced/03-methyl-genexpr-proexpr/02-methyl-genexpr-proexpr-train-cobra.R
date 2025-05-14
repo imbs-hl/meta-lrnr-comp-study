@@ -88,7 +88,7 @@ reg_megepro_indep_combalanced_na_impute <- wrap_batchtools(reg_name = "02-train-
                                                         ),
                                                         more_args = list(na_action = "na.impute"),
                                                         name = "comb-megepro-cobra-na-impute",
-                                                        overwrite = FALSE,
+                                                        overwrite = TRUE,
                                                         memory = "25g",
                                                         n_cpus = 6,
                                                         walltime = "0",
