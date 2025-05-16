@@ -1,20 +1,20 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
 no.threads <- 5
-## ----------------------------------------------
+## -----------------------------------------------------------------------------
 ## na_action = na_keep
-## ----------------------------------------------
-reg_dep_missunbalanced_mege_best_na_keep <- wrap_batchtools(reg_name = "02-train-best-na-keep",
+## -----------------------------------------------------------------------------
+reg_dep_comunbalanced_megepro_best_na_keep <- wrap_batchtools(reg_name = "02-train-best-na-keep",
                                                               work_dir = working_dir,
-                                                              reg_dir = reg_dep_missunbalanced_mege,
+                                                              reg_dir = reg_dep_comunbalanced_megepro,
                                                               r_function = single_run_best,
                                                               vec_args = data.frame(
-                                                                data_file = dep_missunbalanced_mege_param_data$save_path,
-                                                                seed = dep_missunbalanced_mege_param_data$seed,
-                                                                delta.methyl = dep_missunbalanced_mege_param_data$delta.methyl,
-                                                                delta.expr = dep_missunbalanced_mege_param_data$delta.expr,
-                                                                delta.protein = dep_missunbalanced_mege_param_data$delta.protein,
-                                                                effect = dep_missunbalanced_mege_param_data$effect
+                                                                data_file = dep_comunbalanced_megepro_param_data$save_path,
+                                                                seed = dep_comunbalanced_megepro_param_data$seed,
+                                                                delta.methyl = dep_comunbalanced_megepro_param_data$delta.methyl,
+                                                                delta.expr = dep_comunbalanced_megepro_param_data$delta.expr,
+                                                                delta.protein = dep_comunbalanced_megepro_param_data$delta.protein,
+                                                                effect = dep_comunbalanced_megepro_param_data$effect
                                                               ),
                                                               more_args = list(
                                                                 num.tree.boruta.methyl = 15000L,
@@ -25,10 +25,10 @@ reg_dep_missunbalanced_mege_best_na_keep <- wrap_batchtools(reg_name = "02-train
                                                                 num.tree.ranger.proexpr = 1000L,
                                                                 na_action = "na.keep"
                                                               ),
-                                                              name = "miss-mege-best-na-keep",
-                                                              overwrite = FALSE,
+                                                              name = "comunb-megepro-best-na-keep",
+                                                              overwrite = TRUE,
                                                               memory = "25g",
-                                                              n_cpus = 5,
+                                                              n_cpus = 8,
                                                               walltime = "0",
                                                               sleep = 5,
                                                               partition = "prio", ## Set partition in init-global
@@ -49,49 +49,50 @@ reg_dep_missunbalanced_mege_best_na_keep <- wrap_batchtools(reg_name = "02-train
 ## Resume results
 ## ----------------------------------------------
 ##
-reg_dep_missunbalanced_mege_best_na_keep <- batchtools::loadRegistry(
-  file.dir = file.path(reg_dep_missunbalanced_mege,
+reg_dep_comunbalanced_megepro_best_na_keep <- batchtools::loadRegistry(
+  file.dir = file.path(reg_dep_comunbalanced_megepro,
                        "02-train-best-na-keep"),
   writeable = TRUE,
   conf.file = config_file)
-reg_dep_missunbalanced_mege_best_na_keep <- batchtools::reduceResultsList(
+reg_dep_comunbalanced_megepro_best_na_keep <- batchtools::reduceResultsList(
   ids = batchtools::findDone(
-    ids = 1:nrow(dep_missunbalanced_mege_param_data),
-    reg = reg_dep_missunbalanced_mege_best_na_keep
+    ids = 1:nrow(dep_comunbalanced_megepro_param_data),
+    reg = reg_dep_comunbalanced_megepro_best_na_keep
   ),
-  reg = reg_dep_missunbalanced_mege_best_na_keep)
+  reg = reg_dep_comunbalanced_megepro_best_na_keep)
 
 
 ## resume filtered results
-res_dep_missunbalanced_mege_best_na_keep <- data.table::rbindlist(
-  reg_dep_missunbalanced_mege_best_na_keep)
-res_dep_missunbalanced_mege_mean_perf_best_na_keep <- res_dep_missunbalanced_mege_best_na_keep[ , .(mean_perf = mean(meta_layer)), 
+res_dep_comunbalanced_megepro_best_na_keep <- data.table::rbindlist(
+  reg_dep_comunbalanced_megepro_best_na_keep)
+res_dep_comunbalanced_megepro_mean_perf_best_na_keep <- res_dep_comunbalanced_megepro_best_na_keep[ , .(mean_perf = mean(meta_layer)), 
                                                                                                     by = .(perf_measure, effect)]
-print(res_dep_missunbalanced_mege_mean_perf_best_na_keep)
-res_dep_missunbalanced_mege_mean_perf_best_na_keep$Setting <- "Dependent"
-res_dep_missunbalanced_mege_mean_perf_best_na_keep$Y_Distribution <- "Balanced"
-res_dep_missunbalanced_mege_mean_perf_best_na_keep$Na_action <- "na.impute"
-res_dep_missunbalanced_mege_mean_perf_best_na_keep$DE <- "DE: MeGePro"
-res_dep_missunbalanced_mege_mean_perf_best_na_keep$Meta_learner <- "BM"
-saveRDS(object = res_dep_missunbalanced_mege_mean_perf_best_na_keep,
-        file = file.path(res_dep_mege,
-                         "res_dep_missunbalanced_mege_mean_perf_best_na_keep.rds"))
+print(res_dep_comunbalanced_megepro_mean_perf_best_na_keep)
+res_dep_comunbalanced_megepro_mean_perf_best_na_keep$Setting <- "Dependent"
+res_dep_comunbalanced_megepro_mean_perf_best_na_keep$Y_Distribution <- "Balanced"
+res_dep_comunbalanced_megepro_mean_perf_best_na_keep$Na_action <- "na.keep"
+res_dep_comunbalanced_megepro_mean_perf_best_na_keep$DE <- "DE: MeGePro"
+res_dep_comunbalanced_megepro_mean_perf_best_na_keep$Meta_learner <- "Best modality−spec. learner"
+saveRDS(object = res_dep_comunbalanced_megepro_mean_perf_best_na_keep,
+        file = file.path(res_dep_megepro,
+                         "res_dep_comunbalanced_megepro_mean_perf_best_na_keep.rds"))
+
 
 ## -----------------------------------------------------------------------------
 ## na_action = na_impute
 ## -----------------------------------------------------------------------------
 ##
-reg_dep_missunbalanced_mege_best_na_impute <- wrap_batchtools(reg_name = "02-train-best-na-impute",
+reg_dep_comunbalanced_megepro_best_na_impute <- wrap_batchtools(reg_name = "02-train-best-na-impute",
                                                                 work_dir = working_dir,
-                                                                reg_dir = reg_dep_missunbalanced_mege,
+                                                                reg_dir = reg_dep_comunbalanced_megepro,
                                                                 r_function = single_run_best,
                                                                 vec_args = data.frame(
-                                                                  data_file = dep_missunbalanced_mege_param_data$save_path,
-                                                                  seed = dep_missunbalanced_mege_param_data$seed,
-                                                                  delta.methyl = dep_missunbalanced_mege_param_data$delta.methyl,
-                                                                  delta.expr = dep_missunbalanced_mege_param_data$delta.expr,
-                                                                  delta.protein = dep_missunbalanced_mege_param_data$delta.protein,
-                                                                  effect = dep_missunbalanced_mege_param_data$effect
+                                                                  data_file = dep_comunbalanced_megepro_param_data$save_path,
+                                                                  seed = dep_comunbalanced_megepro_param_data$seed,
+                                                                  delta.methyl = dep_comunbalanced_megepro_param_data$delta.methyl,
+                                                                  delta.expr = dep_comunbalanced_megepro_param_data$delta.expr,
+                                                                  delta.protein = dep_comunbalanced_megepro_param_data$delta.protein,
+                                                                  effect = dep_comunbalanced_megepro_param_data$effect
                                                                 ),
                                                                 more_args = list(
                                                                   num.tree.boruta.methyl = 15000L,
@@ -102,10 +103,10 @@ reg_dep_missunbalanced_mege_best_na_impute <- wrap_batchtools(reg_name = "02-tra
                                                                   num.tree.ranger.proexpr = 1000L,
                                                                   na_action = "na.impute"
                                                                 ),
-                                                                name = "miss-mege-best-na-impute",
-                                                                overwrite = FALSE,
+                                                                name = "comunb-megepro-best-na-impute",
+                                                                overwrite = TRUE,
                                                                 memory = "25g",
-                                                                n_cpus = 5,
+                                                                n_cpus = 8,
                                                                 walltime = "0",
                                                                 sleep = 5,
                                                                 partition = "prio", ## Set partition in init-global
@@ -126,30 +127,30 @@ reg_dep_missunbalanced_mege_best_na_impute <- wrap_batchtools(reg_name = "02-tra
 ## Resume results
 ## ----------------------------------------------
 ##
-reg_dep_missunbalanced_mege_best_na_impute <- batchtools::loadRegistry(
-  file.dir = file.path(reg_dep_missunbalanced_mege, "02-train-best-na-impute"),
+reg_dep_comunbalanced_megepro_best_na_impute <- batchtools::loadRegistry(
+  file.dir = file.path(reg_dep_comunbalanced_megepro, "02-train-best-na-impute"),
   writeable = TRUE,
   conf.file = config_file)
-reg_dep_missunbalanced_mege_best_na_impute <- batchtools::reduceResultsList(
+reg_dep_comunbalanced_megepro_best_na_impute <- batchtools::reduceResultsList(
   ids = batchtools::findDone(
-    ids = 1:nrow(dep_missunbalanced_mege_param_data),
-    reg = reg_dep_missunbalanced_mege_best_na_impute
+    ids = 1:nrow(dep_comunbalanced_megepro_param_data),
+    reg = reg_dep_comunbalanced_megepro_best_na_impute
   ),
-  reg = reg_dep_missunbalanced_mege_best_na_impute)
+  reg = reg_dep_comunbalanced_megepro_best_na_impute)
 
 
 ## resume filtered results
-res_dep_missunbalanced_mege_best_na_impute <- data.table::rbindlist(reg_dep_missunbalanced_mege_best_na_impute)
-res_dep_missunbalanced_mege_mean_perf_best_na_impute <- res_dep_missunbalanced_mege_best_na_impute[ , .(mean_perf = mean(meta_layer)), 
+res_dep_comunbalanced_megepro_best_na_impute <- data.table::rbindlist(reg_dep_comunbalanced_megepro_best_na_impute)
+res_dep_comunbalanced_megepro_mean_perf_best_na_impute <- res_dep_comunbalanced_megepro_best_na_impute[ , .(mean_perf = mean(meta_layer)), 
                                                                                                         by = .(perf_measure, effect)]
-print(res_dep_missunbalanced_mege_mean_perf_best_na_impute)
-res_dep_missunbalanced_mege_mean_perf_best_na_impute$Setting <- "Dependent"
-res_dep_missunbalanced_mege_mean_perf_best_na_impute$Y_Distribution <- "Balanced"
-res_dep_missunbalanced_mege_mean_perf_best_na_impute$Na_action <- "na.keep"
-res_dep_missunbalanced_mege_mean_perf_best_na_impute$DE <- "DE: Me"
-res_dep_missunbalanced_mege_mean_perf_best_na_impute$Meta_learner <- "BM"
+print(res_dep_comunbalanced_megepro_mean_perf_best_na_impute)
+res_dep_comunbalanced_megepro_mean_perf_best_na_impute$Setting <- "Dependent"
+res_dep_comunbalanced_megepro_mean_perf_best_na_impute$Y_Distribution <- "Balanced"
+res_dep_comunbalanced_megepro_mean_perf_best_na_impute$Na_action <- "na.keep"
+res_dep_comunbalanced_megepro_mean_perf_best_na_impute$DE <- "DE: MeGePro"
+res_dep_comunbalanced_megepro_mean_perf_best_na_impute$Meta_learner <- "Best modality−spec. learner"
 saveRDS(
-  object = res_dep_missunbalanced_mege_mean_perf_best_na_impute,
-  file = file.path(res_dep_mege,
-                   "res_dep_missunbalanced_mege_mean_perf_best_na_impute.rds")
+  object = res_dep_comunbalanced_megepro_mean_perf_best_na_impute,
+  file = file.path(res_dep_megepro,
+                   "res_dep_comunbalanced_megepro_mean_perf_best_na_impute.rds")
 )

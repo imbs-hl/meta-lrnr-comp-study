@@ -3,31 +3,31 @@ source("../init.R", chdir = TRUE)
 # Modality directories for the incomplete-case scenarios
 # ==============================================================================
 #
-indep_missbalanced_me_dir <- file.path(data_indep_missbalanced_dir, "me")
-indep_missbalanced_mege_dir <- file.path(data_indep_missbalanced_dir,
+dep_missbalanced_me_dir <- file.path(data_dep_missbalanced_dir, "me")
+dep_missbalanced_mege_dir <- file.path(data_dep_missbalanced_dir,
                                                     "mege")
-indep_missbalanced_megepro_dir <- file.path(
-  data_indep_missbalanced_dir,
+dep_missbalanced_megepro_dir <- file.path(
+  data_dep_missbalanced_dir,
   "megepro")
-dir.create(indep_missbalanced_me_dir,
+dir.create(dep_missbalanced_me_dir,
            showWarnings = FALSE,
            recursive = TRUE)
-dir.create(indep_missbalanced_mege_dir,
+dir.create(dep_missbalanced_mege_dir,
            showWarnings = FALSE,
            recursive = TRUE)
-dir.create(indep_missbalanced_megepro_dir,
+dir.create(dep_missbalanced_megepro_dir,
            showWarnings = FALSE,
            recursive = TRUE)
 
 # ==============================================================================
-# Registries for independent differentially expressed markers
+# Registries for dependent differentially expressed markers
 # ==============================================================================
 #
-reg_indep_missbalanced_me <- file.path(reg_indep_missbalanced_dir, "me")
-reg_indep_missbalanced_mege <- file.path(reg_indep_missbalanced_dir, "mege")
-reg_indep_missbalanced_megepro <- file.path(reg_indep_missbalanced_dir, "megepro")
-dir.create(reg_indep_missbalanced_me, showWarnings = FALSE, recursive = TRUE)
-dir.create(reg_indep_missbalanced_mege, showWarnings = FALSE, 
+reg_dep_missbalanced_me <- file.path(reg_dep_missbalanced_dir, "me")
+reg_dep_missbalanced_mege <- file.path(reg_dep_missbalanced_dir, "mege")
+reg_dep_missbalanced_megepro <- file.path(reg_dep_missbalanced_dir, "megepro")
+dir.create(reg_dep_missbalanced_me, showWarnings = FALSE, recursive = TRUE)
+dir.create(reg_dep_missbalanced_mege, showWarnings = FALSE, 
            recursive = TRUE)
-dir.create(reg_indep_missbalanced_megepro, showWarnings = FALSE, 
+dir.create(reg_dep_missbalanced_megepro, showWarnings = FALSE, 
            recursive = TRUE)
