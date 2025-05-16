@@ -15,7 +15,7 @@ source(file.path(function_dir, "single-run-wa.R"))
 data_indep_combalanced_dir <- file.path(data_independent_dir, "combalanced")
 dir.create(data_indep_combalanced_dir, showWarnings = FALSE, recursive = TRUE)
 
-# Missing modalities: Dependently and differentially expressed markers
+# Missing modalities: Independently and differentially expressed markers
 data_indep_missbalanced_dir <- file.path(data_independent_dir, "missbalanced")
 dir.create(data_indep_missbalanced_dir, showWarnings = FALSE, recursive = TRUE)
 
@@ -27,7 +27,7 @@ dir.create(data_indep_missbalanced_dir, showWarnings = FALSE, recursive = TRUE)
 reg_indep_combalanced_dir <- file.path(reg_independent_dir, "combalanced")
 dir.create(reg_indep_combalanced_dir, showWarnings = FALSE, recursive = TRUE)
 
-# Missing modalities: Dependently and differentially expressed markers
+# Missing modalities: Independently and differentially expressed markers
 reg_indep_missbalanced_dir <- file.path(reg_independent_dir, "missbalanced")
 dir.create(reg_indep_missbalanced_dir, showWarnings = FALSE, recursive = TRUE)
 
@@ -39,7 +39,7 @@ dir.create(reg_indep_missbalanced_dir, showWarnings = FALSE, recursive = TRUE)
 data_indep_comunbalanced_dir <- file.path(data_independent_dir, "comunbalanced")
 dir.create(data_indep_comunbalanced_dir, showWarnings = FALSE, recursive = TRUE)
 
-# Missing modalities: Dependently and differentially expressed markers
+# Missing modalities: Independently and differentially expressed markers
 data_indep_missunbalanced_dir <- file.path(data_independent_dir, "missunbalanced")
 dir.create(data_indep_missunbalanced_dir, showWarnings = FALSE, recursive = TRUE)
 
@@ -51,6 +51,6 @@ dir.create(data_indep_missunbalanced_dir, showWarnings = FALSE, recursive = TRUE
 reg_indep_comunbalanced_dir <- file.path(reg_independent_dir, "comunbalanced")
 dir.create(reg_indep_comunbalanced_dir, showWarnings = FALSE, recursive = TRUE)
 
-# Missing modalities: Dependently and differentially expressed markers
+# Missing modalities: Independently and differentially expressed markers
 reg_indep_missunbalanced_dir <- file.path(reg_independent_dir, "missunbalanced")
 dir.create(reg_indep_missunbalanced_dir, showWarnings = FALSE, recursive = TRUE)
