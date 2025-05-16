@@ -65,7 +65,7 @@ res_indep_combalanced_megepro_mean_perf_cobra_na_keep$DE <- "DE: MeGePro"
 res_indep_combalanced_megepro_mean_perf_cobra_na_keep$Meta_learner <- "COBRA"
 saveRDS(
   object = res_indep_combalanced_megepro_mean_perf_cobra_na_keep,
-  file = file.path(res_indep_mege,
+  file = file.path(res_indep_megepro,
                    "res_indep_combalanced_megepro_mean_perf_cobra_na_keep.rds")
 )
 
@@ -93,7 +93,7 @@ reg_megepro_indep_combalanced_na_impute <- wrap_batchtools(reg_name = "02-train-
                                                         n_cpus = 6,
                                                         walltime = "0",
                                                         sleep = 5,
-                                                        partition = "fast", ## Set partition in init-global
+                                                        partition = "prio", ## Set partition in init-global
                                                         account = "dzhk-omics", ## Set account in init-global
                                                         test_job = FALSE,
                                                         wait_for_jobs = FALSE,

@@ -57,11 +57,11 @@ reg_indep_missbalanced_megepro_wa_na_keep <- batchtools::reduceResultsList(
 
 ## resume filtered results
 res_indep_missbalanced_megepro_wa_na_keep <- data.table::rbindlist(reg_indep_missbalanced_megepro_wa_na_keep)
-res_indep_missbalanced_megepro_mean_pewa_wa_na_keep <- res_indep_missbalanced_megepro_wa_na_keep[ , .(mean_pewa = mean(meta_layer)), 
+res_indep_missbalanced_megepro_mean_perf_wa_na_keep <- res_indep_missbalanced_megepro_wa_na_keep[ , .(mean_perf = mean(meta_layer)), 
                                                                                         by = .(perf_measure, effect)]
 print(res_indep_missbalanced_megepro_mean_perf_wa_na_keep)
 res_indep_missbalanced_megepro_mean_perf_wa_na_keep$Setting <- "Independent"
-res_indep_missbalanced_me_mean_perf_wa_na_keep$Y_Distribution <- "Balanced"
+res_indep_missbalanced_megepro_mean_perf_wa_na_keep$Y_Distribution <- "Balanced"
 res_indep_missbalanced_megepro_mean_perf_wa_na_keep$Na_action <- "na.keep"
 res_indep_missbalanced_megepro_mean_perf_wa_na_keep$DE <- "DE: MeGePro"
 res_indep_missbalanced_megepro_mean_perf_wa_na_keep$Meta_learner <- "Weighted average"
@@ -115,7 +115,7 @@ reg_megepro_indep_missbalanced_na_impute <- wrap_batchtools(reg_name = "02-train
 ## ----------------------------------------------
 ##
 reg_indep_missbalanced_megepro_wa_na_impute <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_missbalanced_megepro, "02-train-wa-na-impute"),
+  file.dir = file.path(reg_indep_missbalanced_megepro, "02-train-wa-na-imp"),
   writeable = TRUE,
   conf.file = config_file)
 reg_indep_missbalanced_megepro_wa_na_impute <- batchtools::reduceResultsList(

@@ -69,5 +69,5 @@ res_indep_combalanced_mege_mean_perf_lr_na_keep$Meta_learner <- "Logistic regres
 saveRDS(
   object = res_indep_combalanced_mege_mean_perf_lr_na_keep,
   file = file.path(res_indep_mege,
-                   "res_indep_combalanced_mege_mean_perf_lr_na_impute.rds")
+                   "res_indep_combalanced_mege_mean_perf_lr_na_keep.rds")
 )

@@ -133,7 +133,7 @@ res_indep_missbalanced_megepro_mean_perf_rf_na_impute <- res_indep_missbalanced_
 print(res_indep_missbalanced_megepro_mean_perf_rf_na_impute)
 res_indep_missbalanced_megepro_mean_perf_rf_na_impute$Setting <- "Independent"
 res_indep_missbalanced_megepro_mean_perf_rf_na_impute$Y_Distribution <- "Balanced"
-res_indep_missbalanced_megepro_mean_perf_rf_na_impute$Na_action <- "na.keep"
+res_indep_missbalanced_megepro_mean_perf_rf_na_impute$Na_action <- "na.impute"
 res_indep_missbalanced_megepro_mean_perf_rf_na_impute$DE <- "DE: MeGePro"
 res_indep_missbalanced_megepro_mean_perf_rf_na_impute$Meta_learner <- "Random forests"
 saveRDS(

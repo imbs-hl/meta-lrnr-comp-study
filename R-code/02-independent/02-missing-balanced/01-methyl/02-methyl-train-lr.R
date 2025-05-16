@@ -34,6 +34,8 @@ reg_me_indep_missbalanced_na_impute <- wrap_batchtools(reg_name = "02-train-lr-n
                                                          "mgcv",
                                                          "fuseMLR"
                                                        ),
+                                                       source = c(file.path(function_dir, 
+                                                                            "myglm.R")),
                                                        config_file = config_file,
                                                        interactive_session = interactive_session)
 
@@ -43,7 +45,7 @@ reg_me_indep_missbalanced_na_impute <- wrap_batchtools(reg_name = "02-train-lr-n
 ## ----------------------------------------------
 ##
 reg_indep_missbalanced_me_lr_na_impute <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_missbalanced_me, "02-train-lr-na-impute"),
+  file.dir = file.path(reg_indep_missbalanced_me, "02-train-lr-na-imp"),
   writeable = TRUE,
   conf.file = config_file)
 reg_indep_missbalanced_me_lr_na_impute <- batchtools::reduceResultsList(

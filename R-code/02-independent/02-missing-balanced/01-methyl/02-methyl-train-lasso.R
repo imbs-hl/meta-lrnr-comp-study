@@ -1,6 +1,6 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
-no.threads <- 5
+no.threads <- 6
 ## -----------------------------------------------------------------------------
 ## na_action = na_impute
 ## -----------------------------------------------------------------------------
@@ -19,12 +19,12 @@ reg_me_indep_missbalanced_na_impute <- wrap_batchtools(reg_name = "02-train-lass
                                                        ),
                                                        more_args = list(na_action = "na.impute"),
                                                        name = "missb-me-lasso-na-impute",
-                                                       overwrite = FALSE,
+                                                       overwrite = TRUE,
                                                        memory = "25g",
-                                                       n_cpus = 5,
+                                                       n_cpus = 6,
                                                        walltime = "60",
                                                        sleep = 5,
-                                                       partition = "fast", ## Set partition in init-global
+                                                       partition = "prio", ## Set partition in init-global
                                                        account = "dzhk-omics", ## Set account in init-global
                                                        test_job = FALSE,
                                                        wait_for_jobs = FALSE,
@@ -46,7 +46,7 @@ reg_me_indep_missbalanced_na_impute <- wrap_batchtools(reg_name = "02-train-lass
 ## ----------------------------------------------
 ##
 reg_indep_missbalanced_me_lasso_na_impute <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_missbalanced_me, "02-train-lasso-na-impute"),
+  file.dir = file.path(reg_indep_missbalanced_me, "02-train-lasso-na-imp"),
   writeable = TRUE,
   conf.file = config_file)
 reg_indep_missbalanced_me_lasso_na_impute <- batchtools::reduceResultsList(

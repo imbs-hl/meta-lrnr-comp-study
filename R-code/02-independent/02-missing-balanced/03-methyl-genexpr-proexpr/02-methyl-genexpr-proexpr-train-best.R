@@ -70,11 +70,11 @@ res_indep_missbalanced_megepro_mean_perf_best_na_keep <- res_indep_missbalanced_
 print(res_indep_missbalanced_megepro_mean_perf_best_na_keep)
 res_indep_missbalanced_megepro_mean_perf_best_na_keep$Setting <- "Independent"
 res_indep_missbalanced_megepro_mean_perf_best_na_keep$Y_Distribution <- "Balanced"
-res_indep_missbalanced_megepro_mean_perf_best_na_keep$Na_action <- "na.impute"
+res_indep_missbalanced_megepro_mean_perf_best_na_keep$Na_action <- "na.keep"
 res_indep_missbalanced_megepro_mean_perf_best_na_keep$DE <- "DE: MeGePro"
 res_indep_missbalanced_megepro_mean_perf_best_na_keep$Meta_learner <- "Best modality−spec. learner"
 saveRDS(object = res_indep_missbalanced_megepro_mean_perf_best_na_keep,
-        file = file.path(res_indep_missbalanced_megepro_mean_perf_best_na_keep,
+        file = file.path(res_indep_megepro,
                          "res_indep_missbalanced_megepro_mean_perf_best_na_keep.rds"))
 
 
@@ -146,8 +146,8 @@ res_indep_missbalanced_megepro_mean_perf_best_na_impute <- res_indep_missbalance
 print(res_indep_missbalanced_megepro_mean_perf_best_na_impute)
 res_indep_missbalanced_megepro_mean_perf_best_na_impute$Setting <- "Independent"
 res_indep_missbalanced_megepro_mean_perf_best_na_impute$Y_Distribution <- "Balanced"
-res_indep_missbalanced_megepro_mean_perf_best_na_impute$Na_action <- "na.keep"
-res_indep_missbalanced_megepro_mean_perf_best_na_impute$DE <- "DE: Me"
+res_indep_missbalanced_megepro_mean_perf_best_na_impute$Na_action <- "na.impute"
+res_indep_missbalanced_megepro_mean_perf_best_na_impute$DE <- "DE: MeGePro"
 res_indep_missbalanced_megepro_mean_perf_best_na_impute$Meta_learner <- "Best modality−spec. learner"
 saveRDS(
   object = res_indep_missbalanced_megepro_mean_perf_best_na_impute,

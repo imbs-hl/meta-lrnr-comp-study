@@ -28,7 +28,7 @@ reg_me_indep_missbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-best-n
                                                      name = "miss-me-best-na-keep",
                                                      overwrite = FALSE,
                                                      memory = "25g",
-                                                     n_cpus = 5,
+                                                     n_cpus = 6,
                                                      walltime = "0",
                                                      sleep = 5,
                                                      partition = "prio", ## Set partition in init-global
@@ -70,7 +70,7 @@ res_indep_missbalanced_me_mean_perf_best_na_keep$Setting <- "Independent"
 res_indep_missbalanced_me_mean_perf_best_na_keep$Y_Distribution <- "Balanced"
 res_indep_missbalanced_me_mean_perf_best_na_keep$Na_action <- "na.keep"
 res_indep_missbalanced_me_mean_perf_best_na_keep$DE <- "DE: Me"
-res_indep_missbalanced_me_mean_perf_best_na_keep$Meta_learner <- "BM"
+res_indep_missbalanced_me_mean_perf_best_na_keep$Meta_learner <- "Best modality−spec. learner"
 saveRDS(
   object = res_indep_missbalanced_me_mean_perf_best_na_keep,
   file = file.path(res_indep_me,
@@ -107,10 +107,10 @@ reg_me_na_impute <- wrap_batchtools(reg_name = "02-train-best-na-impute",
                                     name = "miss-me-best-na-impute",
                                     overwrite = FALSE,
                                     memory = "25g",
-                                    n_cpus = 5,
-                                    walltime = "0",
+                                    n_cpus = 6,
+                                    walltime = "60",
                                     sleep = 5,
-                                    partition = "prio", ## Set partition in init-global
+                                    partition = "fast", ## Set partition in init-global
                                     account = "dzhk-omics", ## Set account in init-global
                                     test_job = FALSE,
                                     wait_for_jobs = FALSE,
@@ -147,9 +147,9 @@ res_indep_missbalanced_me_mean_perf_best_na_impute <- res_indep_missbalanced_me_
 print(res_indep_missbalanced_me_mean_perf_best_na_impute)
 res_indep_missbalanced_me_mean_perf_best_na_impute$Setting <- "Independent"
 res_indep_missbalanced_me_mean_perf_best_na_impute$Y_Distribution <- "Balanced"
-res_indep_missbalanced_me_mean_perf_best_na_impute$Na_action <- "na.keep"
+res_indep_missbalanced_me_mean_perf_best_na_impute$Na_action <- "na.impute"
 res_indep_missbalanced_me_mean_perf_best_na_impute$DE <- "DE: Me"
-res_indep_missbalanced_me_mean_perf_best_na_impute$Meta_learner <- "BM"
+res_indep_missbalanced_me_mean_perf_best_na_impute$Meta_learner <- "Best modality−spec. learner"
 saveRDS(
   object = res_indep_missbalanced_me_mean_perf_best_na_impute,
   file = file.path(res_indep_me,

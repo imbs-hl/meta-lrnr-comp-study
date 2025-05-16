@@ -19,12 +19,12 @@ reg_megepro_indep_missbalanced_na_impute <- wrap_batchtools(reg_name = "02-train
                                                        ),
                                                        more_args = list(na_action = "na.impute"),
                                                        name = "missb-megepro-lr-na-impute",
-                                                       overwrite = FALSE,
+                                                       overwrite = TRUE,
                                                        memory = "25g",
                                                        n_cpus = 5,
                                                        walltime = "60",
                                                        sleep = 5,
-                                                       partition = "fast", ## Set partition in init-global
+                                                       partition = "prio", ## Set partition in init-global
                                                        account = "dzhk-omics", ## Set account in init-global
                                                        test_job = FALSE,
                                                        wait_for_jobs = FALSE,
@@ -34,6 +34,8 @@ reg_megepro_indep_missbalanced_na_impute <- wrap_batchtools(reg_name = "02-train
                                                          "mgcv",
                                                          "fuseMLR"
                                                        ),
+                                                       source = c(file.path(function_dir, 
+                                                                            "myglm.R")),
                                                        config_file = config_file,
                                                        interactive_session = interactive_session)
 
@@ -43,7 +45,7 @@ reg_megepro_indep_missbalanced_na_impute <- wrap_batchtools(reg_name = "02-train
 ## ----------------------------------------------
 ##
 reg_indep_missbalanced_megepro_lr_na_impute <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_missbalanced_megepro, "02-train-lr-na-impute"),
+  file.dir = file.path(reg_indep_missbalanced_megepro, "02-train-lr-na-imp"),
   writeable = TRUE,
   conf.file = config_file)
 reg_indep_missbalanced_megepro_lr_na_impute <- batchtools::reduceResultsList(

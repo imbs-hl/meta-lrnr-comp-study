@@ -18,7 +18,7 @@ reg_me_indep_missbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-cobra-
                                                      ),
                                                      more_args = list(na_action = "na.keep"),
                                                      name = "missb-me-cobra-na-keep",
-                                                     overwrite = TRUE,
+                                                     overwrite = FALSE,
                                                      memory = "25g",
                                                      n_cpus = 6,
                                                      walltime = "60",
@@ -112,7 +112,7 @@ reg_me_indep_missbalanced_na_impute <- wrap_batchtools(reg_name = "02-train-cobr
 ## ----------------------------------------------
 ##
 reg_indep_missbalanced_me_cobra_na_impute <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_missbalanced_me, "02-train-cobra-na-impute"),
+  file.dir = file.path(reg_indep_missbalanced_me, "02-train-cobra-na-imp"),
   writeable = TRUE,
   conf.file = config_file)
 reg_indep_missbalanced_me_cobra_na_impute <- batchtools::reduceResultsList(
@@ -130,9 +130,9 @@ res_indep_missbalanced_me_mean_perf_cobra_na_impute <- res_indep_missbalanced_me
 print(res_indep_missbalanced_me_mean_perf_cobra_na_impute)
 res_indep_missbalanced_me_mean_perf_cobra_na_impute$Setting <- "Independent"
 res_indep_missbalanced_me_mean_perf_cobra_na_impute$Y_Distribution <- "Balanced"
-res_indep_missbalanced_me_mean_perf_cobra_na_impute$Na_action <- "na.keep"
+res_indep_missbalanced_me_mean_perf_cobra_na_impute$Na_action <- "na.impute"
 res_indep_missbalanced_me_mean_perf_cobra_na_impute$DE <- "DE: Me"
-res_indep_missbalanced_me_mean_perf_cobra_na_impute$Meta_learner <- "BM"
+res_indep_missbalanced_me_mean_perf_cobra_na_impute$Meta_learner <- "COBRA"
 saveRDS(
   object = res_indep_missbalanced_me_mean_perf_cobra_na_impute,
   file = file.path(res_indep_me,

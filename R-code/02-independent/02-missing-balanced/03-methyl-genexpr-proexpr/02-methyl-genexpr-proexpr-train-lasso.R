@@ -19,7 +19,7 @@ reg_megepro_indep_missbalanced_na_impute <- wrap_batchtools(reg_name = "02-train
                                                        ),
                                                        more_args = list(na_action = "na.impute"),
                                                        name = "missb-megepro-lasso-na-impute",
-                                                       overwrite = FALSE,
+                                                       overwrite = TRUE,
                                                        memory = "25g",
                                                        n_cpus = 6,
                                                        walltime = "60",
@@ -46,7 +46,7 @@ reg_megepro_indep_missbalanced_na_impute <- wrap_batchtools(reg_name = "02-train
 ## ----------------------------------------------
 ##
 reg_indep_missbalanced_megepro_lasso_na_impute <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_missbalanced_megepro, "02-train-lasso-na-impute"),
+  file.dir = file.path(reg_indep_missbalanced_megepro, "02-train-lasso-na-imp"),
   writeable = TRUE,
   conf.file = config_file)
 reg_indep_missbalanced_megepro_lasso_na_impute <- batchtools::reduceResultsList(
@@ -69,6 +69,6 @@ res_indep_missbalanced_megepro_mean_perf_lasso_na_impute$DE <- "DE: MeGePro"
 res_indep_missbalanced_megepro_mean_perf_lasso_na_impute$Meta_learner <- "Lasso"
 saveRDS(
   object = res_indep_missbalanced_megepro_mean_perf_lasso_na_impute,
-  file = file.path(res_indep_me,
+  file = file.path(res_indep_megepro,
                    "res_indep_missbalanced_megepro_mean_perf_lasso_na_impute.rds")
 )

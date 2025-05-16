@@ -19,7 +19,7 @@ reg_mege_indep_missbalanced_na_impute <- wrap_batchtools(reg_name = "02-train-lr
                                                        ),
                                                        more_args = list(na_action = "na.impute"),
                                                        name = "missb-mege-lr-na-impute",
-                                                       overwrite = FALSE,
+                                                       overwrite = TRUE,
                                                        memory = "25g",
                                                        n_cpus = 5,
                                                        walltime = "60",
@@ -34,6 +34,8 @@ reg_mege_indep_missbalanced_na_impute <- wrap_batchtools(reg_name = "02-train-lr
                                                          "mgcv",
                                                          "fuseMLR"
                                                        ),
+                                                       source = c(file.path(function_dir, 
+                                                                            "myglm.R")),
                                                        config_file = config_file,
                                                        interactive_session = interactive_session)
 
@@ -43,7 +45,7 @@ reg_mege_indep_missbalanced_na_impute <- wrap_batchtools(reg_name = "02-train-lr
 ## ----------------------------------------------
 ##
 reg_indep_missbalanced_mege_lr_na_impute <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_missbalanced_mege, "02-train-lr-na-impute"),
+  file.dir = file.path(reg_indep_missbalanced_mege, "02-train-lr-na-imp"),
   writeable = TRUE,
   conf.file = config_file)
 reg_indep_missbalanced_mege_lr_na_impute <- batchtools::reduceResultsList(
@@ -62,7 +64,7 @@ print(res_indep_missbalanced_mege_mean_perf_lr_na_impute)
 res_indep_missbalanced_mege_mean_perf_lr_na_impute$Setting <- "Independent"
 res_indep_missbalanced_mege_mean_perf_lr_na_impute$Y_Distribution <- "Balanced"
 res_indep_missbalanced_mege_mean_perf_lr_na_impute$Na_action <- "na.impute"
-res_indep_missbalanced_mege_mean_perf_lr_na_impute$DE <- "DE: Me"
+res_indep_missbalanced_mege_mean_perf_lr_na_impute$DE <- "DE: MeGe"
 res_indep_missbalanced_mege_mean_perf_lr_na_impute$Meta_learner <- "Logistic regression"
 saveRDS(
   object = res_indep_missbalanced_mege_mean_perf_lr_na_impute,

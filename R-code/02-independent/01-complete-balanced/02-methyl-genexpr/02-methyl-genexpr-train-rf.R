@@ -115,7 +115,7 @@ reg_mege_indep_combalanced_na_impute <- wrap_batchtools(reg_name = "02-train-rf-
 ## ----------------------------------------------
 ##
 reg_indep_combalanced_mege_rf_na_impute <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_combalanced_mege, "02-train-rf-na-impute"),
+  file.dir = file.path(reg_indep_combalanced_mege, "02-train-rf-na-imp"),
   writeable = TRUE,
   conf.file = config_file)
 reg_indep_combalanced_mege_rf_na_impute <- batchtools::reduceResultsList(
@@ -135,7 +135,7 @@ res_indep_combalanced_mege_mean_perf_rf_na_impute$Setting <- "Independent"
 res_indep_combalanced_mege_mean_perf_rf_na_impute$Y_Distribution <- "Balanced"
 res_indep_combalanced_mege_mean_perf_rf_na_impute$Na_action <- "na.keep"
 res_indep_combalanced_mege_mean_perf_rf_na_impute$DE <- "DE: MeGe"
-res_indep_combalanced_mege_mean_perf_rf_na_impute$Meta_learner <- "BM"
+res_indep_combalanced_mege_mean_perf_rf_na_impute$Meta_learner <- "Best modality−spec. learner"
 saveRDS(
   object = res_indep_combalanced_mege_mean_perf_rf_na_impute,
   file = file.path(res_indep_mege,

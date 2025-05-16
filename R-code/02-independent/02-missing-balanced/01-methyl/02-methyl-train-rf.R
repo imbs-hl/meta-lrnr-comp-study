@@ -20,7 +20,7 @@ reg_me_indep_missbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-rf-na-
                                                      more_args = list(na_action = "na.keep",
                                                                       num.tree.meta = 1000L),
                                                      name = "missb-me-rf-na-keep",
-                                                     overwrite = TRUE,
+                                                     overwrite = FALSE,
                                                      memory = "25g",
                                                      n_cpus = 6,
                                                      walltime = "60",
@@ -114,7 +114,7 @@ reg_me_indep_missbalanced_na_impute <- wrap_batchtools(reg_name = "02-train-rf-n
 ## ----------------------------------------------
 ##
 reg_indep_missbalanced_me_rf_na_impute <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_missbalanced_me, "02-train-rf-na-impute"),
+  file.dir = file.path(reg_indep_missbalanced_me, "02-train-rf-na-imp"),
   writeable = TRUE,
   conf.file = config_file)
 reg_indep_missbalanced_me_rf_na_impute <- batchtools::reduceResultsList(

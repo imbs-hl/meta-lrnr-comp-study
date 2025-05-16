@@ -56,7 +56,7 @@ reg_indep_combalanced_me_wa_na_keep <- batchtools::reduceResultsList(
 
 ## resume filtered results
 res_indep_combalanced_me_wa_na_keep <- data.table::rbindlist(reg_indep_combalanced_me_wa_na_keep)
-res_indep_combalanced_me_mean_perf_wa_na_keep <- res_indep_combalanced_me_wa_na_keep[ , .(mean_pewa = mean(meta_layer)), 
+res_indep_combalanced_me_mean_perf_wa_na_keep <- res_indep_combalanced_me_wa_na_keep[ , .(mean_perf = mean(meta_layer)), 
                                                                                         by = .(perf_measure, effect)]
 print(res_indep_combalanced_me_mean_perf_wa_na_keep)
 res_indep_combalanced_me_mean_perf_wa_na_keep$Setting <- "Independent"
@@ -113,7 +113,7 @@ reg_me_indep_combalanced_na_impute <- wrap_batchtools(reg_name = "02-train-wa-na
 ## ----------------------------------------------
 ##
 reg_indep_combalanced_me_wa_na_impute <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_combalanced_me, "02-train-wa-na-impute"),
+  file.dir = file.path(reg_indep_combalanced_me, "02-train-wa-na-imp"),
   writeable = TRUE,
   conf.file = config_file)
 reg_indep_combalanced_me_wa_na_impute <- batchtools::reduceResultsList(
@@ -133,7 +133,7 @@ res_indep_combalanced_me_mean_perf_wa_na_impute$Setting <- "Independent"
 res_indep_combalanced_me_mean_perf_wa_na_impute$Y_Distribution <- "Balanced"
 res_indep_combalanced_me_mean_perf_wa_na_impute$Na_action <- "na.keep"
 res_indep_combalanced_me_mean_perf_wa_na_impute$DE <- "DE: Me"
-res_indep_combalanced_me_mean_perf_wa_na_impute$Meta_learner <- "BM"
+res_indep_combalanced_me_mean_perf_wa_na_impute$Meta_learner <- "Best modality−spec. learner"
 saveRDS(
   object = res_indep_combalanced_me_mean_perf_wa_na_impute,
   file = file.path(res_indep_me,
