@@ -1,30 +1,33 @@
-source("../init-global.R", chdir = TRUE)
-source(file.path(function_dir, "simuldata.R"))
-source(file.path(function_dir, "single-run-best.R"))
-source(file.path(function_dir, "single-run-rf.R"))
-source(file.path(function_dir, "single-run-lasso.R"))
-source(file.path(function_dir, "single-run-lr.R"))
-source(file.path(function_dir, "single-run-cobra.R"))
-source(file.path(function_dir, "single-run-wa.R"))
+source("../init.R", chdir = TRUE)
+# ==============================================================================
+# Modality directories for the incomplete-case scenarios
+# ==============================================================================
+#
+dep_combalanced_me_dir <- file.path(data_dep_combalanced_dir, "me")
+dep_combalanced_mege_dir <- file.path(data_dep_combalanced_dir,
+                                                    "mege")
+dep_combalanced_megepro_dir <- file.path(
+  data_dep_combalanced_dir,
+  "megepro")
+dir.create(dep_combalanced_me_dir,
+           showWarnings = FALSE,
+           recursive = TRUE)
+dir.create(dep_combalanced_mege_dir,
+           showWarnings = FALSE,
+           recursive = TRUE)
+dir.create(dep_combalanced_megepro_dir,
+           showWarnings = FALSE,
+           recursive = TRUE)
 
-# ------------------------------------------------------------------------------
-# Set directories for complete case and balanced scenarios
-# ------------------------------------------------------------------------------
-# Dependent differentially expressed markers
-data_dep_combalanced_dir <- file.path(data_dependent_dir, "combalanced")
-dir.create(data_dep_combalanced_dir, showWarnings = FALSE, recursive = TRUE)
-dep_combalanced_methyl_dir <- file.path(data_dep_combalanced_dir, "methyl")
-dep_combalanced_methyl_genexpr_dir <- file.path(data_dep_combalanced_dir,
-                                                "methyl_genexpr")
-dep_combalanced_methyl_genexpr_proexpr_dir <- file.path(
-  data_indep_combalanced_dir,
-  "methyl_genexpr_proexpr")
-dir.create(dep_combalanced_methyl_dir,
-           showWarnings = FALSE,
+# ==============================================================================
+# Registries for independent differentially expressed markers
+# ==============================================================================
+#
+reg_dep_combalanced_me <- file.path(reg_dep_combalanced_dir, "me")
+reg_dep_combalanced_mege <- file.path(reg_dep_combalanced_dir, "mege")
+reg_dep_combalanced_megepro <- file.path(reg_dep_combalanced_dir, "megepro")
+dir.create(reg_dep_combalanced_me, showWarnings = FALSE, recursive = TRUE)
+dir.create(reg_dep_combalanced_mege, showWarnings = FALSE, 
            recursive = TRUE)
-dir.create(dep_combalanced_methyl_genexpr_dir,
-           showWarnings = FALSE,
-           recursive = TRUE)
-dir.create(dep_combalanced_methyl_genexpr_proexpr_dir,
-           showWarnings = FALSE,
+dir.create(reg_dep_combalanced_megepro, showWarnings = FALSE, 
            recursive = TRUE)

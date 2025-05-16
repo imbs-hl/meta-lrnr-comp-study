@@ -1,8 +1,16 @@
 source("../init.R", chdir = TRUE)
-source(file.path(function_dir, "methyl-genexpr-effect.R"))
+source(file.path(function_dir, "mege-effect.R"))
 
 set.seed(4157)
-dep_methyl_genexpr_param_data <- methyl_genexpr_effect(
+indep_combalanced_mege_param_data <- mege_effect(
   n = 100L,
-  save_dir = dep_methyl_genexpr_dir
+  save_dir = indep_combalanced_mege_dir
 )
+
+# Rename path to indicate the proportion of missingness
+prop_missing_train <- 0.00
+for(i in 1:length(indep_combalanced_mege_param_data$save_path)) {
+  indep_combalanced_mege_param_data$save_path[i] <- sub(pattern = "\\.rds$",
+                                                            replacement = sprintf("_prop_miss%s.rds", prop_missing_train * 100L),
+                                                            x = indep_combalanced_mege_param_data$save_path[i])
+}
