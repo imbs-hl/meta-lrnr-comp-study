@@ -1,7 +1,5 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
-no.threads <- 5
-prop_missing_train <- 0.00
 dep_combalanced_mege_param_data$effect <- NULL
 mege_data <- wrap_batchtools(reg_name = "01-data",
                            work_dir = working_dir,
@@ -26,7 +24,7 @@ mege_data <- wrap_batchtools(reg_name = "01-data",
                            name = "dep-com-mege-data",
                            overwrite = TRUE,
                            memory = "40g",
-                           n_cpus = no.threads,
+                           n_cpus = 8,
                            walltime = "0",
                            sleep = 5,
                            partition = "prio", ## Set partition in init-global
