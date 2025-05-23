@@ -60,7 +60,7 @@ single_run_cobra <- function (
   y <- as.numeric(actual_pred$disease == "1")
   # On all patients
   perf_bs <- sapply(X = actual_pred[ , 2L:5L], FUN = function (my_pred) {
-    bs <- mean((y[complete.cases(my_pred)] - my_pred[complete.cases(my_pred)])^2)
+    bs1 <- mean((y[complete.cases(my_pred)] - my_pred[complete.cases(my_pred)])^2)
     bs2 <- mean((y[complete.cases(my_pred)] - (1 - my_pred[complete.cases(my_pred)]))^2)
     bs <- min(bs1, bs2)
     roc_obj <- pROC::roc(y[complete.cases(my_pred)], my_pred[complete.cases(my_pred)])
