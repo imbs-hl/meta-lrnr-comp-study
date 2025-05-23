@@ -23,7 +23,8 @@ single_run_lr <- function (
                        package = NULL,
                        lrn_fct = "myglm",
                        param_train_list = list(),
-                       train_layer = meta_layer)
+                       train_layer = meta_layer,
+                       na_action = na_action)
   # Remove the old model
   tmp_key <- meta_layer$getKeyClass()
   meta_layer$removeFromHashTable(tmp_key[tmp_key$class == "Model", "key"])

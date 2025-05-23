@@ -23,7 +23,8 @@ single_run_lasso <- function (
                        package = NULL,
                        lrn_fct = "mylasso",
                        param_train_list = list(nlambda = 25, nfolds = 10),
-                       train_layer = meta_layer)
+                       train_layer = meta_layer,
+                       na_action = na_action)
   # Remove the old model
   tmp_key <- meta_layer$getKeyClass()
   meta_layer$removeFromHashTable(tmp_key[tmp_key$class == "Model", "key"])

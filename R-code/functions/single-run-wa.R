@@ -25,7 +25,8 @@ single_run_wa <- function (
                        lrn_fct = "weightedMeanLearner",
                        param_train_list = list(weighted = TRUE),
                        param_pred_list = list(na_rm = TRUE),
-                       train_layer = meta_layer)
+                       train_layer = meta_layer,
+                       na_action = na_action)
   # Remove the old model
   tmp_key <- meta_layer$getKeyClass()
   meta_layer$removeFromHashTable(tmp_key[tmp_key$class == "Model", "key"])

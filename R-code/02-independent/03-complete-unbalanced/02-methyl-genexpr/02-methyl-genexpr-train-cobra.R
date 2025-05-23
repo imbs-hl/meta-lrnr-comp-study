@@ -112,7 +112,7 @@ reg_megepro_indep_comunbalanced_na_impute <- wrap_batchtools(reg_name = "02-trai
 ## ----------------------------------------------
 ##
 reg_indep_comunbalanced_megepro_cobra_na_impute <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_comunbalanced_megepro, "02-train-cobra-na-impute"),
+  file.dir = file.path(reg_indep_comunbalanced_megepro, "02-train-cobra-na-imp"),
   writeable = TRUE,
   conf.file = config_file)
 reg_indep_comunbalanced_megepro_cobra_na_impute <- batchtools::reduceResultsList(
@@ -130,7 +130,7 @@ res_indep_comunbalanced_megepro_mean_perf_cobra_na_impute <- res_indep_comunbala
 print(res_indep_comunbalanced_megepro_mean_perf_cobra_na_impute)
 res_indep_comunbalanced_megepro_mean_perf_cobra_na_impute$Setting <- "Independent"
 res_indep_comunbalanced_megepro_mean_perf_cobra_na_impute$Y_Distribution <- "Unbalanced"
-res_indep_comunbalanced_megepro_mean_perf_cobra_na_impute$Na_action <- "na.keep"
+res_indep_comunbalanced_megepro_mean_perf_cobra_na_impute$Na_action <- "na.impute"
 res_indep_comunbalanced_megepro_mean_perf_cobra_na_impute$DE <- "DE: MeGe"
 res_indep_comunbalanced_megepro_mean_perf_cobra_na_impute$Meta_learner <- "COBRA"
 saveRDS(

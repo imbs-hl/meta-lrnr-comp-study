@@ -27,7 +27,8 @@ single_run_rf <- function (
                        lrn_fct = "ranger",
                        param_train_list = list(num.tree = num.tree.meta,
                                                probability = TRUE),
-                       train_layer = meta_layer)
+                       train_layer = meta_layer,
+                       na_action = na_action)
   # Remove the old model
   tmp_key <- meta_layer$getKeyClass()
   meta_layer$removeFromHashTable(tmp_key[tmp_key$class == "Model", "key"])

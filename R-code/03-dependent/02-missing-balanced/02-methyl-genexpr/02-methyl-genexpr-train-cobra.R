@@ -130,7 +130,7 @@ res_dep_missbalanced_mege_mean_perf_cobra_na_impute <- res_dep_missbalanced_mege
 print(res_dep_missbalanced_mege_mean_perf_cobra_na_impute)
 res_dep_missbalanced_mege_mean_perf_cobra_na_impute$Setting <- "Dependent"
 res_dep_missbalanced_mege_mean_perf_cobra_na_impute$Y_Distribution <- "Balanced"
-res_dep_missbalanced_mege_mean_perf_cobra_na_impute$Na_action <- "na.keep"
+res_dep_missbalanced_mege_mean_perf_cobra_na_impute$Na_action <- "na.impute"
 res_dep_missbalanced_mege_mean_perf_cobra_na_impute$DE <- "DE: MeGe"
 res_dep_missbalanced_mege_mean_perf_cobra_na_impute$Meta_learner <- "COBRA"
 saveRDS(

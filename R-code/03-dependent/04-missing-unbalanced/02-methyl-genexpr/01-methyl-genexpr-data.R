@@ -1,6 +1,6 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
-no.threads <- 5
+no.threads <- 8
 dep_missunbalanced_mege_param_data$effect <- NULL
 mege_data <- wrap_batchtools(reg_name = "01-data",
                            work_dir = working_dir,
@@ -23,7 +23,7 @@ mege_data <- wrap_batchtools(reg_name = "01-data",
                              function_dir = function_dir
                            ),
                            name = "dep-missunb-mege-data",
-                           overwrite = FALSE,
+                           overwrite = TRUE,
                            memory = "40g",
                            n_cpus = no.threads,
                            walltime = "0",
