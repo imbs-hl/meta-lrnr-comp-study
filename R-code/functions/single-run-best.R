@@ -17,7 +17,7 @@ single_run_best <- function (
     na_action = "na.keep"
 ) {
   # multi_omics <- readRDS(data_file)
-  library("fuseMLR")
+  data("multi_omics")
   # Set up a training object
   training <- createTraining(id = "training",
                              ind_col = "IDS",
