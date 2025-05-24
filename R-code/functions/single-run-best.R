@@ -16,8 +16,7 @@ single_run_best <- function (
     num.tree.ranger.proexpr = 1000L,
     na_action = "na.keep"
 ) {
-  # multi_omics <- readRDS(data_file)
-  data("multi_omics")
+  multi_omics <- readRDS(data_file)
   # Set up a training object
   training <- createTraining(id = "training",
                              ind_col = "IDS",
@@ -78,7 +77,7 @@ single_run_best <- function (
                          lrner_package = NULL,
                          lrn_fct = "bestLayerLearner",
                          param_train_list = list(),
-                         param_pred_list = list(na_rm = TRUE),
+                         param_pred_list = list(),
                          na_action = "na.rm")
   } else {
     if (na_action == "na.keep") {
@@ -87,7 +86,7 @@ single_run_best <- function (
                            lrner_package = NULL,
                            lrn_fct = "bestLayerLearner",
                            param_train_list = list(),
-                           param_pred_list = list(na_rm = TRUE),
+                           param_pred_list = list(),
                            na_action = "na.keep")
     } else {
       if (na_action == "na.impute") {
@@ -96,7 +95,7 @@ single_run_best <- function (
                              lrner_package = NULL,
                              lrn_fct = "bestLayerLearner",
                              param_train_list = list(),
-                             param_pred_list = list(na_rm = TRUE),
+                             param_pred_list = list(),
                              na_action = "na.impute")
       } 
     }
@@ -106,8 +105,10 @@ single_run_best <- function (
   set.seed(seed)
   var_sel_res <- varSelection(training = training)
   fusemlr(training = training,
-          use_var_sel = TRUE)
+          use_var_sel = FALSE)
   meta_layer <- training$getTrainMetaLayer()
+  # mydata <- extractData(training)
+  # print(mydata$meta_layer[7:8, ])
   start_time <- Sys.time()  # Record start time
   # We re-run it to save the meta-learning time only
   meta_layer$train()
@@ -160,7 +161,7 @@ single_run_best <- function (
                                             effect, na_action),
                                     collapse = ""))
   saveRDS(object = training, file = training_file)
-  return(perf_bs)
+  return(training)
 }
 
 # tmp <- single_replicate_best(data_file = file.path(data_simulation, "multi_omics_null.rds"))

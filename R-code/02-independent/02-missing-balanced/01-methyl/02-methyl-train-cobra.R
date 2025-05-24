@@ -18,7 +18,7 @@ reg_me_indep_missbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-cobra-
                                                      ),
                                                      more_args = list(na_action = "na.keep"),
                                                      name = "missb-me-cobra-na-keep",
-                                                     overwrite = FALSE,
+                                                     overwrite = TRUE,
                                                      memory = "25g",
                                                      n_cpus = 6,
                                                      walltime = "60",
