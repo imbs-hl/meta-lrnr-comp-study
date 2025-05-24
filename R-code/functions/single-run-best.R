@@ -16,7 +16,7 @@ single_run_best <- function (
     num.tree.ranger.proexpr = 1000L,
     na_action = "na.keep"
 ) {
-  multi_omics <- readRDS(data_file)
+  # multi_omics <- readRDS(data_file)
   # Set up a training object
   training <- createTraining(id = "training",
                              ind_col = "IDS",
