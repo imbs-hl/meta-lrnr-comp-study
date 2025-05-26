@@ -66,10 +66,13 @@ single_run_lr <- function (
     # bs <- min(bs1, bs2)
     roc_obj <- pROC::roc(y[complete.cases(my_pred)], my_pred[complete.cases(my_pred)])
     auc <- pROC::auc(roc_obj)
-    performances = rbind(bs, auc)
+    f1 <- MLmetrics::F1_Score(y_true = y[complete.cases(my_pred)],
+                              y_pred = as.numeric(my_pred[complete.cases(my_pred)] > 0.5),
+                              positive = 1)
+    performances = rbind(bs, auc, f1)
     return(performances)
   })
-  rownames(perf_bs) <- c("BS", "AUC")
+  rownames(perf_bs) <- c("BS", "AUC", "F1")
   perf_bs <- as.data.frame(perf_bs)
   perf_bs$perf_measure <- rownames(perf_bs)
   perf_bs$delta.methyl <- delta.methyl
