@@ -53,6 +53,7 @@ source(file.path(file.path(code_dir, "functions"),
 # install.packages("InterSIM")
 # install.packages("this.path")
 # install.packages("mgcv")
+# install.packages("MLmetrics")
 
 # Install required package to estimate the empirical correlation matrices.
 # install.packages(corpcor)
@@ -79,6 +80,7 @@ library(InterSIM)
 library(this.path)
 library(MASS)
 library(mgcv)
+library(MLmetrics)
 library(gridExtra)
 
 # Load required package to estimate the empirical correlation matrices.
