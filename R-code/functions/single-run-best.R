@@ -161,7 +161,7 @@ single_run_best <- function (
                                             effect, na_action),
                                     collapse = ""))
   saveRDS(object = training, file = training_file)
-  return(training)
+  return(perf_bs)
 }
 
 # tmp <- single_replicate_best(data_file = file.path(data_simulation, "multi_omics_null.rds"))
