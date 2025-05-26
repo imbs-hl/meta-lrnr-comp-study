@@ -143,8 +143,8 @@ single_run_best <- function (
     roc_obj <- pROC::roc(y[complete.cases(my_pred)], my_pred[complete.cases(my_pred)])
     auc <- pROC::auc(roc_obj)
     f1 <- MLmetrics::F1_Score(y_true = y[complete.cases(my_pred)],
-                              y_pred = my_pred[complete.cases(my_pred)],
-                              positive = "1")
+                              y_pred = as.numeric(my_pred[complete.cases(my_pred)] > 0.5),
+                              positive = 1)
     performances = rbind(bs, auc, f1)
     return(performances)
   })
