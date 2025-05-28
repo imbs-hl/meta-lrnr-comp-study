@@ -23,7 +23,8 @@ single_run_wa <- function (
   new_lnr <- Lrner$new(id = "ranger",
                        package = NULL,
                        lrn_fct = "weightedMeanLearner",
-                       param_train_list = list(weighted = TRUE),
+                       param_train_list = list(weighted = TRUE, 
+                                               na_rm = TRUE),
                        param_pred_list = list(na_rm = TRUE),
                        train_layer = meta_layer,
                        na_action = na_action)
