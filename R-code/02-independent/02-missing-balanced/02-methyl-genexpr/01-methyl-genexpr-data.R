@@ -2,7 +2,7 @@ source("init.R", chdir = TRUE)
 ## Send jobs
 no.threads <- 6
 indep_missbalanced_mege_param_data$effect <- NULL
-mege_data <- wrap_batchtools(reg_name = "01-data",
+mege_data <- wrap_batchtools(reg_name = "01-data-20",
                            work_dir = working_dir,
                            reg_dir = reg_indep_missbalanced_mege,
                            r_function = simuldata,
@@ -19,7 +19,7 @@ mege_data <- wrap_batchtools(reg_name = "01-data",
                              feature.cluster = FALSE,
                              training_prop = 2/3,
                              prop_missing_train = prop_missing_train,
-                             prop_missing_test = 0,
+                             prop_missing_test = prop_missing_train,
                              function_dir = function_dir
                            ),
                            name = "indep-miss-mege-data",
