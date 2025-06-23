@@ -8,7 +8,7 @@ indep_missbalanced_megepro_param_data <- megepro_effect(
 )
 
 # Rename path to indicate the proportion of missingness
-prop_missing_train <- 0.05
+prop_missing_train <- 0.5
 for(i in 1:length(indep_missbalanced_megepro_param_data$save_path)) {
   indep_missbalanced_megepro_param_data$save_path[i] <- sub(pattern = "\\.rds$",
                                                           replacement = sprintf("_prop_miss%s.rds", prop_missing_train * 100L),

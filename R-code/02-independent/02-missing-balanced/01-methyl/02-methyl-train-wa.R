@@ -17,8 +17,7 @@ reg_me_indep_missbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-wa-na-
                                                        delta.protein = indep_missbalanced_me_param_data$delta.protein,
                                                        effect = indep_missbalanced_me_param_data$effect
                                                      ),
-                                                     more_args = list(na_action = "na.keep",
-                                                                      num.tree.meta = 1000L),
+                                                     more_args = list(na_action = "na.keep"),
                                                      name = "missb-me-wa-na-keep",
                                                      overwrite = TRUE,
                                                      memory = "25g",

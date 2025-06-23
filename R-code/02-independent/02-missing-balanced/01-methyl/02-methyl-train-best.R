@@ -26,7 +26,7 @@ reg_me_indep_missbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-best-n
                                                        na_action = "na.keep"
                                                      ),
                                                      name = "miss-me-best-na-keep",
-                                                     overwrite = FALSE,
+                                                     overwrite = TRUE,
                                                      memory = "25g",
                                                      n_cpus = 6,
                                                      walltime = "0",
@@ -83,20 +83,20 @@ saveRDS(
 ## na_action = na_impute
 ## -----------------------------------------------------------------------------
 ##
-indep_missbalanced_me_param_data <- indep_missbalanced_me_param_data[1:10, ]
-training <- single_run_best(data_file = indep_missbalanced_me_param_data[1, ]$save_path,
-                seed = indep_missbalanced_me_param_data[1, ]$seed,
-                delta.methyl = indep_missbalanced_me_param_data[1, ]$delta.methyl,
-                delta.expr = indep_missbalanced_me_param_data[1, ]$delta.expr,
-                delta.protein = indep_missbalanced_me_param_data[1, ]$delta.protein,
-                effect = indep_missbalanced_me_param_data[1, ]$effect,
+indep_missbalanced_me_param_data <- indep_missbalanced_me_param_data[391:400, ]
+training <- single_run_best(data_file = indep_missbalanced_me_param_data[350, ]$save_path,
+                seed = indep_missbalanced_me_param_data[350, ]$seed,
+                delta.methyl = indep_missbalanced_me_param_data[350, ]$delta.methyl,
+                delta.expr = indep_missbalanced_me_param_data[350, ]$delta.expr,
+                delta.protein = indep_missbalanced_me_param_data[350, ]$delta.protein,
+                effect = indep_missbalanced_me_param_data[350, ]$effect,
                 num.tree.boruta.methyl = 15000L,
                 num.tree.ranger.methyl = 2000L,
                 num.tree.boruta.genexpr = 5000L,
                 num.tree.ranger.genexpr = 1000L,
                 num.tree.boruta.proexpr = 5000L,
                 num.tree.ranger.proexpr = 1000L,
-                na_action = "na.keep")
+                na_action = "na.impute")
 mydata <- extractData(training)
 print(mydata$meta_layer[7:8, ])
 reg_me_na_impute <- wrap_batchtools(reg_name = "02-train-best-na-impute",
@@ -121,12 +121,12 @@ reg_me_na_impute <- wrap_batchtools(reg_name = "02-train-best-na-impute",
                                       na_action = "na.impute"
                                     ),
                                     name = "miss-me-best-na-impute",
-                                    overwrite = TRUE,
+                                    overwrite = FALSE,
                                     memory = "25g",
                                     n_cpus = 6,
                                     walltime = "60",
                                     sleep = 5,
-                                    partition = "fast", ## Set partition in init-global
+                                    partition = "prio", ## Set partition in init-global
                                     account = "dzhk-omics", ## Set account in init-global
                                     test_job = FALSE,
                                     wait_for_jobs = FALSE,

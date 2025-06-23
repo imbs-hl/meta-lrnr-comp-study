@@ -82,6 +82,7 @@ library(MASS)
 library(mgcv)
 library(MLmetrics)
 library(gridExtra)
+library(grid)
 
 # Load required package to estimate the empirical correlation matrices.
 library(corpcor)

@@ -19,7 +19,7 @@ me_data <- wrap_batchtools(reg_name = "01-data",
                              feature.cluster = FALSE,
                              training_prop = 2/3,
                              prop_missing_train = prop_missing_train,
-                             prop_missing_test = 0,
+                             prop_missing_test = prop_missing_train,
                              function_dir = function_dir
                            ),
                            name = "missbalanced-me-data",

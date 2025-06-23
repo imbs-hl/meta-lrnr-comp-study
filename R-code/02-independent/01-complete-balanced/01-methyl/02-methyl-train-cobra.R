@@ -18,7 +18,7 @@ reg_me_indep_combalanced_na_keep <- wrap_batchtools(reg_name = "02-train-cobra-n
                                                      ),
                                                      more_args = list(na_action = "na.keep"),
                                                      name = "comb-me-cobra-na-keep",
-                                                     overwrite = FALSE,
+                                                     overwrite = TRUE,
                                                      memory = "25g",
                                                      n_cpus = 6,
                                                      walltime = "60",
@@ -88,12 +88,12 @@ reg_me_indep_combalanced_na_impute <- wrap_batchtools(reg_name = "02-train-cobra
                                                        ),
                                                        more_args = list(na_action = "na.impute"),
                                                        name = "comb-me-cobra-na-impute",
-                                                       overwrite = FALSE,
+                                                       overwrite = TRUE,
                                                        memory = "25g",
                                                        n_cpus = 6,
                                                        walltime = "60",
                                                        sleep = 5,
-                                                       partition = "fast", ## Set partition in init-global
+                                                       partition = "prio", ## Set partition in init-global
                                                        account = "dzhk-omics", ## Set account in init-global
                                                        test_job = FALSE,
                                                        wait_for_jobs = FALSE,

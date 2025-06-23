@@ -20,12 +20,12 @@ reg_me_indep_combalanced_na_keep <- wrap_batchtools(reg_name = "02-train-rf-na-k
                                                      more_args = list(na_action = "na.keep",
                                                                       num.tree.meta = 1000L),
                                                      name = "comb-me-rf-na-keep",
-                                                     overwrite = FALSE,
+                                                     overwrite = TRUE,
                                                      memory = "25g",
                                                      n_cpus = 6,
                                                      walltime = "60",
                                                      sleep = 5,
-                                                     partition = "fast", ## Set partition in init-global
+                                                     partition = "prio", ## Set partition in init-global
                                                      account = "dzhk-omics", ## Set account in init-global
                                                      test_job = FALSE,
                                                      wait_for_jobs = FALSE,

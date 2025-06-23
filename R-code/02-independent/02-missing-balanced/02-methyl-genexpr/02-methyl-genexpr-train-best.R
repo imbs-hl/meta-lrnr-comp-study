@@ -4,7 +4,7 @@ no.threads <- 5
 ## ----------------------------------------------
 ## na_action = na_keep
 ## ----------------------------------------------
-reg_mege_train <- wrap_batchtools(reg_name = "02-train-best-na-keep-20",
+reg_mege_train <- wrap_batchtools(reg_name = "02-train-best-na-keep-50",
                                     work_dir = working_dir,
                                     reg_dir = reg_indep_missbalanced_mege,
                                     r_function = single_run_best,
@@ -51,7 +51,7 @@ reg_mege_train <- wrap_batchtools(reg_name = "02-train-best-na-keep-20",
 ##
 reg_indep_missbalanced_mege_best_na_keep <- batchtools::loadRegistry(
   file.dir = file.path(reg_indep_missbalanced_mege,
-                       "02-train-best-na-keep-20"),
+                       "02-train-best-na-keep-50"),
   writeable = TRUE,
   conf.file = config_file)
 reg_indep_missbalanced_mege_best_na_keep <- batchtools::reduceResultsList(

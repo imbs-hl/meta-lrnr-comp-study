@@ -19,8 +19,14 @@ res_indep_missbalanced_me_mean_perf_cobra_na_impute <- readRDS(file.path(res_ind
                                                                        "res_indep_missbalanced_me_mean_perf_cobra_na_impute.rds"))
 res_indep_missbalanced_me_mean_perf_lasso_na_impute <- readRDS(file.path(res_indep_me,
                                                                        "res_indep_missbalanced_me_mean_perf_lasso_na_impute.rds"))
+res_indep_missbalanced_me_mean_perf_lasso_na_impute2 <- readRDS(file.path(res_indep_me,
+                                                                         "res_indep_missbalanced_me_mean_perf_lasso_na_impute.rds"))
+res_indep_missbalanced_me_mean_perf_lasso_na_impute2[ , Na_action := "na.keep"]
 res_indep_missbalanced_me_mean_perf_lr_na_impute <- readRDS(file.path(res_indep_me,
                                                                     "res_indep_missbalanced_me_mean_perf_lr_na_impute.rds"))
+res_indep_missbalanced_me_mean_perf_lr_na_impute2 <- readRDS(file.path(res_indep_me,
+                                                                      "res_indep_missbalanced_me_mean_perf_lr_na_impute.rds"))
+res_indep_missbalanced_me_mean_perf_lr_na_impute2[ , Na_action := "na.keep"]
 res_indep_missbalanced_me_mean_perf_rf_na_impute <- readRDS(file.path(res_indep_me,
                                                                     "res_indep_missbalanced_me_mean_perf_rf_na_impute.rds"))
 res_indep_missbalanced_me_mean_perf_wa_na_impute <- readRDS(file.path(res_indep_me,
@@ -34,7 +40,9 @@ res_indep_missbalance_me <- rbindlist(
     res_indep_missbalanced_me_mean_perf_best_na_impute,
     res_indep_missbalanced_me_mean_perf_cobra_na_impute,
     res_indep_missbalanced_me_mean_perf_lasso_na_impute,
+    res_indep_missbalanced_me_mean_perf_lasso_na_impute2,
     res_indep_missbalanced_me_mean_perf_lr_na_impute,
+    res_indep_missbalanced_me_mean_perf_lr_na_impute2,
     res_indep_missbalanced_me_mean_perf_rf_na_impute,
     res_indep_missbalanced_me_mean_perf_wa_na_impute
   )
@@ -65,6 +73,16 @@ res_indep_missbalance_me_auc <- data.table::melt(data = res_indep_missbalance_me
                                                                                  "Na_action")],
                                                 measure.vars = c("effect"),
                                                 value.name = "value")
+res_indep_missbalance_me_f1 <- data.table::melt(data = res_indep_missbalance_me[perf_measure == "F1" ,
+                                                                                 c("perf_measure",
+                                                                                   "mean_perf",
+                                                                                   "effect",
+                                                                                   "DE", 
+                                                                                   "Meta_learner",
+                                                                                   "Effect",
+                                                                                   "Na_action")],
+                                                 measure.vars = c("effect"),
+                                                 value.name = "value")
 # 02-methyl-genexpr
 res_indep_missbalanced_mege_mean_perf_best_na_keep <- readRDS(file.path(res_indep_mege,
                                                                        "res_indep_missbalanced_mege_mean_perf_best_na_keep.rds"))
@@ -81,8 +99,14 @@ res_indep_missbalanced_mege_mean_perf_cobra_na_impute <- readRDS(file.path(res_i
                                                                          "res_indep_missbalanced_mege_mean_perf_cobra_na_impute.rds"))
 res_indep_missbalanced_mege_mean_perf_lasso_na_impute <- readRDS(file.path(res_indep_mege,
                                                                          "res_indep_missbalanced_mege_mean_perf_lasso_na_impute.rds"))
+res_indep_missbalanced_mege_mean_perf_lasso_na_impute2 <- readRDS(file.path(res_indep_mege,
+                                                                          "res_indep_missbalanced_mege_mean_perf_lasso_na_impute.rds"))
+res_indep_missbalanced_mege_mean_perf_lasso_na_impute2[ , Na_action := "na.keep"]
 res_indep_missbalanced_mege_mean_perf_lr_na_impute <- readRDS(file.path(res_indep_mege,
                                                                       "res_indep_missbalanced_mege_mean_perf_lr_na_impute.rds"))
+res_indep_missbalanced_mege_mean_perf_lr_na_impute2 <- readRDS(file.path(res_indep_mege,
+                                                                       "res_indep_missbalanced_mege_mean_perf_lr_na_impute.rds"))
+res_indep_missbalanced_mege_mean_perf_lr_na_impute2[ , Na_action := "na.keep"]
 res_indep_missbalanced_mege_mean_perf_rf_na_impute <- readRDS(file.path(res_indep_mege,
                                                                       "res_indep_missbalanced_mege_mean_perf_rf_na_impute.rds"))
 res_indep_missbalanced_mege_mean_perf_wa_na_impute <- readRDS(file.path(res_indep_mege,
@@ -97,7 +121,9 @@ res_indep_missbalance_mege <- rbindlist(
     res_indep_missbalanced_mege_mean_perf_best_na_impute,
     res_indep_missbalanced_mege_mean_perf_cobra_na_impute,
     res_indep_missbalanced_mege_mean_perf_lasso_na_impute,
+    res_indep_missbalanced_mege_mean_perf_lasso_na_impute2,
     res_indep_missbalanced_mege_mean_perf_lr_na_impute,
+    res_indep_missbalanced_mege_mean_perf_lr_na_impute2,
     res_indep_missbalanced_mege_mean_perf_rf_na_impute,
     res_indep_missbalanced_mege_mean_perf_wa_na_impute
   )
@@ -133,6 +159,18 @@ res_indep_missbalance_mege_auc <- data.table::melt(data = res_indep_missbalance_
                                                                                      "Na_action")],
                                                   measure.vars = c("effect"),
                                                   value.name = "value")
+
+res_indep_missbalance_mege_f1 <- data.table::melt(data = res_indep_missbalance_mege[perf_measure == "F1" ,
+                                                                                     c("perf_measure",
+                                                                                       "mean_perf",
+                                                                                       "effect",
+                                                                                       "DE", 
+                                                                                       "Meta_learner",
+                                                                                       "Effect",
+                                                                                       "Na_action")],
+                                                   measure.vars = c("effect"),
+                                                   value.name = "value")
+
 # 02-methyl-genexpr-proexpr
 res_indep_missbalanced_megepro_mean_perf_best_na_keep <- readRDS(file.path(res_indep_megepro,
                                                                           "res_indep_missbalanced_megepro_mean_perf_best_na_keep.rds"))
@@ -149,8 +187,14 @@ res_indep_missbalanced_megepro_mean_perf_cobra_na_impute <- readRDS(file.path(re
                                                                            "res_indep_missbalanced_megepro_mean_perf_cobra_na_impute.rds"))
 res_indep_missbalanced_megepro_mean_perf_lasso_na_impute <- readRDS(file.path(res_indep_megepro,
                                                                            "res_indep_missbalanced_megepro_mean_perf_lasso_na_impute.rds"))
+res_indep_missbalanced_megepro_mean_perf_lasso_na_impute2 <- readRDS(file.path(res_indep_megepro,
+                                                                          "res_indep_missbalanced_megepro_mean_perf_lasso_na_impute.rds"))
+res_indep_missbalanced_megepro_mean_perf_lasso_na_impute2[ , Na_action := "na.keep"]
 res_indep_missbalanced_megepro_mean_perf_lr_na_impute <- readRDS(file.path(res_indep_megepro,
                                                                         "res_indep_missbalanced_megepro_mean_perf_lr_na_impute.rds"))
+res_indep_missbalanced_megepro_mean_perf_lr_na_impute2 <- readRDS(file.path(res_indep_megepro,
+                                                                         "res_indep_missbalanced_megepro_mean_perf_lr_na_impute.rds"))
+res_indep_missbalanced_megepro_mean_perf_lr_na_impute2[ , Na_action := "na.keep"]
 res_indep_missbalanced_megepro_mean_perf_rf_na_impute <- readRDS(file.path(res_indep_megepro,
                                                                         "res_indep_missbalanced_megepro_mean_perf_rf_na_impute.rds"))
 res_indep_missbalanced_megepro_mean_perf_wa_na_impute <- readRDS(file.path(res_indep_megepro,
@@ -165,7 +209,9 @@ res_indep_missbalance_megepro <- rbindlist(
     res_indep_missbalanced_megepro_mean_perf_best_na_impute,
     res_indep_missbalanced_megepro_mean_perf_cobra_na_impute,
     res_indep_missbalanced_megepro_mean_perf_lasso_na_impute,
+    res_indep_missbalanced_megepro_mean_perf_lasso_na_impute2,
     res_indep_missbalanced_megepro_mean_perf_lr_na_impute,
+    res_indep_missbalanced_megepro_mean_perf_lr_na_impute2,
     res_indep_missbalanced_megepro_mean_perf_rf_na_impute,
     res_indep_missbalanced_megepro_mean_perf_wa_na_impute
   )
@@ -203,3 +249,13 @@ res_indep_missbalance_megepro_auc <- data.table::melt(data = res_indep_missbalan
                                                      measure.vars = c("effect"),
                                                      value.name = "value")
 
+res_indep_missbalance_megepro_f1 <- data.table::melt(data = res_indep_missbalance_megepro[perf_measure == "AUC" ,
+                                                                                           c("perf_measure",
+                                                                                             "mean_perf",
+                                                                                             "effect",
+                                                                                             "DE", 
+                                                                                             "Meta_learner",
+                                                                                             "Effect",
+                                                                                             "Na_action")],
+                                                      measure.vars = c("effect"),
+                                                      value.name = "value")
