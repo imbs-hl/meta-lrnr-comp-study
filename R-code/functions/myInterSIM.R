@@ -277,19 +277,21 @@ simOmicsData <- function (training_prop = 0.8,
   not_missing1 <- sample(x = 1L:length(index_split$Fold1),
                          size = floor(n_not_missing_train),
                          replace = FALSE)
-  subject_ids <- rownames(train_sim_data$dat.expr[index_split$Fold1, ])
-  geneexpr_train_data <- as.data.frame(train_sim_data$dat.expr[index_split$Fold1[not_missing1], ])
-  geneexpr_train_data$IDS <- subject_ids[not_missing1]
-  geneexpr_train_data$IDS <- gsub(pattern = "subject",
+  missing1 <- setdiff(1L:length(index_split$Fold1), not_missing1)
+  subject_ids <- rownames(train_sim_data$dat.methyl[index_split$Fold1, ])
+  methylation_train_data <- as.data.frame(train_sim_data$dat.methyl[index_split$Fold1[not_missing1], ])
+  methylation_train_data$IDS <- subject_ids[not_missing1]
+  methylation_train_data$IDS <- gsub(pattern = "subject",
                                   replacement = "participant",
-                                  x = geneexpr_train_data$IDS)
+                                  x = methylation_train_data$IDS)
   # geneexpr_train_data$disease <- train_disease[not_missing1]
-  geneexpr_train_data$disease <- NULL
+  methylation_train_data$disease <- NULL
   
   # Sample not missing
   not_missing2 <- sample(x = 1L:length(index_split$Fold1),
                          size = floor(n_not_missing_train),
                          replace = FALSE)
+  missing2 <- setdiff(1L:length(index_split$Fold1), not_missing2)
   proteinexpr_train_data <- as.data.frame(train_sim_data$dat.protein[index_split$Fold1[not_missing2], ])
   proteinexpr_train_data$IDS <- subject_ids[not_missing2]
   proteinexpr_train_data$IDS <- gsub(pattern = "subject",
@@ -301,13 +303,17 @@ simOmicsData <- function (training_prop = 0.8,
   not_missing3 <- sample(x = 1L:length(index_split$Fold1),
                          size = floor(n_not_missing_train),
                          replace = FALSE)
-  methylation_train_data <- as.data.frame(train_sim_data$dat.methyl[index_split$Fold1[not_missing3], ])
-  methylation_train_data$IDS <- subject_ids[not_missing3]
-  methylation_train_data$IDS <- gsub(pattern = "subject",
+  missing12 <- intersect(missing1, missing2)
+  not_missing3 <- c(not_missing3, missing12)
+  methylation_train_data <- as.data.frame(train_sim_data$dat.expr[index_split$Fold1[not_missing3], ])
+  # We force at least the gene expression modality to be none-missing, if 
+  # methylation and protein expr. are missing.
+  geneexpr_train_data$IDS <- subject_ids[not_missing3]
+  geneexpr_train_data$IDS <- gsub(pattern = "subject",
                                      replacement = "participant",
-                                     x = methylation_train_data$IDS)
-  methylation_train_data$disease <- train_disease[not_missing3]
-  methylation_train_data$disease <- NULL
+                                     x = geneexpr_train_data$IDS)
+  geneexpr_train_data$disease <- train_disease[not_missing3]
+  geneexpr_train_data$disease <- NULL
   
   train_entities <- list("geneexpr" = geneexpr_train_data,
                          "proteinexpr" = proteinexpr_train_data,
@@ -320,18 +326,20 @@ simOmicsData <- function (training_prop = 0.8,
   test_not_missing1 <- sample(x = 1L:length(index_split$Fold2),
                               size = n_not_missing_test,
                               replace = FALSE)
-  subject_ids <- rownames(train_sim_data$dat.expr[index_split$Fold2, ])
-  geneexpr_test_data <- as.data.frame(train_sim_data$dat.expr[index_split$Fold2[test_not_missing1], ])
-  geneexpr_test_data$IDS <- subject_ids[test_not_missing1]
-  geneexpr_test_data$IDS <- gsub(pattern = "subject",
+  test_missing1 <- setdiff(1L:length(index_split$Fold2), test_not_missing1)
+  subject_ids <- rownames(train_sim_data$dat.methyl[index_split$Fold2, ])
+  methylation_test_data <- as.data.frame(train_sim_data$dat.methyl[index_split$Fold2[test_not_missing1], ])
+  methylation_test_data$IDS <- subject_ids[test_not_missing1]
+  methylation_test_data$IDS <- gsub(pattern = "subject",
                                  replacement = "participant",
-                                 x = geneexpr_test_data$IDS)
+                                 x = methylation_test_data$IDS)
   # geneexpr_test_data$disease <- test_disease[test_not_missing1]
   geneexpr_test_data$disease <- NULL
   
   test_not_missing2 <- sample(x = 1L:length(index_split$Fold2),
                               size = n_not_missing_test,
                               replace = FALSE)
+  test_missing2 <- setdiff(1L:length(index_split$Fold2), test_not_missing2)
   proteinexpr_test_data <- as.data.frame(train_sim_data$dat.protein[index_split$Fold2[test_not_missing2], ])
   proteinexpr_test_data$IDS <- subject_ids[test_not_missing2]
   proteinexpr_test_data$IDS <- gsub(pattern = "subject",
@@ -343,13 +351,15 @@ simOmicsData <- function (training_prop = 0.8,
   test_not_missing3 <- sample(x = 1L:length(index_split$Fold2),
                               size = n_not_missing_test,
                               replace = FALSE)
-  methylation_test_data <- as.data.frame(train_sim_data$dat.methyl[index_split$Fold2[test_not_missing3], ])
-  methylation_test_data$IDS <- subject_ids[test_not_missing3]
-  methylation_test_data$IDS <- gsub(pattern = "subject",
+  test_missing12 <- intersect(test_missing1, test_missing2)
+  test_not_missing3 <- c(test_not_missing3, test_missing12)
+  geneexpr_test_data <- as.data.frame(train_sim_data$dat.expr[index_split$Fold2[test_not_missing3], ])
+  geneexpr_test_data$IDS <- subject_ids[test_not_missing3]
+  geneexpr_test_data$IDS <- gsub(pattern = "subject",
                                     replacement = "participant",
-                                    x = methylation_test_data$IDS)
-  # methylation_test_data$disease <- test_disease[test_not_missing3]
-  methylation_test_data$disease <- NULL
+                                    x = geneexpr_test_data$IDS)
+  # geneexpr_test_data$disease <- test_disease[test_not_missing3]
+  geneexpr_test_data$disease <- NULL
   
   test_entities <- list("geneexpr" = geneexpr_test_data,
                         "proteinexpr" = proteinexpr_test_data,
