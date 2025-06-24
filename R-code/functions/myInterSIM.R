@@ -305,7 +305,7 @@ simOmicsData <- function (training_prop = 0.8,
                          replace = FALSE)
   missing12 <- intersect(missing1, missing2)
   not_missing3 <- c(not_missing3, missing12)
-  methylation_train_data <- as.data.frame(train_sim_data$dat.expr[index_split$Fold1[not_missing3], ])
+  geneexpr_train_data <- as.data.frame(train_sim_data$dat.expr[index_split$Fold1[not_missing3], ])
   # We force at least the gene expression modality to be none-missing, if 
   # methylation and protein expr. are missing.
   geneexpr_train_data$IDS <- subject_ids[not_missing3]
