@@ -4,7 +4,7 @@ no.threads <- 5
 ## -----------------------------------------------------------------------------
 ## na_action = na_keep
 ## -----------------------------------------------------------------------------
-reg_megepro_train <- wrap_batchtools(reg_name = "02-train-best-na-keep",
+reg_megepro_train <- wrap_batchtools(reg_name = "02-train-best-na-keep-50",
                                   work_dir = working_dir,
                                   reg_dir = reg_indep_missbalanced_megepro,
                                   r_function = single_run_best,
@@ -26,7 +26,7 @@ reg_megepro_train <- wrap_batchtools(reg_name = "02-train-best-na-keep",
                                     na_action = "na.keep"
                                   ),
                                   name = "miss-megepro-best-na-keep",
-                                  overwrite = FALSE,
+                                  overwrite = TRUE,
                                   memory = "25g",
                                   n_cpus = 5,
                                   walltime = "0",
@@ -51,7 +51,7 @@ reg_megepro_train <- wrap_batchtools(reg_name = "02-train-best-na-keep",
 ##
 reg_indep_missbalanced_megepro_best_na_keep <- batchtools::loadRegistry(
   file.dir = file.path(reg_indep_missbalanced_megepro,
-                       "02-train-best-na-keep"),
+                       "02-train-best-na-keep-50"),
   writeable = TRUE,
   conf.file = config_file)
 reg_indep_missbalanced_megepro_best_na_keep <- batchtools::reduceResultsList(

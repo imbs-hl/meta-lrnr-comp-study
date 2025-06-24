@@ -4,7 +4,7 @@ no.threads <- 5
 ## -----------------------------------------------------------------------------
 ## na_action = na_keep
 ## -----------------------------------------------------------------------------
-reg_me_indep_missbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-best-na-keep",
+reg_me_indep_missbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-best-na-keep-50",
                                                      work_dir = working_dir,
                                                      reg_dir = reg_indep_missbalanced_me,
                                                      r_function = single_run_best,
@@ -50,7 +50,7 @@ reg_me_indep_missbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-best-n
 ## ----------------------------------------------
 ##
 reg_indep_missbalanced_me_best_na_keep <- batchtools::loadRegistry(
-  file.dir = file.path(reg_indep_missbalanced_me, "02-train-best-na-keep"),
+  file.dir = file.path(reg_indep_missbalanced_me, "02-train-best-na-keep-50"),
   writeable = TRUE,
   conf.file = config_file)
 reg_indep_missbalanced_me_best_na_keep <- batchtools::reduceResultsList(
@@ -99,7 +99,7 @@ training <- single_run_best(data_file = indep_missbalanced_me_param_data[350, ]$
                 na_action = "na.impute")
 mydata <- extractData(training)
 print(mydata$meta_layer[7:8, ])
-reg_me_na_impute <- wrap_batchtools(reg_name = "02-train-best-na-impute",
+reg_me_na_impute <- wrap_batchtools(reg_name = "02-train-best-na-impute-50",
                                     work_dir = working_dir,
                                     reg_dir = reg_indep_missbalanced_me,
                                     r_function = single_run_best,

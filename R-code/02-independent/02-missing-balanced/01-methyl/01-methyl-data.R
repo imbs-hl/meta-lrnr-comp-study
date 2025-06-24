@@ -2,7 +2,7 @@ source("init.R", chdir = TRUE)
 ## Send jobs
 no.threads <- 10
 indep_missbalanced_me_param_data$effect <- NULL
-me_data <- wrap_batchtools(reg_name = "01-data",
+me_data <- wrap_batchtools(reg_name = "01-data-50",
                            work_dir = working_dir,
                            reg_dir = reg_indep_missbalanced_me,
                            r_function = simuldata,
