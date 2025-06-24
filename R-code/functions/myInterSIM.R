@@ -334,7 +334,7 @@ simOmicsData <- function (training_prop = 0.8,
                                  replacement = "participant",
                                  x = methylation_test_data$IDS)
   # geneexpr_test_data$disease <- test_disease[test_not_missing1]
-  geneexpr_test_data$disease <- NULL
+  methylation_test_data$disease <- NULL
   
   test_not_missing2 <- sample(x = 1L:length(index_split$Fold2),
                               size = n_not_missing_test,
