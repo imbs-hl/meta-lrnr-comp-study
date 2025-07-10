@@ -74,8 +74,9 @@ single_run_priolasso <- function (
                        y = multi_omics$testing$target,
                        by = "IDS",
                        all.y = TRUE)
-  print(head(actual_pred))
+  print(dim(actual_pred))
   y <- as.numeric(multi_omics$testing$target$disease == "1")
+  print(length(y))
   # On all patients
   perf_bs <- sapply(X = actual_pred[ , "predictions"], FUN = function (my_pred) {
     bs <- mean((y[complete.cases(my_pred)] - my_pred[complete.cases(my_pred)])^2)
