@@ -52,8 +52,6 @@ single_run_bf <- function (
   start_time <- Sys.time()  # Record start time
   # We train BF model
   message("Training of BF model started...\n")
-  # We train BF model
-  message("Training of BF model started...\n")
   srf_trained <- blockForest(data = x_training,
                              blocks = list(block_methyl,
                                            block_genexpr,
