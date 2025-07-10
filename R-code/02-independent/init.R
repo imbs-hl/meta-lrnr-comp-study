@@ -7,6 +7,7 @@ source(file.path(function_dir, "single-run-lr.R"))
 source(file.path(function_dir, "single-run-cobra.R"))
 source(file.path(function_dir, "single-run-wa.R"))
 source(file.path(function_dir, "single-run-priolasso.R"))
+source(file.path(function_dir, "single-run-srf.R"))
 # ------------------------------------------------------------------------------
 # Set directories for balanced scenarios
 # ------------------------------------------------------------------------------
