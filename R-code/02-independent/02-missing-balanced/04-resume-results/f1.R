@@ -243,7 +243,7 @@ print(indep_missbalanced_megepro_f1_mean_na_keep_plot)
 
 extract_legend <- function(plot) {
   g <- ggplotGrob(plot)
-  legend <- g$groF1[[which(sapply(g$groF1, function(x) x$name) == "guide-box")]]
+  legend <- g$grobs[[which(sapply(g$grobs, function(x) x$name) == "guide-box")]]
   return(legend)
 }
 legend <- extract_legend(indep_missbalanced_megepro_f1_mean_na_keep_plot)

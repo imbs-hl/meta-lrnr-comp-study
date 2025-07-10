@@ -55,7 +55,7 @@ reg_indep_missbalanced_me_cobra_na_keep <- batchtools::reduceResultsList(
 
 ## resume filtered results
 res_indep_missbalanced_me_cobra_na_keep <- data.table::rbindlist(reg_indep_missbalanced_me_cobra_na_keep)
-res_indep_missbalanced_me_mean_perf_cobra_na_keep <- res_indep_missbalanced_me_cobra_na_keep[ , .(mean_perf = mean(meta_layer)), 
+res_indep_missbalanced_me_mean_perf_cobra_na_keep <- res_indep_missbalanced_me_cobra_na_keep[ , .(mean_perf = mean(meta_layer, na.rm = TRUE)), 
                                                                                               by = .(perf_measure, effect)]
 print(res_indep_missbalanced_me_mean_perf_cobra_na_keep)
 res_indep_missbalanced_me_mean_perf_cobra_na_keep$Setting <- "Independent"
