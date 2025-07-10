@@ -104,6 +104,6 @@ single_run_priolasso <- function (
                                     sprintf("%s_prioritylasso_%s.rds",
                                             effect, na_action),
                                     collapse = ""))
-  saveRDS(object = training, file = training_file)
+  saveRDS(object = pl_trained, file = training_file)
   return(perf_bs)
 }
