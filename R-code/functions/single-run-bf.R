@@ -69,10 +69,10 @@ single_run_bf <- function (
                              num.trees = num.trees,
                              probability = TRUE,
                              dependent.variable.name = "disease")
-  Print("Trained...")
+  print("Trained...")
   # We predict
-  predictions <- predict(object = bf_trained,
-                         data = x_testing)
+  predictions <- predict(object = bf_trained$forest,
+                         data = as.data.frame(x_testing))
   end_time <- Sys.time()  # Record end time
   pred_values <- data.frame(test_ids, predictions)
   names(pred_values) <- c("IDS", "predictions")
