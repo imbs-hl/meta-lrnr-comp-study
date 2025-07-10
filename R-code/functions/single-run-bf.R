@@ -21,7 +21,6 @@ single_run_bf <- function (
                       y = multi_omics$training$proteinexpr,
                       by = "IDS",
                       all = TRUE)
-  x_training$IDS <- NULL
   x_training <- as.matrix(x_training)
   y_training <- multi_omics$training$target[ , "disease"]
   ncol_methyl <- ncol(multi_omics$training$methylation) - 1 # IDS column removed
@@ -32,6 +31,11 @@ single_run_bf <- function (
   block_genexpr <- (ncol_methyl + 1):(ncol_methyl + ncol_genexpr)
   block_proteinexpr <- (ncol_methyl + ncol_genexpr + 1):(ncol_methyl + ncol_genexpr + ncol_proteinexpr)
   
+  x_training <- merge(x = x_training,
+                      y = multi_omics$training$target,
+                      by = "IDS",
+                      all = TRUE)
+  x_training$IDS <- NULL
   # Testing dataset
   x_testing <- merge(x = multi_omics$testing$methylation,
                      y = multi_omics$testing$geneexpr,
@@ -45,11 +49,6 @@ single_run_bf <- function (
   x_testing$IDS <- NULL
   x_testing <- as.matrix(x_testing)
   y_testing <- multi_omics$testing$target[ , "disease"]
-  x_training <- merge(x = x_training,
-                      y = multi_omics$training$target,
-                      by = "IDS",
-                      all = TRUE)
-  x_training$IDS <- NULL
   start_time <- Sys.time()  # Record start time
   # We train BF model
   message("Training of PriorityLasso model started...\n")
