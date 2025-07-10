@@ -73,7 +73,7 @@ single_run_bf <- function (
   predictions <- predict(object = bf_trained,
                          data = as.data.frame(x_testing))
   end_time <- Sys.time()  # Record end time
-  pred_values <- data.frame(test_ids, predictions)
+  pred_values <- data.frame(test_ids, predictions$predictions[ , 2])
   names(pred_values) <- c("IDS", "predictions")
   actual_pred <- merge(x = pred_values,
                        y = multi_omics$testing$target,
