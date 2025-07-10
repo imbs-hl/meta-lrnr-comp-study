@@ -52,26 +52,25 @@ single_run_bf <- function (
   # We train BF model
   message("Training of BF model started...\n")
   bf_trained <- blockForest(data = x_training,
-                             blocks = list(block_methyl,
-                                           block_genexpr,
-                                           block_proteinexpr),
-                             block.method = "BlockForest",
-                             mtry = c(floor(sqrt(ncol_methyl)),
-                                      floor(sqrt(ncol_genexpr)),
-                                      floor(sqrt(ncol_proteinexpr))),
-                             block.weights = c(ncol_methyl, 
-                                               ncol_genexpr,
-                                               ncol_proteinexpr) / sum(
-                                                 c(ncol_methyl, 
-                                                   ncol_genexpr,
-                                                   ncol_proteinexpr)
-                                               ),
-                             num.trees = num.trees,
-                             probability = TRUE,
-                             dependent.variable.name = "disease")
-  print("Trained...")
+                            blocks = list(block_methyl,
+                                          block_genexpr,
+                                          block_proteinexpr),
+                            block.method = "BlockForest",
+                            mtry = c(floor(sqrt(ncol_methyl)),
+                                     floor(sqrt(ncol_genexpr)),
+                                     floor(sqrt(ncol_proteinexpr))),
+                            block.weights = c(ncol_methyl, 
+                                              ncol_genexpr,
+                                              ncol_proteinexpr) / sum(
+                                                c(ncol_methyl, 
+                                                  ncol_genexpr,
+                                                  ncol_proteinexpr)
+                                              ),
+                            num.trees = num.trees,
+                            probability = TRUE,
+                            dependent.variable.name = "disease")
   # We predict
-  predictions <- predict(object = bf_trained$forest,
+  predictions <- predict(x = bf_trained,
                          data = as.data.frame(x_testing))
   end_time <- Sys.time()  # Record end time
   pred_values <- data.frame(test_ids, predictions)
