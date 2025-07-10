@@ -70,7 +70,7 @@ single_run_bf <- function (
                             probability = TRUE,
                             dependent.variable.name = "disease")
   # We predict
-  predictions <- predict(x = bf_trained,
+  predictions <- predict(object = bf_trained,
                          data = as.data.frame(x_testing))
   end_time <- Sys.time()  # Record end time
   pred_values <- data.frame(test_ids, predictions)
