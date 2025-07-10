@@ -7,6 +7,7 @@ single_run_bf <- function (
     delta.expr = param_df$delta.expr,
     delta.protein = param_df$delta.protein,
     na_action = "na.keep",
+    effect = "effect",
     num.trees = 25000L
 ) {
   multi_omics <- readRDS(data_file)
