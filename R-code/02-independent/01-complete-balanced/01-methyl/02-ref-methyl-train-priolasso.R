@@ -10,12 +10,12 @@ reg_me_indep_combalanced_na_keep <- wrap_batchtools(reg_name = "02-train-priolas
                                                     reg_dir = reg_indep_combalanced_me,
                                                     r_function = single_run_priolasso,
                                                     vec_args = data.frame(
-                                                      data_file = indep_combalanced_me_param_data$save_path,
-                                                      seed = indep_combalanced_me_param_data$seed,
-                                                      delta.methyl = indep_combalanced_me_param_data$delta.methyl,
-                                                      delta.expr = indep_combalanced_me_param_data$delta.expr,
-                                                      delta.protein = indep_combalanced_me_param_data$delta.protein,
-                                                      effect = indep_combalanced_me_param_data$effect
+                                                      data_file = indep_combalanced_me_param_data[1:2, ]$save_path,
+                                                      seed = indep_combalanced_me_param_data[1:2, ]$seed,
+                                                      delta.methyl = indep_combalanced_me_param_data[1:2, ]$delta.methyl,
+                                                      delta.expr = indep_combalanced_me_param_data[1:2, ]$delta.expr,
+                                                      delta.protein = indep_combalanced_me_param_data[1:2, ]$delta.protein,
+                                                      effect = indep_combalanced_me_param_data[1:2, ]$effect
                                                     ),
                                                     more_args = list(na_action = "na.keep"),
                                                     name = "comb-me-pl-na-keep",

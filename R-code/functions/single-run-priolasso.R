@@ -31,7 +31,7 @@ single_run_priolasso <- function (
   ncol_genexpr <- ncol(multi_omics$training$geneexpr) - 1
   ncol_proteinexpr <- ncol(multi_omics$training$proteinexpr) - 1
   
-  block_methyl <- 1:(ncol(ncol_methyl) - 1)
+  block_methyl <- 1:(ncol_methyl)
   block_genexpr <- (block_methyl + 1):(ncol_methyl + ncol_genexpr)
   block_proteinexpr <- (block_genexpr + 1):(ncol_methyl + ncol_genexpr + ncol_proteinexpr)
   
