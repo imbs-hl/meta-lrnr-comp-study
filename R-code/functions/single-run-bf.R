@@ -54,7 +54,7 @@ single_run_bf <- function (
   message("Training of PriorityLasso model started...\n")
   # We train SRF model
   message("Training of SRF model started...\n")
-  srf_trained <- blockForest(x = x_training,
+  srf_trained <- blockForest(data = x_training,
                              blocks = list(block_methyl,
                                            block_genexpr,
                                            block_proteinexpr),
