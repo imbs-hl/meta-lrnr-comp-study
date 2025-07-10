@@ -57,9 +57,9 @@ single_run_bf <- function (
                                            block_genexpr,
                                            block_proteinexpr),
                              block.method = "BlockForest",
-                             mtry = list(floor(sqrt(ncol_methyl)),
-                                         floor(sqrt(ncol_genexpr)),
-                                         floor(sqrt(ncol_proteinexpr))),
+                             mtry = c(floor(sqrt(ncol_methyl)),
+                                      floor(sqrt(ncol_genexpr)),
+                                      floor(sqrt(ncol_proteinexpr))),
                              num.trees = num.trees,
                              probability = TRUE,
                              dependent.variable.name = "disease")
