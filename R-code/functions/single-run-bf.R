@@ -69,6 +69,7 @@ single_run_bf <- function (
                              num.trees = num.trees,
                              probability = TRUE,
                              dependent.variable.name = "disease")
+  Print("Trained...")
   # We predict
   predictions <- predict(object = bf_trained,
                          data = x_testing)
