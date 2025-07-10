@@ -51,14 +51,17 @@ single_run_bf <- function (
   y_testing <- multi_omics$testing$target[ , "disease"]
   start_time <- Sys.time()  # Record start time
   # We train BF model
-  message("Training of PriorityLasso model started...\n")
-  # We train SRF model
-  message("Training of SRF model started...\n")
+  message("Training of BF model started...\n")
+  # We train BF model
+  message("Training of BF model started...\n")
   srf_trained <- blockForest(data = x_training,
                              blocks = list(block_methyl,
                                            block_genexpr,
                                            block_proteinexpr),
                              block.method = "BlockForest",
+                             mtry = list(floor(sqrt(ncol_methyl)),
+                                         floor(sqrt(ncol_genexpr)),
+                                         floor(sqrt(ncol_proteinexpr))),
                              num.trees = num.trees,
                              probability = TRUE,
                              dependent.variable.name = "disease")
