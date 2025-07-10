@@ -7,8 +7,7 @@ single_run_bf <- function (
     delta.expr = param_df$delta.expr,
     delta.protein = param_df$delta.protein,
     na_action = "na.keep",
-    num.trees = 8000,
-    num.trees.pre = 5000
+    num.trees = 25000L
 ) {
   multi_omics <- readRDS(data_file)
   
@@ -45,16 +44,24 @@ single_run_bf <- function (
   x_testing$IDS <- NULL
   x_testing <- as.matrix(x_testing)
   y_testing <- multi_omics$testing$target[ , "disease"]
-  
+  x_training <- merge(x = x_training,
+                      y = multi_omics$training$target,
+                      by = "IDS",
+                      all = TRUE)
+  x_training$IDS <- NULL
   start_time <- Sys.time()  # Record start time
   # We train BF model
   message("Training of PriorityLasso model started...\n")
   # We train SRF model
   message("Training of SRF model started...\n")
-  srf_trained <- ranger(x = x[ , varsel],
-                        y = as.numeric(y_training == "1"),
-                        num.trees = num.tree.ranger,
-                        probability = TRUE)
+  srf_trained <- blockForest(x = x_training,
+                             blocks = list(block_methyl,
+                                           block_genexpr,
+                                           block_proteinexpr),
+                             block.method = "BlockForest",
+                             num.trees = num.trees,
+                             probability = TRUE,
+                             dependent.variable.name = "disease")
   # We predict
   predictions <- predict(object = srf_trained,
                          data = x_testing)
@@ -91,7 +98,7 @@ single_run_bf <- function (
   # Save the Training object
   training_file <- file.path(dirname(data_file), 
                              paste0(seed, 
-                                    sprintf("%s_prioritylasso_%s.rds",
+                                    sprintf("%s_bf_%s.rds",
                                             effect, na_action),
                                     collapse = ""))
   saveRDS(object = pl_trained, file = training_file)

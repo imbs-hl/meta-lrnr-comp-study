@@ -49,7 +49,7 @@ single_run_srf <- function (
   varsel <- names(varsel[varsel$finalDecision == "Confirmed"])
   # We train SRF model
   message("Training of SRF model started...\n")
-  srf_trained <- ranger(x = x[ , varsel],
+  srf_trained <- ranger(x = x_training[ , varsel],
                        y = as.numeric(y_training == "1"),
                        num.trees = num.tree.ranger,
                        probability = TRUE)
@@ -89,7 +89,7 @@ single_run_srf <- function (
   # Save the Training object
   training_file <- file.path(dirname(data_file), 
                              paste0(seed, 
-                                    sprintf("%s_prioritylasso_%s.rds",
+                                    sprintf("%s_srf_%s.rds",
                                             effect, na_action),
                                     collapse = ""))
   saveRDS(object = pl_trained, file = training_file)
