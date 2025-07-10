@@ -33,7 +33,7 @@ single_run_priolasso <- function (
   
   block_methyl <- 1:(ncol_methyl)
   block_genexpr <- (ncol_methyl + 1):(ncol_methyl + ncol_genexpr)
-  block_proteinexpr <- (ncol_genexpr + 1):(ncol_methyl + ncol_genexpr + ncol_proteinexpr)
+  block_proteinexpr <- (ncol_methyl + ncol_genexpr + 1):(ncol_methyl + ncol_genexpr + ncol_proteinexpr)
   
   # Testing dataset
   x_testing <- merge(x = multi_omics$testing$methylation,
