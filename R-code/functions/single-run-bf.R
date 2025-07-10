@@ -60,6 +60,13 @@ single_run_bf <- function (
                              mtry = c(floor(sqrt(ncol_methyl)),
                                       floor(sqrt(ncol_genexpr)),
                                       floor(sqrt(ncol_proteinexpr))),
+                             block.weights = c(ncol_methyl, 
+                                               ncol_genexpr,
+                                               ncol_proteinexpr) / sum(
+                                                 c(ncol_methyl, 
+                                                   ncol_genexpr,
+                                                   ncol_proteinexpr)
+                                               ),
                              num.trees = num.trees,
                              probability = TRUE,
                              dependent.variable.name = "disease")
