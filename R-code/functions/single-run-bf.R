@@ -47,12 +47,11 @@ single_run_bf <- function (
                      all = TRUE)
   test_ids <- x_testing$IDS
   x_testing$IDS <- NULL
-  x_testing <- as.matrix(x_testing)
   y_testing <- multi_omics$testing$target[ , "disease"]
   start_time <- Sys.time()  # Record start time
   # We train BF model
   message("Training of BF model started...\n")
-  srf_trained <- blockForest(data = x_training,
+  bf_trained <- blockForest(data = x_training,
                              blocks = list(block_methyl,
                                            block_genexpr,
                                            block_proteinexpr),
@@ -71,7 +70,7 @@ single_run_bf <- function (
                              probability = TRUE,
                              dependent.variable.name = "disease")
   # We predict
-  predictions <- predict(object = srf_trained,
+  predictions <- predict(object = bf_trained,
                          data = x_testing)
   end_time <- Sys.time()  # Record end time
   pred_values <- data.frame(test_ids, predictions)
