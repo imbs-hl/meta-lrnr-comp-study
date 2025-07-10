@@ -1,15 +1,14 @@
 # This file will run a single replication and estimate prediction performance 
-# for standard random forests
-single_run_srf <- function (
+# for BlockForest.
+single_run_bf <- function (
     data_file = file.path(data_simulation, "multi_omics.rds"),
     seed = 124,
     delta.methyl = param_df$delta.methyl,
     delta.expr = param_df$delta.expr,
     delta.protein = param_df$delta.protein,
-    effect = "effect",
-    num.tree.boruta = 25000L,
-    num.tree.ranger = 8000L,
-    na_action = "na.keep"
+    na_action = "na.keep",
+    num.trees = 8000,
+    num.trees.pre = 5000
 ) {
   multi_omics <- readRDS(data_file)
   
@@ -25,6 +24,13 @@ single_run_srf <- function (
   x_training$IDS <- NULL
   x_training <- as.matrix(x_training)
   y_training <- multi_omics$training$target[ , "disease"]
+  ncol_methyl <- ncol(multi_omics$training$methylation) - 1 # IDS column removed
+  ncol_genexpr <- ncol(multi_omics$training$geneexpr) - 1
+  ncol_proteinexpr <- ncol(multi_omics$training$proteinexpr) - 1
+  
+  block_methyl <- 1:(ncol_methyl)
+  block_genexpr <- (ncol_methyl + 1):(ncol_methyl + ncol_genexpr)
+  block_proteinexpr <- (ncol_methyl + ncol_genexpr + 1):(ncol_methyl + ncol_genexpr + ncol_proteinexpr)
   
   # Testing dataset
   x_testing <- merge(x = multi_omics$testing$methylation,
@@ -41,23 +47,19 @@ single_run_srf <- function (
   y_testing <- multi_omics$testing$target[ , "disease"]
   
   start_time <- Sys.time()  # Record start time
-  # Variable selection with SRF
-  message("Variable selection for SRF model started...\n")
-  varsel <- Boruta::Boruta(x = x_training,
-                           y = y_training,
-                           num.trees = num.tree.boruta)
-  varsel <- names(varsel[varsel$finalDecision == "Confirmed"])
+  # We train BF model
+  message("Training of PriorityLasso model started...\n")
   # We train SRF model
   message("Training of SRF model started...\n")
   srf_trained <- ranger(x = x[ , varsel],
-                       y = as.numeric(y_training == "1"),
-                       num.trees = num.tree.ranger,
-                       probability = TRUE)
+                        y = as.numeric(y_training == "1"),
+                        num.trees = num.tree.ranger,
+                        probability = TRUE)
   # We predict
   predictions <- predict(object = srf_trained,
                          data = x_testing)
   end_time <- Sys.time()  # Record end time
-  pred_values <- data.frame(test_ids, predictions$predictions[ , 2L])
+  pred_values <- data.frame(test_ids, predictions)
   names(pred_values) <- c("IDS", "predictions")
   actual_pred <- merge(x = pred_values,
                        y = multi_omics$testing$target,
