@@ -55,6 +55,7 @@ source(file.path(file.path(code_dir, "functions"),
 # install.packages("mgcv")
 # install.packages("MLmetrics")
 # install.packages("prioritylasso")
+# install.packages("Boruta")
 
 # Install required package to estimate the empirical correlation matrices.
 # install.packages(corpcor)
@@ -85,6 +86,7 @@ library(MLmetrics)
 library(gridExtra)
 library(grid)
 library(prioritylasso)
+library(Boruta)
 
 # Load required package to estimate the empirical correlation matrices.
 library(corpcor)
