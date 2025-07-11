@@ -46,7 +46,8 @@ single_run_srf <- function (
   varsel <- Boruta::Boruta(x = x_training,
                            y = y_training,
                            num.trees = num.tree.boruta)
-  varsel <- names(varsel[varsel$finalDecision == "Confirmed"])
+  varsel <- varsel$finalDecision
+  varsel <- names(varsel[varsel == "Confirmed"])
   # We train SRF model
   message("Training of SRF model started...\n")
   srf_trained <- ranger(x = x_training[ , varsel],
