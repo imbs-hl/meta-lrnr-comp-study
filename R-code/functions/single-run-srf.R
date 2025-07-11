@@ -48,6 +48,11 @@ single_run_srf <- function (
                            num.trees = num.tree.boruta)
   varsel <- varsel$finalDecision
   varsel <- names(varsel[varsel == "Confirmed"])
+  varsel <- if(length(varsel)) {
+    varsel
+  } else {
+    colnames(x_training)
+  }
   # We train SRF model
   message("Training of SRF model started...\n")
   srf_trained <- ranger(x = x_training[ , varsel],
