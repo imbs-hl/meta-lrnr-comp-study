@@ -92,6 +92,6 @@ single_run_srf <- function (
                                     sprintf("%s_srf_%s.rds",
                                             effect, na_action),
                                     collapse = ""))
-  saveRDS(object = pl_trained, file = training_file)
+  saveRDS(object = srf_trained, file = training_file)
   return(perf_bs)
 }

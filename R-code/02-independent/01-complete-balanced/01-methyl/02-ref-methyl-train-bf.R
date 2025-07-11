@@ -18,7 +18,7 @@ reg_me_indep_combalanced_na_keep <- wrap_batchtools(reg_name = "02-train-bf-na-k
                                                       effect = indep_combalanced_me_param_data$effect
                                                     ),
                                                     more_args = list(na_action = "na.keep",
-                                                                     num.trees = 2L),
+                                                                     num.trees = 25000L),
                                                     name = "comb-me-bf-na-keep",
                                                     overwrite = TRUE,
                                                     memory = "25g",

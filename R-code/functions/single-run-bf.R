@@ -108,6 +108,6 @@ single_run_bf <- function (
                                     sprintf("%s_bf_%s.rds",
                                             effect, na_action),
                                     collapse = ""))
-  saveRDS(object = pl_trained, file = training_file)
+  saveRDS(object = bf_trained, file = training_file)
   return(perf_bs)
 }
