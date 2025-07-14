@@ -48,6 +48,7 @@ single_run_srf <- function (
                            num.trees = num.tree.boruta)
   varsel <- varsel$finalDecision
   varsel <- names(varsel[varsel == "Confirmed"])
+  print(varsel)
   varsel <- if(length(varsel)) {
     varsel
   } else {
