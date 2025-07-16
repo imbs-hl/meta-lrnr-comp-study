@@ -22,9 +22,14 @@ single_run_srf <- function (
                       y = multi_omics$training$proteinexpr,
                       by = "IDS",
                       all = TRUE)
+  x_training <- merge(x = x_training,
+                      multi_omics$training$target,
+                      by = "IDS",
+                      all = TRUE)
   x_training$IDS <- NULL
+  y_training <- x_training$disease
+  x_training$disease <- NULL
   x_training <- as.matrix(x_training)
-  y_training <- multi_omics$training$target[ , "disease"]
   
   # Testing dataset
   x_testing <- merge(x = multi_omics$testing$methylation,
@@ -35,11 +40,16 @@ single_run_srf <- function (
                      y = multi_omics$testing$proteinexpr,
                      by = "IDS",
                      all = TRUE)
-  test_ids <- x_testing$IDS
-  x_testing$IDS <- NULL
-  x_testing <- as.matrix(x_testing)
-  y_testing <- multi_omics$testing$target[ , "disease"]
   
+  x_testing <- merge(x = x_testing,
+                      multi_omics$testing$target,
+                      by = "IDS",
+                      all = TRUE)
+  x_testing$IDS <- NULL
+  y_testing <- x_testing$disease
+  test_ids <- x_testing$IDS
+  x_testing$disease <- NULL
+  x_testing <- as.matrix(x_testing)
   start_time <- Sys.time()  # Record start time
   # Variable selection with SRF
   message("Variable selection for SRF model started...\n")
