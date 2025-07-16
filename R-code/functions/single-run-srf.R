@@ -67,7 +67,7 @@ single_run_srf <- function (
   }
   # We train SRF model
   message("Training of SRF model started...\n")
-  srf_trained <- ranger(x = x_training[ , varsel],
+  srf_trained <- ranger(x = x_training[ , varsel, drop = FALSE],
                         y = as.numeric(y_training == "1"),
                         num.trees = num.tree.ranger,
                         probability = TRUE)
