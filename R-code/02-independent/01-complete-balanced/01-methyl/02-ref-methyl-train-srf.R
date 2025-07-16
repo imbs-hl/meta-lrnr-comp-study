@@ -58,7 +58,7 @@ reg_indep_combalanced_me_srf_na_keep <- batchtools::reduceResultsList(
   reg = reg_indep_combalanced_me_srf_na_keep)
 
 
-## resume filtered results
+## resume filtered results 
 res_indep_combalanced_me_srf_na_keep <- data.table::rbindlist(reg_indep_combalanced_me_srf_na_keep)
 res_indep_combalanced_me_mean_perf_srf_na_keep <- res_indep_combalanced_me_srf_na_keep[ , .(mean_perf = mean(predictions)), # Check this again whether I called it predictions 
                                                                                       by = .(perf_measure, effect)]
