@@ -48,6 +48,7 @@ single_run_srf <- function (
                            num.trees = num.tree.boruta)
   varsel <- varsel$finalDecision
   varsel <- names(varsel[varsel == "Confirmed"])
+  print("Here is the list of selected variables...")
   print(varsel)
   varsel <- if(length(varsel)) {
     varsel
@@ -57,9 +58,9 @@ single_run_srf <- function (
   # We train SRF model
   message("Training of SRF model started...\n")
   srf_trained <- ranger(x = x_training[ , varsel],
-                       y = as.numeric(y_training == "1"),
-                       num.trees = num.tree.ranger,
-                       probability = TRUE)
+                        y = as.numeric(y_training == "1"),
+                        num.trees = num.tree.ranger,
+                        probability = TRUE)
   # We predict
   predictions <- predict(object = srf_trained,
                          data = x_testing)
