@@ -75,6 +75,7 @@ single_run_srf <- function (
   predictions <- predict(object = srf_trained,
                          data = x_testing)
   end_time <- Sys.time()  # Record end time
+  print(dim(x_testing))
   print(length(test_ids))
   print(length(predictions$predictions))
   pred_values <- data.frame(test_ids, predictions$predictions[ , 2L])
