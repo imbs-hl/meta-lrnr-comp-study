@@ -47,9 +47,9 @@ single_run_srf <- function (
                            y = y_training,
                            num.trees = num.tree.boruta)
   varsel <- varsel$finalDecision
-  varsel <- names(varsel[varsel == "Confirmed"])
   print("Here is the list of selected variables...")
   print(varsel)
+  varsel <- names(varsel[varsel == "Confirmed"])
   varsel <- if(length(varsel)) {
     varsel
   } else {
