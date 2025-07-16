@@ -45,9 +45,9 @@ single_run_srf <- function (
                       multi_omics$testing$target,
                       by = "IDS",
                       all = TRUE)
-  x_testing$IDS <- NULL
   y_testing <- x_testing$disease
   test_ids <- x_testing$IDS
+  x_testing$IDS <- NULL
   x_testing$disease <- NULL
   x_testing <- as.matrix(x_testing)
   start_time <- Sys.time()  # Record start time
