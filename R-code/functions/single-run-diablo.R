@@ -7,8 +7,7 @@ single_run_diablo <- function (
     delta.expr = param_df$delta.expr,
     delta.protein = param_df$delta.protein,
     na_action = "na.keep",
-    effect = "effect",
-    ncomp = 2L
+    effect = "effect"
 ) {
   multi_omics <- readRDS(data_file)
   
@@ -55,10 +54,10 @@ single_run_diablo <- function (
     proteinexpr = as.matrix(sapply(x_training[logreg_index, block_proteinexpr], as.numeric))
   )
   Y_logreg <- Y[logreg_index]
-  # Build the design matrix
-  design <- matrix(0.1, ncol = length(X), nrow = length(X), 
-                   dimnames = list(names(X), names(X)))
-  diag(design) <- 0
+  # Build the design matrix C
+  design_mat <- matrix(0.1, ncol = length(X_diablo), nrow = length(X_diablo), 
+                   dimnames = list(names(X_diablo), names(X_diablo)))
+  diag(design_mat) <- 0
   
   # Testing dataset
   x_testing <- merge(x = multi_omics$testing$methylation,
@@ -85,8 +84,8 @@ single_run_diablo <- function (
   # components and keepX with cross-validation.
   basic_diablo_model <- block.splsda(X = X_diablo,
                                      Y = Y_diablo,
-                                     ncomp = 15,
-                                     design = design)
+                                     ncomp = 12,
+                                     design = design_mat)
   # run component number tuning with repeated CV
   perf_diablo <- perf(basic_diablo_model,
                       validation = 'Mfold',
@@ -104,7 +103,7 @@ single_run_diablo <- function (
                                    Y = Y_diablo,
                                    ncomp = ncomp,
                                    test.keepX = list_keepX,
-                                   design = design,
+                                   design = design_mat,
                                    validation = 'Mfold',
                                    folds = 10,
                                    nrepeat = 5,
@@ -114,24 +113,26 @@ single_run_diablo <- function (
   diablo_model <- block.splsda(X = X_diablo, 
                                Y = Y_diablo,
                                ncomp = ncomp, 
+                               dist = "mahalanobis.dist",
                                keepX = tune_diablo$choice.keepX,
-                               design = design)
+                               design = design_mat)
   # We predict the logreg set with diablo
   predict_logreg <- predict(object = diablo_model,
                             newdata = X_logreg,
                             dist = "mahalanobis.dist")
-  predicted_scores <- predict_logreg$WeightedPredict[, , ncomp][ , 1]
+  predicted_scores <- data.frame(predict_logreg$WeightedPredict[,1,],
+                                 Y_logreg = Y_logreg)
   # Fit a logistic regression on the predicted scores
-  logreg_fit <- glm(Y_logreg ~ predicted_scores, 
+  logreg_fit <- glm(Y_logreg ~ ., data = predicted_scores, 
                     family = binomial(link = "logit"))
   # Predict the testing set with diablo
   predictions <- predict(object = diablo_model,
                          newdata = x_testing,
                          dist = "mahalanobis.dist")
-  # Predict the testing set with logreg
-  predicted_scores_test <- predictions$WeightedPredict[, , ncomp][ , 1]
+  # Predict the testing set with logreg weighted predicted scores
+  predicted_scores_test <- data.frame(predictions$WeightedPredict[,1,])
   pred_test <- predict(logreg_fit,
-                       newdata = data.frame(predicted_scores = predicted_scores_test),
+                       newdata = predicted_scores_test,
                        type = "response")
   end_time <- Sys.time()  # Record end time
   pred_values <- data.frame(test_ids, 
