@@ -1,6 +1,6 @@
 source("init.R", chdir = TRUE)
 ## Send jobs
-no.threads <- 5
+no.threads <- 6
 
 ## -----------------------------------------------------------------------------
 ## na_action = na_keep
