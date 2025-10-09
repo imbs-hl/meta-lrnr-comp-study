@@ -6,7 +6,7 @@ no.threads <- 5
 ## na_action = na_keep
 ## -----------------------------------------------------------------------------
 
-reg_mege_dep_missunbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-srf-na-keep-test",
+reg_mege_dep_missunbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-srf-na-keep",
                                                     work_dir = working_dir,
                                                     reg_dir = reg_dep_missunbalanced_mege,
                                                     r_function = single_run_srf,
@@ -18,16 +18,16 @@ reg_mege_dep_missunbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-srf-
                                                       delta.protein = indep_missunbalanced_mege_param_data,
                                                       effect = indep_missunbalanced_mege_param_data
                                                     ),
-                                                    more_args = list(na_action = "na.keep",
+                                                    more_args = list(na_action = "na.learn",
                                                                      num.tree.boruta = 25000L,
                                                                      num.tree.ranger = 5000L),
                                                     name = "missunb-mege-srf-na-keep",
                                                     overwrite = TRUE,
                                                     memory = "25g",
                                                     n_cpus = 6,
-                                                    walltime = "60",
+                                                    walltime = "0",
                                                     sleep = 5,
-                                                    partition = "fast", ## Set partition in init-global
+                                                    partition = "batch", ## Set partition in init-global
                                                     account = "dzhk-omics", ## Set account in init-global
                                                     test_job = FALSE,
                                                     wait_for_jobs = FALSE,
@@ -48,7 +48,7 @@ reg_mege_dep_missunbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-srf-
 ##
 reg_dep_missunbalanced_mege_srf_na_keep <- batchtools::loadRegistry(
   file.dir = file.path(reg_dep_missunbalanced_me,
-                       "02-train-srf-na-keep-test"),
+                       "02-train-srf-na-keep"),
   writeable = TRUE,
   conf.file = config_file)
 reg_dep_missunbalanced_mege_srf_na_keep <- batchtools::reduceResultsList(

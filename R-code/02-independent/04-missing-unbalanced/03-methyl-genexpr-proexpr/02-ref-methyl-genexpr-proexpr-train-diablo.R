@@ -6,7 +6,7 @@ no.threads <- 5
 ## na_action = na_keep
 ## -----------------------------------------------------------------------------
 
-reg_megepro_indep_missunbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-diablo-na-keep-test",
+reg_megepro_indep_missunbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-diablo-na-keep",
                                                     work_dir = working_dir,
                                                     reg_dir = reg_indep_missunbalanced_megepro,
                                                     r_function = single_run_diablo,
@@ -47,7 +47,7 @@ reg_megepro_indep_missunbalanced_na_keep <- wrap_batchtools(reg_name = "02-train
 ##
 reg_indep_missunbalanced_megepro_diablo_na_keep <- batchtools::loadRegistry(
   file.dir = file.path(reg_indep_missunbalanced_megepro,
-                       "02-train-diablo-na-keep-test"),
+                       "02-train-diablo-na-keep"),
   writeable = TRUE,
   conf.file = config_file)
 reg_indep_missunbalanced_megepro_diablo_na_keep <- batchtools::reduceResultsList(

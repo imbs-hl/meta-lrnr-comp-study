@@ -17,7 +17,7 @@ reg_me_dep_combalanced_na_keep <- wrap_batchtools(reg_name = "02-train-srf-na-ke
                                                       delta.protein = indep_combalanced_mege_param_data$delta.protein,
                                                       effect = indep_combalanced_mege_param_data$effect
                                                     ),
-                                                    more_args = list(na_action = "na.keep",
+                                                    more_args = list(na_action = "na.learn",
                                                                      num.tree.boruta = 25000L,
                                                                      num.tree.ranger = 8000L),
                                                     name = "comb-mege-srf-na-keep",

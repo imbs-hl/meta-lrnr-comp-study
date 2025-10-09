@@ -15,17 +15,17 @@ delta.protein = indep_combalanced_me_param_data[400, ]$delta.protein
 effect = indep_combalanced_me_param_data[400, ]$effect
 
 
-reg_me_indep_combalanced_na_keep <- wrap_batchtools(reg_name = "02-train-diablo-na-keep-test",
+reg_me_indep_combalanced_na_keep <- wrap_batchtools(reg_name = "02-train-diablo-na-keep",
                                                     work_dir = working_dir,
                                                     reg_dir = reg_indep_combalanced_me,
                                                     r_function = single_run_diablo,
                                                     vec_args = data.frame(
-                                                      data_file = indep_combalanced_me_param_data[400, ]$save_path,
-                                                      seed = indep_combalanced_me_param_data[400, ]$seed,
-                                                      delta.methyl = indep_combalanced_me_param_data[400, ]$delta.methyl,
-                                                      delta.expr = indep_combalanced_me_param_data[400, ]$delta.expr,
-                                                      delta.protein = indep_combalanced_me_param_data[400, ]$delta.protein,
-                                                      effect = indep_combalanced_me_param_data[400, ]$effect
+                                                      data_file = indep_combalanced_me_param_data$save_path,
+                                                      seed = indep_combalanced_me_param_data$seed,
+                                                      delta.methyl = indep_combalanced_me_param_data$delta.methyl,
+                                                      delta.expr = indep_combalanced_me_param_data$delta.expr,
+                                                      delta.protein = indep_combalanced_me_param_data$delta.protein,
+                                                      effect = indep_combalanced_me_param_data$effect
                                                     ),
                                                     more_args = list(na_action = "na.keep"),
                                                     name = "comb-me-diablo-na-keep",
@@ -56,7 +56,7 @@ reg_me_indep_combalanced_na_keep <- wrap_batchtools(reg_name = "02-train-diablo-
 ##
 reg_indep_combalanced_me_diablo_na_keep <- batchtools::loadRegistry(
   file.dir = file.path(reg_indep_combalanced_me,
-                       "02-train-diablo-na-keep-test"),
+                       "02-train-diablo-na-keep"),
   writeable = TRUE,
   conf.file = config_file)
 reg_indep_combalanced_me_diablo_na_keep <- batchtools::reduceResultsList(

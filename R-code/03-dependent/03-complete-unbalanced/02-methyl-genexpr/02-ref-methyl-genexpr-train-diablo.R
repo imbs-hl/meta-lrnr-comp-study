@@ -9,7 +9,7 @@ no.threads <- 5
 
 
 
-reg_mege_dep_comunbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-diablo-na-keep-test",
+reg_mege_dep_comunbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-diablo-na-keep",
                                                     work_dir = working_dir,
                                                     reg_dir = reg_dep_comunbalanced_mege,
                                                     r_function = single_run_diablo,
@@ -50,7 +50,7 @@ reg_mege_dep_comunbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-diabl
 ##
 reg_dep_comunbalanced_mege_diablo_na_keep <- batchtools::loadRegistry(
   file.dir = file.path(reg_dep_comunbalanced_mege,
-                       "02-train-diablo-na-keep-test"),
+                       "02-train-diablo-na-keep"),
   writeable = TRUE,
   conf.file = config_file)
 reg_dep_comunbalanced_mege_diablo_na_keep <- batchtools::reduceResultsList(

@@ -15,7 +15,7 @@ delta.protein = indep_comunbalanced_me_param_data[400, ]$delta.protein
 effect = indep_comunbalanced_me_param_data[400, ]$effect
 
 
-reg_me_indep_comunbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-diablo-na-keep-test",
+reg_me_indep_comunbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-diablo-na-keep",
                                                     work_dir = working_dir,
                                                     reg_dir = reg_indep_comunbalanced_me,
                                                     r_function = single_run_diablo,
@@ -56,7 +56,7 @@ reg_me_indep_comunbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-diabl
 ##
 reg_indep_comunbalanced_me_diablo_na_keep <- batchtools::loadRegistry(
   file.dir = file.path(reg_indep_comunbalanced_me,
-                       "02-train-diablo-na-keep-test"),
+                       "02-train-diablo-na-keep"),
   writeable = TRUE,
   conf.file = config_file)
 reg_indep_comunbalanced_me_diablo_na_keep <- batchtools::reduceResultsList(

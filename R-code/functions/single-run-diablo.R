@@ -108,12 +108,11 @@ single_run_diablo <- function (
                                    folds = 10,
                                    nrepeat = 5,
                                    dist = "mahalanobis.dist",
-                                   progressBar = TRUE,
-                                   PPARAM = SnowParam(workers = 8))
+                                   progressBar = FALSE,
+                                   PPARAM = SnowParam(workers = 6))
   diablo_model <- block.splsda(X = X_diablo, 
                                Y = Y_diablo,
                                ncomp = ncomp, 
-                               dist = "mahalanobis.dist",
                                keepX = tune_diablo$choice.keepX,
                                design = design_mat)
   # We predict the logreg set with diablo
