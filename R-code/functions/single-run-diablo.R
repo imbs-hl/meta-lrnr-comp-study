@@ -171,6 +171,9 @@ single_run_diablo <- function (
                                     sprintf("%s_bf_%s.rds",
                                             effect, na_action),
                                     collapse = ""))
-  saveRDS(object = bf_trained, file = training_file)
+  saveRDS(object = list(diablo = diablo_model,
+                        logreg = logreg_fit,
+                        diablo_index = diablo_index),
+          file = training_file)
   return(perf_bs)
 }
