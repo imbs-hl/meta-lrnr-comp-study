@@ -24,9 +24,14 @@ single_run_priolasso <- function (
                       y = multi_omics$training$proteinexpr,
                       by = "IDS",
                       all = TRUE)
+  x_training <- merge(x = x_training,
+                      multi_omics$training$target,
+                      by = "IDS",
+                      all = TRUE)
   x_training$IDS <- NULL
+  y_training <- x_training[ , "disease"]
+  x_training$disease <- NULL
   x_training <- as.matrix(x_training)
-  y_training <- multi_omics$training$target[ , "disease"]
   ncol_methyl <- ncol(multi_omics$training$methylation) - 1 # IDS column removed
   ncol_genexpr <- ncol(multi_omics$training$geneexpr) - 1
   ncol_proteinexpr <- ncol(multi_omics$training$proteinexpr) - 1
@@ -44,11 +49,15 @@ single_run_priolasso <- function (
                      y = multi_omics$testing$proteinexpr,
                      by = "IDS",
                      all = TRUE)
+  x_testing <- merge(x = x_testing,
+                      multi_omics$testing$target,
+                      by = "IDS",
+                      all = TRUE)
+  y_testing <- x_testing[ , "disease"]
+  x_testing$disease <- NULL
   test_ids <- x_testing$IDS
   x_testing$IDS <- NULL
   x_testing <- as.matrix(x_testing)
-  y_testing <- multi_omics$testing$target[ , "disease"]
-  
   start_time <- Sys.time()  # Record start time
   # We train PriorityLasso model
   message("Training of PriorityLasso model started...\n")
@@ -84,7 +93,7 @@ single_run_priolasso <- function (
                        y = multi_omics$testing$target,
                        by = "IDS",
                        all.y = TRUE)
-  y <- as.numeric(multi_omics$testing$target$disease == "1")
+  y <- as.numeric(y_testing == "1")
   # On all patients
   perf_bs <- sapply(X = actual_pred[ , "predictions", drop = FALSE], FUN = function (my_pred) {
     bs <- mean((y[complete.cases(my_pred)] - my_pred[complete.cases(my_pred)])^2)
