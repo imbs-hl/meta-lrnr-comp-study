@@ -5,6 +5,14 @@ no.threads <- 5
 ## -----------------------------------------------------------------------------
 ## na_action = na_keep
 ## -----------------------------------------------------------------------------
+#
+data_file = indep_combalanced_me_param_data[400, ]$save_path
+seed = indep_combalanced_me_param_data[400, ]$seed
+delta.methyl = indep_combalanced_me_param_data[400, ]$delta.methyl
+delta.expr = indep_combalanced_me_param_data[400, ]$delta.expr
+delta.protein = indep_combalanced_me_param_data[400, ]$delta.protein
+effect = indep_combalanced_me_param_data[400, ]$effect
+
 reg_me_indep_combalanced_na_keep <- wrap_batchtools(reg_name = "02-train-priolasso-na-keep",
                                                     work_dir = working_dir,
                                                     reg_dir = reg_indep_combalanced_me,

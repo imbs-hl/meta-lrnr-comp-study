@@ -60,9 +60,19 @@ single_run_priolasso <- function (
                                             block2 = block_genexpr,
                                             block3 = block_proteinexpr),
                               block1.penalization = TRUE, 
-                              lambda.type = "lambda.min",
+                              lambda.type = "lambda.1se",
                               standardize = standardize,
-                              nfolds = nfolds)
+                              cvoffset = FALSE,
+                              mcontrol = missing.control(handle.missingdata = "impute.offset",
+                                                         offset.firstblock = "zero",
+                                                         impute.offset.cases = "complete.cases",
+                                                         nfolds.imputation = 10,
+                                                         lambda.imputation = "lambda.1se",
+                                                         perc.comp.cases.warning = 0.3,
+                                                         threshold.available.cases = 30,
+                                                         select.available.cases = "maximise.blocks"),
+                              nfolds = 10,
+                              nlambda = 25)
   # We predict
   predictions <- predict(object = pl_trained,
                          newdata = x_testing,
