@@ -141,7 +141,7 @@ single_run_diablo <- function (
                        y = multi_omics$testing$target,
                        by = "IDS",
                        all.y = TRUE)
-  y <- as.numeric(multi_omics$testing$target$disease == "1")
+  y <- as.numeric(actual_pred$disease == "1")
   # On all patients
   perf_bs <- sapply(X = actual_pred[ , "predictions", drop = FALSE], FUN = function (my_pred) {
     bs <- mean((y[complete.cases(my_pred)] - my_pred[complete.cases(my_pred)])^2)
