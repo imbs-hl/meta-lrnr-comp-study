@@ -9,7 +9,7 @@ single_run_srf <- function (
     effect = "effect",
     num.tree.boruta = 25000L,
     num.tree.ranger = 8000L,
-    na_action = "na.keep"
+    na_action = "na.learn"
 ) {
   multi_omics <- readRDS(data_file)
   
@@ -57,21 +57,22 @@ single_run_srf <- function (
                            y = y_training,
                            num.trees = num.tree.boruta)
   varsel <- varsel$finalDecision
-  varsel <- names(varsel[varsel == "Confirmed"])
+  varsel_confirmed <- names(varsel[varsel == "Confirmed"])
   print("Here is the list of selected variables...")
-  print(varsel)
-  varsel <- if(length(varsel)) {
-    varsel
+  print(varsel_confirmed)
+  varsel <- if(length(varsel_confirmed)) {
+    varsel_confirmed
   } else {
     colnames(x_training)
   }
   # We train SRF model
   message("Training of SRF model started...\n")
-  srf_trained <- ranger(x = x_training[ , varsel, drop = FALSE],
+  srf_trained <- ranger(x = x_training[ , varsel_confirmed, drop = FALSE],
                         y = as.numeric(y_training == "1"),
                         num.trees = num.tree.ranger,
+                        na.action = na_action,
                         probability = TRUE)
-  # We predict
+  # We predict on the test set
   predictions <- predict(object = srf_trained,
                          data = x_testing)
   end_time <- Sys.time()  # Record end time
@@ -85,8 +86,6 @@ single_run_srf <- function (
   # On all patients
   perf_bs <- sapply(X = actual_pred[ , "predictions", drop = FALSE], FUN = function (my_pred) {
     bs <- mean((y[complete.cases(my_pred)] - my_pred[complete.cases(my_pred)])^2)
-    # bs2 <- mean((y[complete.cases(my_pred)] - (1 - my_pred[complete.cases(my_pred)]))^2)
-    # bs <- min(bs1, bs2)
     roc_obj <- pROC::roc(y[complete.cases(my_pred)], my_pred[complete.cases(my_pred)])
     auc <- pROC::auc(roc_obj)
     f1 <- MLmetrics::F1_Score(y_true = y[complete.cases(my_pred)],

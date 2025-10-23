@@ -17,7 +17,7 @@ reg_me_indep_combalanced_na_keep <- wrap_batchtools(reg_name = "02-train-srf-na-
                                                       delta.protein = indep_combalanced_megepro_param_data$delta.protein,
                                                       effect = indep_combalanced_megepro_param_data$effect
                                                     ),
-                                                    more_args = list(na_action = "na.keep",
+                                                    more_args = list(na_action = "na.learn",
                                                                      num.tree.boruta = 25000L,
                                                                      num.tree.ranger = 8000L),
                                                     name = "comb-megepro-srf-na-keep",
@@ -26,7 +26,7 @@ reg_me_indep_combalanced_na_keep <- wrap_batchtools(reg_name = "02-train-srf-na-
                                                     n_cpus = 6,
                                                     walltime = "0",
                                                     sleep = 5,
-                                                    partition = "prio", ## Set partition in init-global
+                                                    partition = "batch", ## Set partition in init-global
                                                     account = "dzhk-omics", ## Set account in init-global
                                                     test_job = FALSE,
                                                     wait_for_jobs = FALSE,

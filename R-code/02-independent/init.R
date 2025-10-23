@@ -9,6 +9,7 @@ source(file.path(function_dir, "single-run-wa.R"))
 source(file.path(function_dir, "single-run-priolasso.R"))
 source(file.path(function_dir, "single-run-srf.R"))
 source(file.path(function_dir, "single-run-bf.R"))
+source(file.path(function_dir, "single-run-diablo.R"))
 # ------------------------------------------------------------------------------
 # Set directories for balanced scenarios
 # ------------------------------------------------------------------------------

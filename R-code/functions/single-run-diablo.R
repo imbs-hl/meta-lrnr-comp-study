@@ -7,8 +7,7 @@ single_run_diablo <- function (
     delta.expr = param_df$delta.expr,
     delta.protein = param_df$delta.protein,
     na_action = "na.keep",
-    effect = "effect",
-    ncomp = 5L
+    effect = "effect"
 ) {
   multi_omics <- readRDS(data_file)
   
@@ -36,16 +35,29 @@ single_run_diablo <- function (
                       by = "IDS",
                       all = TRUE)
   x_training$IDS <- NULL
-  X <- list(
-    methyl = x_training[ , block_methyl],
-    genexpr = x_training[ , block_genexpr],
-    proteinexpr = x_training[ , block_proteinexpr]
-  )
   Y <- x_training$disease
-  # Build the design matrix
-  design <- matrix(0.1, ncol = length(X), nrow = length(X), 
-                   dimnames = list(names(X), names(X)))
-  diag(design) <- 0
+  # Split the training set into training and validation set
+  diablo_index <- caret::createDataPartition(y = Y, 
+                                             p = 0.5, 
+                                             list = FALSE)
+  # Logreg index
+  logreg_index <- setdiff(1:length(Y), diablo_index)
+  X_diablo <- list(
+    methyl = as.matrix(sapply(x_training[diablo_index, block_methyl], as.numeric)),
+    genexpr = as.matrix(sapply(x_training[diablo_index, block_genexpr], as.numeric)),
+    proteinexpr = as.matrix(sapply(x_training[diablo_index, block_proteinexpr], as.numeric))
+  )
+  Y_diablo <- Y[diablo_index]
+  X_logreg <- list(
+    methyl = as.matrix(sapply(x_training[logreg_index, block_methyl], as.numeric)),
+    genexpr = as.matrix(sapply(x_training[logreg_index, block_genexpr], as.numeric)),
+    proteinexpr = as.matrix(sapply(x_training[logreg_index, block_proteinexpr], as.numeric))
+  )
+  Y_logreg <- Y[logreg_index]
+  # Build the design matrix C
+  design_mat <- matrix(0.1, ncol = length(X_diablo), nrow = length(X_diablo), 
+                   dimnames = list(names(X_diablo), names(X_diablo)))
+  diag(design_mat) <- 0
   
   # Testing dataset
   x_testing <- merge(x = multi_omics$testing$methylation,
@@ -59,43 +71,83 @@ single_run_diablo <- function (
   test_ids <- x_testing$IDS
   x_testing$IDS <- NULL
   x_testing <- list(
-    methyl = x_testing[ , block_methyl],
-    genexpr = x_testing[ , block_genexpr],
-    proteinexpr = x_testing[ , block_proteinexpr]
+    methyl = as.matrix(sapply(x_testing[ , block_methyl], as.numeric)),
+    genexpr = as.matrix(sapply(x_testing[ , block_genexpr], as.numeric)),
+    proteinexpr = as.matrix(sapply(x_testing[ , block_proteinexpr], as.numeric))
   )
   y_testing <- multi_omics$testing$target[ , "disease"]
   start_time <- Sys.time()  # Record start time
   # We train BF model
   message("Training of DIABLO model started...\n")
-  diablo_model <- block.plsda(X = X,
-                              Y = Y,
-                              ncomp = 2, 
-                              keepX = list(
-                                methyl = floor(ncol_methyl * 0.2),
-                                genexpr = floor(ncol_genexpr * 0.2),
-                                proteinexpr = floor(ncol_proteinexpr * 0.2)
-                              ),
-                              design = design)
-  # We predict
-  # TODO: Revise predictions; whether probabilities are predicted
+  # Note: KeepX is the number of variables to select per component and per dataset
+  # This parameter should be tuned in a real data analysis. We tune the number of
+  # components and keepX with cross-validation.
+  basic_diablo_model <- block.splsda(X = X_diablo,
+                                     Y = Y_diablo,
+                                     ncomp = 12,
+                                     design = design_mat)
+  # run component number tuning with repeated CV
+  perf_diablo <- perf(basic_diablo_model,
+                      validation = 'Mfold',
+                      folds = 10, nrepeat = 5)
+  # set the optimal ncomp value
+  ncomp <- perf_diablo$choice.ncomp$WeightedVote["Overall.BER", "mahalanobis.dist"] 
+  
+  # Now tune keepX
+  list_keepX <- list(
+    methyl = seq(5, floor(ncol_methyl * 0.5), by = 2500),
+    genexpr = seq(5, floor(ncol_genexpr * 0.5), by = 2500),
+    proteinexpr = seq(5, floor(ncol_proteinexpr * 0.5), by = 1000)
+  )
+  tune_diablo <- tune.block.splsda(X = X_diablo,
+                                   Y = Y_diablo,
+                                   ncomp = ncomp,
+                                   test.keepX = list_keepX,
+                                   design = design_mat,
+                                   validation = 'Mfold',
+                                   folds = 10,
+                                   nrepeat = 5,
+                                   dist = "mahalanobis.dist",
+                                   progressBar = FALSE,
+                                   PPARAM = SnowParam(workers = 6))
+  diablo_model <- block.splsda(X = X_diablo, 
+                               Y = Y_diablo,
+                               ncomp = ncomp, 
+                               keepX = tune_diablo$choice.keepX,
+                               design = design_mat)
+  # We predict the logreg set with diablo
+  predict_logreg <- predict(object = diablo_model,
+                            newdata = X_logreg,
+                            dist = "mahalanobis.dist")
+  predicted_scores <- data.frame(predict_logreg$WeightedPredict[,1,],
+                                 Y_logreg = Y_logreg)
+  # Fit a logistic regression on the predicted scores
+  logreg_fit <- glm(Y_logreg ~ ., data = predicted_scores, 
+                    family = binomial(link = "logit"))
+  # Predict the testing set with diablo
   predictions <- predict(object = diablo_model,
                          newdata = x_testing,
                          dist = "mahalanobis.dist")
+  # Predict the testing set with logreg weighted predicted scores
+  predicted_scores_test <- data.frame(predictions$WeightedPredict[,1,])
+  pred_test <- predict(logreg_fit,
+                       newdata = predicted_scores_test,
+                       type = "response")
   end_time <- Sys.time()  # Record end time
   pred_values <- data.frame(test_ids, 
-                            predictions$WeightedVote$centroids.dist[ , 2])
+                            pred_test)
   names(pred_values) <- c("IDS", "predictions")
   actual_pred <- merge(x = pred_values,
                        y = multi_omics$testing$target,
                        by = "IDS",
                        all.y = TRUE)
-  y <- as.numeric(multi_omics$testing$target$disease == "1")
+  y <- as.numeric(actual_pred$disease == "1")
   # On all patients
   perf_bs <- sapply(X = actual_pred[ , "predictions", drop = FALSE], FUN = function (my_pred) {
-    # bs <- mean((y[complete.cases(my_pred)] - my_pred[complete.cases(my_pred)])^2)
+    bs <- mean((y[complete.cases(my_pred)] - my_pred[complete.cases(my_pred)])^2)
     # bs2 <- mean((y[complete.cases(my_pred)] - (1 - my_pred[complete.cases(my_pred)]))^2)
     # bs <- min(bs1, bs2)
-    bs <- NA
+    # bs <- NA
     roc_obj <- pROC::roc(y[complete.cases(my_pred)], my_pred[complete.cases(my_pred)])
     auc <- pROC::auc(roc_obj)
     f1 <- MLmetrics::F1_Score(y_true = y[complete.cases(my_pred)],
@@ -119,6 +171,9 @@ single_run_diablo <- function (
                                     sprintf("%s_bf_%s.rds",
                                             effect, na_action),
                                     collapse = ""))
-  saveRDS(object = bf_trained, file = training_file)
+  saveRDS(object = list(diablo = diablo_model,
+                        logreg = logreg_fit,
+                        diablo_index = diablo_index),
+          file = training_file)
   return(perf_bs)
 }
