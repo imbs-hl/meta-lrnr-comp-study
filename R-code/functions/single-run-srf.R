@@ -67,13 +67,13 @@ single_run_srf <- function (
   }
   # We train SRF model
   message("Training of SRF model started...\n")
-  srf_trained <- ranger(x = x_training[ , varsel_confirmed, drop = FALSE],
+  srf_trained <- ranger(x = x_training[ , varsel, drop = FALSE],
                         y = as.numeric(y_training == "1"),
                         num.trees = num.tree.ranger,
                         na.action = na_action,
                         probability = TRUE)
   # We predict on the test set
-  predictions <- predict(object = srf_trained,
+  predictions <- predict(object = srf_trained[ , varsel, drop = FALSE],
                          data = x_testing)
   end_time <- Sys.time()  # Record end time
   pred_values <- data.frame(test_ids, predictions$predictions[ , 2L])

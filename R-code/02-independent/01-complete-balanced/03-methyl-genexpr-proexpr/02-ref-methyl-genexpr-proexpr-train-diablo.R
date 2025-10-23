@@ -20,7 +20,7 @@ reg_megepro_indep_combalanced_na_keep <- wrap_batchtools(reg_name = "02-train-di
                                                     ),
                                                     more_args = list(na_action = "na.keep"),
                                                     name = "comb-megepro-diablo-na-keep",
-                                                    overwrite = TRUE,
+                                                    overwrite = FALSE,
                                                     memory = "25g",
                                                     n_cpus = 6,
                                                     walltime = "0",
