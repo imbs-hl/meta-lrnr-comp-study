@@ -6,8 +6,8 @@ output:
   pdf_document:
     number_sections: true
 header-includes:
-  - \usepackage{marginnote}   # Include the marginnote package
-  - \usepackage[colorinlistoftodos]{todonotes}   # Include the todonotes package
+  - \usepackage{marginnote} # Include the marginnote package
+  - \usepackage[colorinlistoftodos]{todonotes}  # Include the todonotes package
 ---
 
 ```{r setup, include=FALSE}
