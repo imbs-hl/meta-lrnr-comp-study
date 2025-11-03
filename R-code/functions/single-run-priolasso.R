@@ -74,7 +74,7 @@ single_run_priolasso <- function (
                               cvoffset = FALSE,
                               mcontrol = missing.control(handle.missingdata = "impute.offset",
                                                          offset.firstblock = "zero",
-                                                         impute.offset.cases = "complete.cases",
+                                                         impute.offset.cases = "available.cases",
                                                          nfolds.imputation = 10,
                                                          lambda.imputation = "lambda.1se",
                                                          perc.comp.cases.warning = 0.3,
@@ -85,6 +85,7 @@ single_run_priolasso <- function (
   # We predict
   predictions <- predict(object = pl_trained,
                          newdata = x_testing,
+                         handle.missingtestdata = "impute.block",
                          type = "response")
   end_time <- Sys.time()  # Record end time
   pred_values <- data.frame(test_ids, predictions)

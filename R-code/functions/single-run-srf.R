@@ -73,8 +73,8 @@ single_run_srf <- function (
                         na.action = na_action,
                         probability = TRUE)
   # We predict on the test set
-  predictions <- predict(object = srf_trained[ , varsel, drop = FALSE],
-                         data = x_testing)
+  predictions <- predict(object = srf_trained,
+                         data = x_testing[ , varsel, drop = FALSE])
   end_time <- Sys.time()  # Record end time
   pred_values <- data.frame(test_ids, predictions$predictions[ , 2L])
   names(pred_values) <- c("IDS", "predictions")

@@ -20,14 +20,14 @@ reg_megepro_indep_missbalanced_na_keep <- wrap_batchtools(reg_name = "02-train-s
                                                     ),
                                                     more_args = list(na_action = "na.learn",
                                                                      num.tree.boruta = 25000L,
-                                                                     num.tree.ranger = 5000L),
+                                                                     num.tree.ranger = 8000L),
                                                     name = "comb-megepro-srf-na-keep",
                                                     overwrite = TRUE,
                                                     memory = "25g",
                                                     n_cpus = 6,
-                                                    walltime = "60",
+                                                    walltime = "0",
                                                     sleep = 5,
-                                                    partition = "fast", ## Set partition in init-global
+                                                    partition = "prio", ## Set partition in init-global
                                                     account = "dzhk-omics", ## Set account in init-global
                                                     test_job = FALSE,
                                                     wait_for_jobs = FALSE,

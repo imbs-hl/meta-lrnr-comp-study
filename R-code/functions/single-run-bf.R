@@ -21,6 +21,9 @@ single_run_bf <- function (
                       y = multi_omics$training$proteinexpr,
                       by = "IDS",
                       all = TRUE)
+  # Filter out rows with NA in both x_training and Y
+  complete_case_training <- which(complete.cases(x_training))
+  x_training <- x_training[complete_case_training, ]
   x_training <- as.matrix(x_training)
   y_training <- multi_omics$training$target[ , "disease"]
   ncol_methyl <- ncol(multi_omics$training$methylation) - 1 # IDS column removed
@@ -45,6 +48,9 @@ single_run_bf <- function (
                      y = multi_omics$testing$proteinexpr,
                      by = "IDS",
                      all = TRUE)
+  # Filter out rows with NA in both x_training and Y
+  complete_case_training <- which(complete.cases(x_training))
+  x_training <- x_training[complete_case_training, ]
   test_ids <- x_testing$IDS
   x_testing$IDS <- NULL
   y_testing <- multi_omics$testing$target[ , "disease"]
