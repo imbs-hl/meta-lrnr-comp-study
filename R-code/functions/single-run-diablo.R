@@ -34,6 +34,9 @@ single_run_diablo <- function (
                       y = multi_omics$training$target,
                       by = "IDS",
                       all = TRUE)
+  # Filter out rows with NA in both x_training and Y
+  complete_case_training <- which(complete.cases(x_training))
+  x_training <- x_training[complete_case_training, ]
   x_training$IDS <- NULL
   Y <- x_training$disease
   # Split the training set into training and validation set
@@ -68,6 +71,9 @@ single_run_diablo <- function (
                      y = multi_omics$testing$proteinexpr,
                      by = "IDS",
                      all = TRUE)
+  # Filter out rows with NA in both x_testing and y_testing
+  complete_case_testing <- which(!complete.cases(x_testing))
+  x_testing <- x_testing[complete_case_testing, ]
   test_ids <- x_testing$IDS
   x_testing$IDS <- NULL
   x_testing <- list(

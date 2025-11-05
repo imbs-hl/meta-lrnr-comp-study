@@ -21,12 +21,12 @@ reg_me_indep_combalanced_na_keep <- wrap_batchtools(reg_name = "02-train-srf-na-
                                                                      num.tree.boruta = 25000L,
                                                                      num.tree.ranger = 8000L),
                                                     name = "comb-mege-srf-na-keep",
-                                                    overwrite = TRUE,
+                                                    overwrite = FALSE,
                                                     memory = "25g",
                                                     n_cpus = 6,
                                                     walltime = "0",
                                                     sleep = 5,
-                                                    partition = "batch", ## Set partition in init-global
+                                                    partition = "prio", ## Set partition in init-global
                                                     account = "dzhk-omics", ## Set account in init-global
                                                     test_job = FALSE,
                                                     wait_for_jobs = FALSE,
@@ -60,7 +60,7 @@ reg_indep_combalanced_mege_srf_na_keep <- batchtools::reduceResultsList(
 
 ## resume filtered results
 res_indep_combalanced_mege_srf_na_keep <- data.table::rbindlist(reg_indep_combalanced_mege_srf_na_keep)
-res_indep_combalanced_mege_mean_perf_srf_na_keep <- res_indep_combalanced_mege_srf_na_keep[ , .(mean_perf = mean(predictions)), # Check this again whether I called it predictions 
+res_indep_combalanced_mege_mean_perf_srf_na_keep <- res_indep_combalanced_mege_srf_na_keep[ , .(mean_perf = mean(predictions, na.rm = TRUE)), # Check this again whether I called it predictions 
                                                                                       by = .(perf_measure, effect)]
 print(res_indep_combalanced_mege_mean_perf_srf_na_keep)
 res_indep_combalanced_mege_mean_perf_srf_na_keep$Setting <- "Independent"
