@@ -24,7 +24,7 @@ predict.mylasso <- function(object, data) {
   glmnet_pred <- predict(object = object$model,
                          newx = as.matrix(data),
                          type = "response",
-                         #type = "class",
+                         # type = "class",
                          s = object$model$lambda)
   return(as.vector(glmnet_pred))
 }
