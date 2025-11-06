@@ -14,8 +14,8 @@ interactive_session <- FALSE
 if(!("this.path" %in% installed.packages())){
   install.packages("this.path")
 }
-proc_dir <- "~/mywork/interconnect/meta-lrnr-comp-study"
-#proc_dir <- "~/projects/interconnect-publications/meta-lrnr-comp-study"
+#proc_dir <- "~/mywork/interconnect/meta-lrnr-comp-study"
+proc_dir <- "~/projects/interconnect-publications/meta-lrnr-comp-study"
 code_dir <- file.path(proc_dir, "R-code")
 
 ## Set your current working directory to "R-code" (setwd("path/to/R-code"))
