@@ -72,7 +72,7 @@ single_run_diablo <- function (
                      by = "IDS",
                      all = TRUE)
   # Filter out rows with NA in both x_testing and y_testing
-  complete_case_testing <- which(!complete.cases(x_testing))
+  complete_case_testing <- which(complete.cases(x_testing))
   x_testing <- x_testing[complete_case_testing, ]
   test_ids <- x_testing$IDS
   x_testing$IDS <- NULL
