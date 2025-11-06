@@ -14,7 +14,8 @@ interactive_session <- FALSE
 if(!("this.path" %in% installed.packages())){
   install.packages("this.path")
 }
-proc_dir <- "~/projects/interconnect-publications/meta-lrnr-comp-study"
+proc_dir <- "~/mywork/interconnect/meta-lrnr-comp-study"
+#proc_dir <- "~/projects/interconnect-publications/meta-lrnr-comp-study"
 code_dir <- file.path(proc_dir, "R-code")
 
 ## Set your current working directory to "R-code" (setwd("path/to/R-code"))
@@ -103,7 +104,7 @@ library(org.Hs.eg.db)
 library(biomaRt)
 
 # The project directory is the absolute path to meta-lrnr-comp-study directory.
-proc_dir <- "~/projects/interconnect-publications/meta-lrnr-comp-study"
+#proc_dir <- "~/projects/interconnect-publications/meta-lrnr-comp-study"
 working_dir <- "/imbs/projects/p23048/meta-lrnr-comp-study"
 code_dir <- file.path(proc_dir, "R-code")
 function_dir <- file.path(code_dir, "functions")
