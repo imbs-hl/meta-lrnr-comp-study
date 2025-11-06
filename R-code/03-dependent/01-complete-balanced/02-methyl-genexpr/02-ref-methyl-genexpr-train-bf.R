@@ -5,25 +5,25 @@ no.threads <- 5
 ## -----------------------------------------------------------------------------
 ## na_action = na_keep
 ## -----------------------------------------------------------------------------
-reg_me_dep_combalanced_na_keep <- wrap_batchtools(reg_name = "02-train-bf-na-keep",
+reg_mege_dep_combalanced_na_keep <- wrap_batchtools(reg_name = "02-train-bf-na-keep",
                                                     work_dir = working_dir,
-                                                    reg_dir = reg_dep_combalanced_me,
+                                                    reg_dir = reg_dep_combalanced_mege,
                                                     r_function = single_run_bf,
                                                     vec_args = data.frame(
-                                                      data_file = dep_combalanced_me_param_data$save_path,
-                                                      seed = dep_combalanced_me_param_data$seed,
-                                                      delta.methyl = dep_combalanced_me_param_data$delta.methyl,
-                                                      delta.expr = dep_combalanced_me_param_data$delta.expr,
-                                                      delta.protein = dep_combalanced_me_param_data$delta.protein,
-                                                      effect = dep_combalanced_me_param_data$effect
+                                                      data_file = dep_combalanced_mege_param_data$save_path,
+                                                      seed = dep_combalanced_mege_param_data$seed,
+                                                      delta.methyl = dep_combalanced_mege_param_data$delta.methyl,
+                                                      delta.expr = dep_combalanced_mege_param_data$delta.expr,
+                                                      delta.protein = dep_combalanced_mege_param_data$delta.protein,
+                                                      effect = dep_combalanced_mege_param_data$effect
                                                     ),
                                                     more_args = list(na_action = "na.keep",
                                                                      num.trees = 25000L),
-                                                    name = "comb-me-bf-na-keep",
+                                                    name = "comb-mege-bf-na-keep",
                                                     overwrite = TRUE,
                                                     memory = "25g",
                                                     n_cpus = 6,
-                                                    walltime = "60",
+                                                    walltime = "0",
                                                     sleep = 5,
                                                     partition = "prio", ## Set partition in init-global
                                                     account = "dzhk-omics", ## Set account in init-global

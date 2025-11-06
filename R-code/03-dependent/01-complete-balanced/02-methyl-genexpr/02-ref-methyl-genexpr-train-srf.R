@@ -10,12 +10,12 @@ reg_me_dep_combalanced_na_keep <- wrap_batchtools(reg_name = "02-train-srf-na-ke
                                                     reg_dir = reg_dep_combalanced_mege,
                                                     r_function = single_run_srf,
                                                     vec_args = data.frame(
-                                                      data_file = indep_combalanced_mege_param_data$save_path,
-                                                      seed = indep_combalanced_mege_param_data$seed,
-                                                      delta.methyl = indep_combalanced_mege_param_data$delta.methyl,
-                                                      delta.expr = indep_combalanced_mege_param_data$delta.expr,
-                                                      delta.protein = indep_combalanced_mege_param_data$delta.protein,
-                                                      effect = indep_combalanced_mege_param_data$effect
+                                                      data_file = dep_combalanced_mege_param_data$save_path,
+                                                      seed = dep_combalanced_mege_param_data$seed,
+                                                      delta.methyl = dep_combalanced_mege_param_data$delta.methyl,
+                                                      delta.expr = dep_combalanced_mege_param_data$delta.expr,
+                                                      delta.protein = dep_combalanced_mege_param_data$delta.protein,
+                                                      effect = dep_combalanced_mege_param_data$effect
                                                     ),
                                                     more_args = list(na_action = "na.learn",
                                                                      num.tree.boruta = 25000L,

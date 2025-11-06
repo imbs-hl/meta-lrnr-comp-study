@@ -10,12 +10,12 @@ reg_megepro_dep_combalanced_na_keep <- wrap_batchtools(reg_name = "02-train-bf-n
                                                     reg_dir = reg_dep_combalanced_megepro,
                                                     r_function = single_run_bf,
                                                     vec_args = data.frame(
-                                                      data_file = indep_combalanced_megepro_param_data$save_path,
-                                                      seed = indep_combalanced_megepro_param_data$seed,
-                                                      delta.methyl = indep_combalanced_megepro_param_data$delta.methyl,
-                                                      delta.expr = indep_combalanced_megepro_param_data$delta.expr,
-                                                      delta.protein = indep_combalanced_megepro_param_data$delta.protein,
-                                                      effect = indep_combalanced_megepro_param_data$effect
+                                                      data_file = dep_combalanced_megepro_param_data$save_path,
+                                                      seed = dep_combalanced_megepro_param_data$seed,
+                                                      delta.methyl = dep_combalanced_megepro_param_data$delta.methyl,
+                                                      delta.expr = dep_combalanced_megepro_param_data$delta.expr,
+                                                      delta.protein = dep_combalanced_megepro_param_data$delta.protein,
+                                                      effect = dep_combalanced_megepro_param_data$effect
                                                     ),
                                                     more_args = list(na_action = "na.keep",
                                                                      num.trees = 25000L),
@@ -23,7 +23,7 @@ reg_megepro_dep_combalanced_na_keep <- wrap_batchtools(reg_name = "02-train-bf-n
                                                     overwrite = TRUE,
                                                     memory = "25g",
                                                     n_cpus = 6,
-                                                    walltime = "60",
+                                                    walltime = "0",
                                                     sleep = 5,
                                                     partition = "prio", ## Set partition in init-global
                                                     account = "dzhk-omics", ## Set account in init-global
