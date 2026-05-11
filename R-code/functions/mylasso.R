@@ -3,7 +3,6 @@
 # =============================
 #
 mylasso <- function (x, y,
-                      nlambda = 25,
                       nfolds = 10) {
   # Perform cross-validation to find the optimal lambda
   cv_lasso <- cv.glmnet(x = as.matrix(x), y = y,

@@ -22,7 +22,7 @@ single_run_lasso <- function (
   new_lnr <- Lrner$new(id = "lasso",
                        package = NULL,
                        lrn_fct = "mylasso",
-                       param_train_list = list(nlambda = 25, nfolds = 10),
+                       param_train_list = list(nfolds = 10),
                        train_layer = meta_layer,
                        na_action = na_action)
   # Remove the old model
