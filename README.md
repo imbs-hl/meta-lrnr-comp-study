@@ -1,5 +1,7 @@
 # Comparison of meta-learners for late integration in multi-omics prediction under complete data and modality-wise missingness
 
+**Authors:** Marina Bleskina, C\'esaire J. K. Fouodo, Silke Szymczak
+
 This repository contains the code for the simulation study and the TCGA use case
 presented in the paper *Comparison of meta-learners for late integration in multi-omics prediction under complete data and modality-wise missingness*. The two studies can be run independently.
 
